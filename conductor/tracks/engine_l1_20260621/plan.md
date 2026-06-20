@@ -9,42 +9,42 @@
 
 ## Phase 1: Project Scaffolding & Tooling
 
-- [ ] Task: Read `spec.md` and `workflow.md` before starting this phase
+- [x] Task: Read `spec.md` and `workflow.md` before starting this phase
 
-- [ ] Task: Initialize Vite + TypeScript project with pnpm
-    - [ ] Run `pnpm create vite . --template ts` (or equivalent scaffolding)
-    - [ ] Verify `pnpm dev` starts the dev server and loads default page
-    - [ ] Create project directory structure: `src/`, `src/engine/`, `src/render/`, `src/input/`, `src/audio/`, `src/ui/`, `data/`, `test/`
+- [x] Task: Initialize Vite + TypeScript project with pnpm
+    - [x] Run `pnpm create vite . --template ts` (or equivalent scaffolding)
+    - [x] Verify `pnpm dev` starts the dev server and loads default page
+    - [x] Create project directory structure: `src/`, `src/engine/`, `src/render/`, `src/input/`, `src/audio/`, `src/ui/`, `data/`, `test/`
 
-- [ ] Task: Configure TypeScript (tsconfig.json)
-    - [ ] Set `strict: true`
-    - [ ] Set `noEmit: true` (Vite handles emission)
-    - [ ] Set `incremental: true`
-    - [ ] Configure path aliases if desired (e.g., `@/` → `src/`)
-    - [ ] Verify `pnpm typecheck` (tsc --noEmit) passes
+- [x] Task: Configure TypeScript (tsconfig.json)
+    - [x] Set `strict: true`
+    - [x] Set `noEmit: true` (Vite handles emission)
+    - [x] Set `incremental: true`
+    - [x] Configure path aliases if desired (e.g., `@/` → `src/`)
+    - [x] Verify `pnpm typecheck` (tsc --noEmit) passes
 
-- [ ] Task: Install and configure dev toolchain
-    - [ ] Install dev deps: `pnpm add -D vitest oxlint oxfmt lefthook`
-    - [ ] Create `oxlint.config.json` (or equivalent) with TypeScript rules
-    - [ ] Create `.oxfmtrc.json` (or equivalent) with formatting rules
-    - [ ] Add npm scripts to `package.json`: `dev`, `test`, `test:watch`, `lint`, `format`, `typecheck`, `coverage`
-    - [ ] Verify `pnpm lint`, `pnpm format`, `pnpm test` all run without errors
+- [x] Task: Install and configure dev toolchain
+    - [x] Install dev deps: `pnpm add -D vitest oxlint oxfmt lefthook`
+    - [x] Create `oxlint.config.json` (or equivalent) with TypeScript rules
+    - [x] Create `.oxfmtrc.json` (or equivalent) with formatting rules
+    - [x] Add npm scripts to `package.json`: `dev`, `test`, `test:watch`, `lint`, `format`, `typecheck`, `coverage`
+    - [x] Verify `pnpm lint`, `pnpm format`, `pnpm test` all run without errors
 
-- [ ] Task: Configure lefthook git hooks
-    - [ ] Create `lefthook.yml` with pre-commit (oxlint + oxfmt on staged files)
-    - [ ] Add pre-push hook (vitest coverage 80% threshold + tsc --noEmit)
-    - [ ] Run `pnpm lefthook install` to activate hooks
-    - [ ] Verify hooks trigger on a test commit
+- [x] Task: Configure lefthook git hooks
+    - [x] Create `lefthook.yml` with pre-commit (oxlint + oxfmt on staged files)
+    - [x] Add pre-push hook (vitest coverage 80% threshold + tsc --noEmit)
+    - [x] Run `pnpm lefthook install` to activate hooks
+    - [x] Verify hooks trigger on a test commit
 
-- [ ] Task: Create index.html shell and Canvas element
-    - [ ] Create `index.html` with a `<canvas>` element and viewport meta (mobile-first)
-    - [ ] Add minimal CSS (full-screen canvas, no scroll, touch-action: none)
-    - [ ] Add `<div id="app">` container for UI overlay
-    - [ ] Verify the page loads in browser with canvas visible
+- [x] Task: Create index.html shell and Canvas element
+    - [x] Create `index.html` with a `<canvas>` element and viewport meta (mobile-first)
+    - [x] Add minimal CSS (full-screen canvas, no scroll, touch-action: none)
+    - [x] Add `<div id="app">` container for UI overlay
+    - [x] Verify the page loads in browser with canvas visible
 
-- [ ] Task: Create initial .gitignore
-    - [ ] Add `node_modules/`, `dist/`, `.tsbuildinfo`, coverage output
-    - [ ] Commit initial scaffolding
+- [x] Task: Create initial .gitignore
+    - [x] Add `node_modules/`, `dist/`, `.tsbuildinfo`, coverage output
+    - [x] Commit initial scaffolding
 
 - [ ] Task: Conductor - User Manual Verification 'Phase 1: Project Scaffolding & Tooling' (Protocol in workflow.md)
 
