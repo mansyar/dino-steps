@@ -3,14 +3,14 @@ pre-commit:
   commands:
     lint:
       glob: "*.{ts,tsx,js}"
-      run: oxlint --fix {staged_files}
+      run: npx oxlint --fix {staged_files}
     format:
       glob: "*.{ts,tsx,js,json}"
-      run: oxfmt --write {staged_files}
+      run: npx oxfmt --write {staged_files}
 
 pre-push:
   jobs:
     - name: coverage
-      run: vitest run --coverage --coverage.thresholds.lines=80
+      run: npx vitest run --coverage --coverage.thresholds.lines=80
     - name: typecheck
-      run: tsc --noEmit
+      run: npx tsc --noEmit

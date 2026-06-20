@@ -54,28 +54,28 @@
 
 - [ ] Task: Read `spec.md` and `workflow.md` before starting this phase
 
-- [ ] Task: Define TypeScript types and interfaces
-    - [ ] Write test: type-level assertions for `Command` union (`'F'|'L'|'R'|'A'`)
-    - [ ] Implement `src/engine/types.ts`: `Command`, `Direction` (`{dx, dy}`), `Facing` (`'E'|'S'|'W'|'N'`), `TileType`, `LevelData`, `GameState`, `PersistedState`, `DinoCharacter`
-    - [ ] Verify types compile with `pnpm typecheck`
+- [x] Task: Define TypeScript types and interfaces
+    - [x] Write test: type-level assertions for `Command` union (`'F'|'L'|'R'|'A'`)
+    - [x] Implement `src/engine/types.ts`: `Command`, `Direction` (`{dx, dy}`), `Facing` (`'E'|'S'|'W'|'N'`), `TileType`, `LevelData`, `GameState`, `PersistedState`, `DinoCharacter`
+    - [x] Verify types compile with `pnpm typecheck`
 
-- [ ] Task: Implement direction vector module
-    - [ ] Write tests: forward adds vector to position; turn-left (CCW) transforms `(dx,dy)→(dy,-dx)`; turn-right (CW) transforms `(dx,dy)→(-dy,dx)`; all 4 starting orientations verified
-    - [ ] Implement `src/engine/direction.ts`: `DIRECTIONS` map, `forward(pos, dir)`, `turnLeft(dir)`, `turnRight(dir)`, `facingToVector(facing)`
-    - [ ] Verify tests pass with `pnpm test`
+- [x] Task: Implement direction vector module
+    - [x] Write tests: forward adds vector to position; turn-left (CCW) transforms `(dx,dy)→(dy,-dx)`; turn-right (CW) transforms `(dx,dy)→(-dy,dx)`; all 4 starting orientations verified
+    - [x] Implement `src/engine/direction.ts`: `DIRECTIONS` map, `forward(pos, dir)`, `turnLeft(dir)`, `turnRight(dir)`, `facingToVector(facing)`
+    - [x] Verify tests pass with `pnpm test`
 
-- [ ] Task: Implement level data schema and loader
-    - [ ] Write tests: valid level JSON parses correctly; invalid JSON throws; missing required fields throw; command array maps to `Command` type
-    - [ ] Implement `src/engine/levelData.ts`: `parseLevel(json)`, `parseLevels(jsonArray)`, validation for required fields (`id`, `title`, `grid`, `start`, `food`, `trackBudget`, `verifiedSolution`)
-    - [ ] Create `data/levels.json` with Level 1 data only (id:1, "Hungry Steps", start (0,1)E, food (3,1), budget 6, solution `[F,F,F,A]`)
-    - [ ] Verify tests pass
+- [x] Task: Implement level data schema and loader
+    - [x] Write tests: valid level JSON parses correctly; invalid JSON throws; missing required fields throw; command array maps to `Command` type
+    - [x] Implement `src/engine/levelData.ts`: `parseLevel(json)`, `parseLevels(jsonArray)`, validation for required fields (`id`, `title`, `grid`, `start`, `food`, `trackBudget`, `verifiedSolution`)
+    - [x] Create `data/levels.json` with Level 1 data only (id:1, "Hungry Steps", start (0,1)E, food (3,1), budget 6, solution `[F,F,F,A]`)
+    - [x] Verify tests pass
 
-- [ ] Task: Implement BFS level validator
-    - [ ] Write tests: Level 1 solution `[F,F,F,A]` validates as winning; invalid solution (walks into wall) fails; `[F,F,A]` (too short) does not reach food; BFS computes minimum solution length; removing an obstacle shortens minimum (gates verification)
-    - [ ] Implement `src/engine/bfsValidator.ts`: `replaySolution(level, commands)` → result enum (`win`/`fail`/`incomplete`), `computeMinimum(level)` → number, `verifyObstaclesGate(level)` → boolean
-    - [ ] Verify Level 1 data passes validation with `pnpm test`
+- [x] Task: Implement BFS level validator
+    - [x] Write tests: Level 1 solution `[F,F,F,A]` validates as winning; invalid solution (walks into wall) fails; `[F,F,A]` (too short) does not reach food; BFS computes minimum solution length; removing an obstacle shortens minimum (gates verification)
+    - [x] Implement `src/engine/bfsValidator.ts`: `replaySolution(level, commands)` → result enum (`win`/`fail`/`incomplete`), `computeMinimum(level)` → number, `verifyObstaclesGate(level)` → boolean
+    - [x] Verify Level 1 data passes validation with `pnpm test`
 
-- [ ] Task: Implement state tree (runtime + persisted)
+- [~] Task: Implement state tree (runtime + persisted)
     - [ ] Write tests: initial `GameState` for Level 1 has correct `dinoPos`, `dinoFacing`, empty `commandQueue`, `activeCommandIndex: -1`, `trackBudget: 6`, empty `clearedInteractables`; state transitions (add command, remove command, advance index, clear interactable, teleport to start) produce correct new state; `isExecuting` flag toggles correctly
     - [ ] Implement `src/engine/state.ts`: `createInitialState(level, character)`, `addCommand(state, cmd)`, `removeCommand(state, index)`, `advanceIndex(state)`, `clearInteractable(state, tile)`, `resetToStart(state)`, `setExecuting(state, bool)`
     - [ ] Verify tests pass
