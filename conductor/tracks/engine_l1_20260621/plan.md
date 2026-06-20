@@ -80,10 +80,10 @@
     - [x] Implement `src/engine/state.ts`: `createInitialState(level, character)`, `addCommand(state, cmd)`, `removeCommand(state, index)`, `advanceIndex(state)`, `clearInteractable(state, tile)`, `resetToStart(state)`, `setExecuting(state, bool)`
     - [x] Verify tests pass
 
-- [ ] Task: Implement localStorage persistence layer
-    - [ ] Write tests: `loadPersisted()` returns defaults when localStorage empty; `saveUnlockedLevel(n)` writes key `dinosteps:unlockedLevel`; `saveCharacter(c)` writes `dinosteps:chosenCharacter`; `saveMuted(b)` writes `dinosteps:muted`; `loadPersisted()` hydrates all 3 keys; `resetProgress()` clears all 3 keys; uses `vi.spyOn` on localStorage
-    - [ ] Implement `src/engine/persistence.ts`: `loadPersisted()`, `saveUnlockedLevel(n)`, `saveCharacter(c)`, `saveMuted(b)`, `resetProgress()`, key constants
-    - [ ] Verify tests pass
+- [x] Task: Implement localStorage persistence layer `22ec5fb`
+    - [x] Write tests: `loadPersisted()` returns defaults when localStorage empty; `saveUnlockedLevel(n)` writes key `dinosteps:unlockedLevel`; `saveCharacter(c)` writes `dinosteps:chosenCharacter`; `saveMuted(b)` writes `dinosteps:muted`; `loadPersisted()` hydrates all 3 keys; `resetProgress()` clears all 3 keys; uses `vi.spyOn` on localStorage
+    - [x] Implement `src/engine/persistence.ts`: `loadPersisted()`, `saveUnlockedLevel(n)`, `saveCharacter(c)`, `saveMuted(b)`, `resetProgress()`, key constants
+    - [x] Verify tests pass
 
 - [ ] Task: Commit Phase 2 core logic
     - [ ] Stage and commit all Phase 2 files
