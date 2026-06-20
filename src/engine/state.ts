@@ -1,8 +1,8 @@
 // State Tree Module
 // Manages runtime game state and state transitions
 
-import type { GameState, LevelData, Command, DinoCharacter, Facing } from './types';
-import { DIRECTIONS } from './direction';
+import type { GameState, LevelData, Command, DinoCharacter, Facing } from "./types";
+import { DIRECTIONS } from "./direction";
 
 /**
  * Create initial game state for a level
@@ -66,9 +66,7 @@ export function advanceIndex(state: GameState): GameState {
  */
 export function clearInteractable(state: GameState, tile: { x: number; y: number }): GameState {
   // Check if already cleared
-  const alreadyCleared = state.clearedInteractables.some(
-    (t) => t.x === tile.x && t.y === tile.y
-  );
+  const alreadyCleared = state.clearedInteractables.some((t) => t.x === tile.x && t.y === tile.y);
 
   if (alreadyCleared) {
     return state;

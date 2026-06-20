@@ -1,14 +1,14 @@
 // Direction Vector Module
 // Handles movement directions and rotations using integer vectors
 
-import type { Direction, Facing } from './types';
+import type { Direction, Facing } from "./types";
 
 // Direction vectors for each facing direction
 export const DIRECTIONS: Record<Facing, Direction> = {
-  E: { dx: 1, dy: 0 },   // East: right
-  S: { dx: 0, dy: 1 },   // South: down
-  W: { dx: -1, dy: 0 },  // West: left
-  N: { dx: 0, dy: -1 },  // North: up
+  E: { dx: 1, dy: 0 }, // East: right
+  S: { dx: 0, dy: 1 }, // South: down
+  W: { dx: -1, dy: 0 }, // West: left
+  N: { dx: 0, dy: -1 }, // North: up
 };
 
 // Convert facing direction to direction vector
