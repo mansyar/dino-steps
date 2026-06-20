@@ -95,42 +95,42 @@
 
 ## Phase 3: Command Execution Engine
 
-- [ ] Task: Read `spec.md` and `workflow.md` before starting this phase
+- [x] Task: Read `spec.md` and `workflow.md` before starting this phase
 
-- [ ] Task: Implement command queue processor skeleton
-    - [ ] Write tests: empty queue → idle state (no execution); queue with commands → processes sequentially; `activeCommandIndex` increments after each command; queue exhaustion → terminal check
-    - [ ] Implement `src/engine/executor.ts`: `processNextCommand(state, level)` → result (`continue`/`win`/`hardFail`/`softResist`), `checkTerminalState(state, level)` → terminal result
-    - [ ] Verify tests pass
+- [x] Task: Implement command queue processor skeleton
+    - [x] Write tests: empty queue → idle state (no execution); queue with commands → processes sequentially; `activeCommandIndex` increments after each command; queue exhaustion → terminal check
+    - [x] Implement `src/engine/executor.ts`: `processNextCommand(state, level)` → result (`continue`/`win`/`hardFail`/`softResist`), `checkTerminalState(state, level)` → terminal result
+    - [x] Verify tests pass
 
-- [ ] Task: Implement Forward command
-    - [ ] Write tests: forward into empty tile → moves, advances index; forward out-of-bounds → hard failure; forward into obstacle → hard failure; forward out of uncleared interactable → soft resist (stay, advance); forward onto food tile → moves but no auto-win; forward onto cleared interactable → moves
-    - [ ] Implement `forwardCommand(state, level)` in executor: compute target, check bounds, check obstacle, check uncleared interactable exit, move or fail
-    - [ ] Verify tests pass
+- [x] Task: Implement Forward command
+    - [x] Write tests: forward into empty tile → moves, advances index; forward out-of-bounds → hard failure; forward into obstacle → hard failure; forward out of uncleared interactable → soft resist (stay, advance); forward onto food tile → moves but no auto-win; forward onto cleared interactable → moves
+    - [x] Implement `forwardCommand(state, level)` in executor: compute target, check bounds, check obstacle, check uncleared interactable exit, move or fail
+    - [x] Verify tests pass
 
-- [ ] Task: Implement Left and Right commands
-    - [ ] Write tests: left turn from E → faces N; left from N → W; left from W → S; left from S → E; right from E → S; right from S → W; right from W → N; right from N → E; both advance index without moving
-    - [ ] Implement `leftCommand(state)` and `rightCommand(state)` using `turnLeft`/`turnRight` from direction module
-    - [ ] Verify tests pass
+- [x] Task: Implement Left and Right commands
+    - [x] Write tests: left turn from E → faces N; left from N → W; left from W → S; left from S → E; right from E → S; right from S → W; right from W → N; right from N → E; both advance index without moving
+    - [x] Implement `leftCommand(state)` and `rightCommand(state)` using `turnLeft`/`turnRight` from direction module
+    - [x] Verify tests pass
 
-- [ ] Task: Implement Action (🦕) command — contextual
-    - [ ] Write tests: 🦕 on food tile → win (terminal); 🦕 on uncleared interactable → clears tile, marks cleared, advances; 🦕 on cleared interactable → no-op, advances; 🦕 on empty tile → no-op, advances; all cases advance index (except win which is terminal)
-    - [ ] Implement `actionCommand(state, level)` in executor: check food, check uncleared interactable, else no-op
-    - [ ] Verify tests pass
+- [x] Task: Implement Action (🦕) command — contextual
+    - [x] Write tests: 🦕 on food tile → win (terminal); 🦕 on uncleared interactable → clears tile, marks cleared, advances; 🦕 on cleared interactable → no-op, advances; 🦕 on empty tile → no-op, advances; all cases advance index (except win which is terminal)
+    - [x] Implement `actionCommand(state, level)` in executor: check food, check uncleared interactable, else no-op
+    - [x] Verify tests pass
 
-- [ ] Task: Implement win condition detection
-    - [ ] Write tests: 🦕 on food → `win` result; sequence ends with dino on food but no 🦕 → `hint` result (food wiggle); sequence ends with dino not on food → `idle` result; 🦕-on-food mid-sequence → win immediately (discard remaining)
-    - [ ] Implement win/hint/idle detection in executor's terminal check
-    - [ ] Verify tests pass
+- [x] Task: Implement win condition detection
+    - [x] Write tests: 🦕 on food → `win` result; sequence ends with dino on food but no 🦕 → `hint` result (food wiggle); sequence ends with dino not on food → `idle` result; 🦕-on-food mid-sequence → win immediately (discard remaining)
+    - [x] Implement win/hint/idle detection in executor's terminal check
+    - [x] Verify tests pass
 
-- [ ] Task: Implement two-tier failure model
-    - [ ] Write tests: hard failure resets `dinoPos` to start, resets `dinoFacing` to start facing, clears `commandQueue`, resets `activeCommandIndex` to -1, clears `clearedInteractables`; soft resist preserves position, advances index, does not clear queue
-    - [ ] Implement `hardFail(state, level)` and `softResist(state)` in executor
-    - [ ] Verify tests pass
+- [x] Task: Implement two-tier failure model
+    - [x] Write tests: hard failure resets `dinoPos` to start, resets `dinoFacing` to start facing, clears `commandQueue`, resets `activeCommandIndex` to -1, clears `clearedInteractables`; soft resist preserves position, advances index, does not clear queue
+    - [x] Implement `hardFail(state, level)` and `softResist(state)` in executor
+    - [x] Verify tests pass
 
-- [ ] Task: Implement execution loop state machine (GDD §9.5)
-    - [ ] Write tests: full Level 1 solution `[F,F,F,A]` → processes 4 commands → `win`; invalid solution `[F,F,F,F]` (walks past food) → `idle` (not on food after queue); solution `[F,R,F,L,F,A]` with turns → `win`; solution hitting boundary `[F,F,F,F,F,F]` (6 forwards, hits wall at x=5) → `hardFail`
-    - [ ] Implement `executeQueue(state, level)` — the top-level function called by GO button: loops `processNextCommand` until terminal
-    - [ ] Verify all Level 1 scenarios pass with `pnpm test`
+- [x] Task: Implement execution loop state machine (GDD §9.5)
+    - [x] Write tests: full Level 1 solution `[F,F,F,A]` → processes 4 commands → `win`; invalid solution `[F,F,F,F]` (walks past food) → `idle` (not on food after queue); solution `[F,R,F,L,F,A]` with turns → `win`; solution hitting boundary `[F,F,F,F,F,F]` (6 forwards, hits wall at x=5) → `hardFail`
+    - [x] Implement `executeQueue(state, level)` — the top-level function called by GO button: loops `processNextCommand` until terminal
+    - [x] Verify all Level 1 scenarios pass with `pnpm test`
 
 - [ ] Task: Commit Phase 3 execution engine
     - [ ] Stage and commit all Phase 3 files
