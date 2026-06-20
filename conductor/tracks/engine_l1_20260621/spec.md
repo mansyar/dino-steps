@@ -1,3 +1,5 @@
+<protect>
+
 # Track: Build Core Game Engine and Level 1 Vertical Slice
 
 **Track ID:** `engine_l1_20260621`
@@ -142,3 +144,5 @@ Establish the full technical foundation of DinoSteps and deliver a playable Leve
 | Web Audio API initialization on mobile (autoplay policy) | Initialize AudioContext on first user interaction (tap), not on page load |
 | Touch event handling across browsers | Use Pointer Events API (unifies touch + mouse) |
 | State management complexity | Keep runtime/persisted split clean from day one (GDD §9.2) |
+
+</protect>

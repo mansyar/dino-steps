@@ -1,3 +1,5 @@
+<protect>
+
 # Implementation Plan: Build Core Game Engine and Level 1 Vertical Slice
 
 **Track ID:** `engine_l1_20260621`
@@ -6,6 +8,8 @@
 ---
 
 ## Phase 1: Project Scaffolding & Tooling
+
+- [ ] Task: Read `spec.md` and `workflow.md` before starting this phase
 
 - [ ] Task: Initialize Vite + TypeScript project with pnpm
     - [ ] Run `pnpm create vite . --template ts` (or equivalent scaffolding)
@@ -48,6 +52,8 @@
 
 ## Phase 2: Core Types & Logic
 
+- [ ] Task: Read `spec.md` and `workflow.md` before starting this phase
+
 - [ ] Task: Define TypeScript types and interfaces
     - [ ] Write test: type-level assertions for `Command` union (`'F'|'L'|'R'|'A'`)
     - [ ] Implement `src/engine/types.ts`: `Command`, `Direction` (`{dx, dy}`), `Facing` (`'E'|'S'|'W'|'N'`), `TileType`, `LevelData`, `GameState`, `PersistedState`, `DinoCharacter`
@@ -88,6 +94,8 @@
 ---
 
 ## Phase 3: Command Execution Engine
+
+- [ ] Task: Read `spec.md` and `workflow.md` before starting this phase
 
 - [ ] Task: Implement command queue processor skeleton
     - [ ] Write tests: empty queue → idle state (no execution); queue with commands → processes sequentially; `activeCommandIndex` increments after each command; queue exhaustion → terminal check
@@ -134,6 +142,8 @@
 
 ## Phase 4: Canvas2D Rendering
 
+- [ ] Task: Read `spec.md` and `workflow.md` before starting this phase
+
 - [ ] Task: Set up Canvas2D context and render loop
     - [ ] Create `src/render/canvas.ts`: get canvas + 2d context, handle resize/DPI scaling
     - [ ] Create `src/render/loop.ts`: `requestAnimationFrame` loop with delta-time, start/stop controls
@@ -170,6 +180,8 @@
 ---
 
 ## Phase 5: Input System & UI
+
+- [ ] Task: Read `spec.md` and `workflow.md` before starting this phase
 
 - [ ] Task: Implement tap-to-append input
     - [ ] Create `src/input/tap.ts`: Pointer Events listener on action menu buttons; maps tap → `addCommand(state, cmd)` if track has capacity
@@ -220,6 +232,8 @@
 
 ## Phase 6: Audio System
 
+- [ ] Task: Read `spec.md` and `workflow.md` before starting this phase
+
 - [ ] Task: Initialize Web Audio API context
     - [ ] Create `src/audio/context.ts`: lazy-init `AudioContext` on first user interaction (tap), not page load (mobile autoplay policy)
     - [ ] Create `src/audio/synth.ts`: base helper to create oscillator + gain envelope
@@ -250,6 +264,8 @@
 ---
 
 ## Phase 7: Level 1 Integration & Polish
+
+- [ ] Task: Read `spec.md` and `workflow.md` before starting this phase
 
 - [ ] Task: Implement success animation (confetti + backflip)
     - [ ] Create `src/render/confetti.ts`: procedural particle system (multi-colored falling particles, confetti theme colors)
@@ -304,3 +320,5 @@
     - [ ] Attach git note with task summary
 
 - [ ] Task: Conductor - User Manual Verification 'Phase 7: Level 1 Integration & Polish' (Protocol in workflow.md)
+
+</protect>
