@@ -46,7 +46,7 @@
     - [x] Add `node_modules/`, `dist/`, `.tsbuildinfo`, coverage output
     - [x] Commit initial scaffolding
 
-- [ ] Task: Conductor - User Manual Verification 'Phase 1: Project Scaffolding & Tooling' (Protocol in workflow.md)
+- [x] Task: Conductor - User Manual Verification 'Phase 1: Project Scaffolding & Tooling' (Protocol in workflow.md)
 
 ---
 
@@ -89,7 +89,7 @@
     - [x] Stage and commit all Phase 2 files
     - [x] Attach git note with task summary
 
-- [ ] Task: Conductor - User Manual Verification 'Phase 2: Core Types & Logic' (Protocol in workflow.md)
+- [x] Task: Conductor - User Manual Verification 'Phase 2: Core Types & Logic' (Protocol in workflow.md)
 
 ---
 
