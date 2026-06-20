@@ -1,7 +1,7 @@
 // BFS Level Validator
 // Validates solutions and computes minimum solution lengths using BFS
 
-import type { LevelData, Command, Direction } from "./types";
+import type { LevelData, Command } from "./types";
 import { DIRECTIONS, forward, turnLeft, turnRight } from "./direction";
 
 // Result types for solution replay

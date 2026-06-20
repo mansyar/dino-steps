@@ -30,7 +30,7 @@ describe("Types", () => {
 
   describe("DinoCharacter type", () => {
     it("should accept valid character values", () => {
-      const characters: DinoCharacter[] = ["rexy", "trikey", "sera"];
+      const characters: DinoCharacter[] = ["Rexy", "Trikey", "Sera"];
       expect(characters).toHaveLength(3);
     });
   });

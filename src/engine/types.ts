@@ -17,7 +17,7 @@ export type Facing = "E" | "S" | "W" | "N";
 export type TileType = "empty" | "obstacle" | "food" | "interactable";
 
 // Dino character selection
-export type DinoCharacter = "rexy" | "trikey" | "sera";
+export type DinoCharacter = "Rexy" | "Trikey" | "Sera";
 
 // Level data structure
 export interface LevelData {
@@ -34,6 +34,7 @@ export interface LevelData {
 // Runtime game state (per-level, ephemeral)
 export interface GameState {
   levelId: number;
+  character: DinoCharacter;
   dinoPos: { x: number; y: number };
   dinoFacing: Facing;
   commandQueue: Command[];

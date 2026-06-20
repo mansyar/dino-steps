@@ -29,8 +29,9 @@ const level1: LevelData = {
 describe("State Module", () => {
   describe("createInitialState", () => {
     it("should create correct initial state for Level 1", () => {
-      const state = createInitialState(level1, "rexy");
+      const state = createInitialState(level1, "Rexy");
       expect(state.levelId).toBe(1);
+      expect(state.character).toBe("Rexy");
       expect(state.dinoPos).toEqual({ x: 0, y: 1 });
       expect(state.dinoFacing).toBe("E");
       expect(state.commandQueue).toEqual([]);
@@ -43,13 +44,13 @@ describe("State Module", () => {
 
   describe("addCommand", () => {
     it("should add command to empty queue", () => {
-      const state = createInitialState(level1, "rexy");
+      const state = createInitialState(level1, "Rexy");
       const newState = addCommand(state, "F");
       expect(newState.commandQueue).toEqual(["F"]);
     });
 
     it("should append commands to queue", () => {
-      let state = createInitialState(level1, "rexy");
+      let state = createInitialState(level1, "Rexy");
       state = addCommand(state, "F");
       state = addCommand(state, "L");
       state = addCommand(state, "R");
@@ -57,7 +58,7 @@ describe("State Module", () => {
     });
 
     it("should not exceed track budget", () => {
-      let state = createInitialState(level1, "rexy");
+      let state = createInitialState(level1, "Rexy");
       // Add 6 commands (budget limit)
       for (let i = 0; i < 6; i++) {
         state = addCommand(state, "F");
@@ -70,7 +71,7 @@ describe("State Module", () => {
 
   describe("removeCommand", () => {
     it("should remove command at index", () => {
-      let state = createInitialState(level1, "rexy");
+      let state = createInitialState(level1, "Rexy");
       state = addCommand(state, "F");
       state = addCommand(state, "L");
       state = addCommand(state, "R");
@@ -79,7 +80,7 @@ describe("State Module", () => {
     });
 
     it("should handle removing first command", () => {
-      let state = createInitialState(level1, "rexy");
+      let state = createInitialState(level1, "Rexy");
       state = addCommand(state, "F");
       state = addCommand(state, "L");
       const newState = removeCommand(state, 0);
@@ -87,7 +88,7 @@ describe("State Module", () => {
     });
 
     it("should handle removing last command", () => {
-      let state = createInitialState(level1, "rexy");
+      let state = createInitialState(level1, "Rexy");
       state = addCommand(state, "F");
       state = addCommand(state, "L");
       const newState = removeCommand(state, 1);
@@ -97,7 +98,7 @@ describe("State Module", () => {
 
   describe("advanceIndex", () => {
     it("should advance active command index", () => {
-      let state = createInitialState(level1, "rexy");
+      let state = createInitialState(level1, "Rexy");
       state = addCommand(state, "F");
       state = addCommand(state, "L");
       const newState = advanceIndex(state);
@@ -105,7 +106,7 @@ describe("State Module", () => {
     });
 
     it("should increment index on subsequent advances", () => {
-      let state = createInitialState(level1, "rexy");
+      let state = createInitialState(level1, "Rexy");
       state = addCommand(state, "F");
       state = addCommand(state, "L");
       state = advanceIndex(state);
@@ -116,13 +117,13 @@ describe("State Module", () => {
 
   describe("clearInteractable", () => {
     it("should add cleared interactable to list", () => {
-      const state = createInitialState(level1, "rexy");
+      const state = createInitialState(level1, "Rexy");
       const newState = clearInteractable(state, { x: 1, y: 1 });
       expect(newState.clearedInteractables).toEqual([{ x: 1, y: 1 }]);
     });
 
     it("should not duplicate cleared interactables", () => {
-      let state = createInitialState(level1, "rexy");
+      let state = createInitialState(level1, "Rexy");
       state = clearInteractable(state, { x: 1, y: 1 });
       const newState = clearInteractable(state, { x: 1, y: 1 });
       expect(newState.clearedInteractables).toHaveLength(1);
@@ -131,7 +132,7 @@ describe("State Module", () => {
 
   describe("resetToStart", () => {
     it("should reset dino position to start", () => {
-      let state = createInitialState(level1, "rexy");
+      let state = createInitialState(level1, "Rexy");
       state = addCommand(state, "F");
       state = addCommand(state, "L");
       state = advanceIndex(state);
@@ -146,7 +147,7 @@ describe("State Module", () => {
 
   describe("setExecuting", () => {
     it("should toggle isExecuting flag", () => {
-      const state = createInitialState(level1, "rexy");
+      const state = createInitialState(level1, "Rexy");
       expect(state.isExecuting).toBe(false);
       const newState = setExecuting(state, true);
       expect(newState.isExecuting).toBe(true);

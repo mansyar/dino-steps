@@ -1,8 +1,7 @@
 // State Tree Module
 // Manages runtime game state and state transitions
 
-import type { GameState, LevelData, Command, DinoCharacter, Facing } from "./types";
-import { DIRECTIONS } from "./direction";
+import type { GameState, LevelData, Command, DinoCharacter } from "./types";
 
 /**
  * Create initial game state for a level
@@ -10,6 +9,7 @@ import { DIRECTIONS } from "./direction";
 export function createInitialState(level: LevelData, character: DinoCharacter): GameState {
   return {
     levelId: level.id,
+    character,
     dinoPos: { x: level.start.x, y: level.start.y },
     dinoFacing: level.startFacing,
     commandQueue: [],
