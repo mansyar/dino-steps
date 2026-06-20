@@ -1,0 +1,8 @@
+{
+  "track_id": "engine_l1_20260621",
+  "type": "feature",
+  "status": "new",
+  "created_at": "2026-06-21T08:28:00Z",
+  "updated_at": "2026-06-21T08:28:00Z",
+  "description": "Build core game engine and Level 1 vertical slice"
+}
