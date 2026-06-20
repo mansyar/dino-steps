@@ -85,9 +85,9 @@
     - [x] Implement `src/engine/persistence.ts`: `loadPersisted()`, `saveUnlockedLevel(n)`, `saveCharacter(c)`, `saveMuted(b)`, `resetProgress()`, key constants
     - [x] Verify tests pass
 
-- [ ] Task: Commit Phase 2 core logic
-    - [ ] Stage and commit all Phase 2 files
-    - [ ] Attach git note with task summary
+- [x] Task: Commit Phase 2 core logic `8fd0ffb`
+    - [x] Stage and commit all Phase 2 files
+    - [x] Attach git note with task summary
 
 - [ ] Task: Conductor - User Manual Verification 'Phase 2: Core Types & Logic' (Protocol in workflow.md)
 
