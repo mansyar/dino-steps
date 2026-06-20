@@ -75,10 +75,10 @@
     - [x] Implement `src/engine/bfsValidator.ts`: `replaySolution(level, commands)` → result enum (`win`/`fail`/`incomplete`), `computeMinimum(level)` → number, `verifyObstaclesGate(level)` → boolean
     - [x] Verify Level 1 data passes validation with `pnpm test`
 
-- [~] Task: Implement state tree (runtime + persisted)
-    - [ ] Write tests: initial `GameState` for Level 1 has correct `dinoPos`, `dinoFacing`, empty `commandQueue`, `activeCommandIndex: -1`, `trackBudget: 6`, empty `clearedInteractables`; state transitions (add command, remove command, advance index, clear interactable, teleport to start) produce correct new state; `isExecuting` flag toggles correctly
-    - [ ] Implement `src/engine/state.ts`: `createInitialState(level, character)`, `addCommand(state, cmd)`, `removeCommand(state, index)`, `advanceIndex(state)`, `clearInteractable(state, tile)`, `resetToStart(state)`, `setExecuting(state, bool)`
-    - [ ] Verify tests pass
+- [x] Task: Implement state tree (runtime + persisted) `a7b59b3`
+    - [x] Write tests: initial `GameState` for Level 1 has correct `dinoPos`, `dinoFacing`, empty `commandQueue`, `activeCommandIndex: -1`, `trackBudget: 6`, empty `clearedInteractables`; state transitions (add command, remove command, advance index, clear interactable, teleport to start) produce correct new state; `isExecuting` flag toggles correctly
+    - [x] Implement `src/engine/state.ts`: `createInitialState(level, character)`, `addCommand(state, cmd)`, `removeCommand(state, index)`, `advanceIndex(state)`, `clearInteractable(state, tile)`, `resetToStart(state)`, `setExecuting(state, bool)`
+    - [x] Verify tests pass
 
 - [ ] Task: Implement localStorage persistence layer
     - [ ] Write tests: `loadPersisted()` returns defaults when localStorage empty; `saveUnlockedLevel(n)` writes key `dinosteps:unlockedLevel`; `saveCharacter(c)` writes `dinosteps:chosenCharacter`; `saveMuted(b)` writes `dinosteps:muted`; `loadPersisted()` hydrates all 3 keys; `resetProgress()` clears all 3 keys; uses `vi.spyOn` on localStorage
