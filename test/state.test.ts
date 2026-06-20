@@ -8,7 +8,7 @@ import {
   resetToStart,
   setExecuting,
 } from "../src/engine/state";
-import type { LevelData, DinoCharacter } from "../src/engine/types";
+import type { LevelData } from "../src/engine/types";
 
 // Level 1 test data
 const level1: LevelData = {
