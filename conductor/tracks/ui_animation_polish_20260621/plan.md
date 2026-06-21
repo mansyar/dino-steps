@@ -59,7 +59,7 @@ Goal: Re-layout the game screen per the GDD palette and 64 px touch-target rule.
     - [x] pnpm typecheck: no errors.
 - [ ] Task: Conductor - User Manual Verification 'Game Screen Layout & Controls' (Protocol in workflow.md)
 
-## Phase 3 — Button & Track Animation
+## Phase 3 — Button & Track Animation [checkpoint: 99949ee]
 
 Goal: Make every tap feel acknowledged and make the track animate like a physical sequence.
 
