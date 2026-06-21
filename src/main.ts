@@ -207,6 +207,9 @@ function refreshGameUI(): void {
 
   // Swap button
   swapBtnEl = renderSwapButton(uiContainer, !gameState.isExecuting, () => handleSwap());
+
+  // Mute button (top-left corner)
+  muteBtnEl = renderMuteButton(uiContainer, currentMuted, () => handleMute());
 }
 
 function handleGo(): void {
