@@ -17,6 +17,8 @@ import { parseLevels } from "./engine/levelData";
 import { createInitialState, addCommand, removeCommand, resetToStart } from "./engine/state";
 import { processNextCommand, applyCommand, hardFail, checkTerminalState } from "./engine/executor";
 import { loadPersisted, saveCharacter, saveMuted, saveUnlockedLevel } from "./engine/persistence";
+import { playStomp, playBonk, playSuccess, playTurn, playAction } from "./audio/sfx";
+import { getAudioContext } from "./audio/context";
 import {
   renderActionMenu,
   renderTrack,
@@ -186,6 +188,9 @@ function handleGo(): void {
   if (!gameState || gameState.isExecuting) return;
   if (gameState.commandQueue.length === 0) return;
 
+  // Initialize audio context on first user gesture (mobile autoplay policy)
+  getAudioContext();
+
   // Set activeCommandIndex to 0 to start execution
   gameState = {
     ...gameState,
@@ -208,6 +213,7 @@ function processNextExecCommand(): void {
   switch (result.type) {
     case "win": {
       gameState = { ...gameState, isExecuting: false };
+      if (!currentMuted) playSuccess();
       // Show win overlay
       showWin = true;
       winTimer = 1.5; // 1.5 seconds of celebration
@@ -229,6 +235,7 @@ function processNextExecCommand(): void {
     }
     case "hardFail": {
       gameState = hardFail(gameState, level);
+      if (!currentMuted) playBonk();
       // Sync movement to reset position
       movement.fromX = level.start.x;
       movement.fromY = level.start.y;
@@ -264,12 +271,15 @@ function processNextExecCommand(): void {
       // Start animation for the command
       const cmd = gameState.commandQueue[gameState.activeCommandIndex - 1];
       if (cmd === "F") {
+        if (!currentMuted) playStomp();
         // Walk animation — from old pos to new pos
         startWalk(movement, gameState.dinoPos.x, gameState.dinoPos.y);
       } else if (cmd === "L" || cmd === "R") {
+        if (!currentMuted) playTurn();
         startTurn(movement);
+      } else if (cmd === "A") {
+        if (!currentMuted) playAction();
       }
-      // Action commands: no movement animation
 
       // Check if queue is exhausted after this command
       if (gameState.activeCommandIndex >= gameState.commandQueue.length) {
@@ -340,6 +350,7 @@ function showHome(): void {
   showingHome = true;
   clearUI();
   homeEl = renderHomeScreen(uiContainer, (ch) => {
+    getAudioContext(); // Init audio on first user gesture
     saveCharacter(ch);
     showingHome = false;
     showingLevelSelect = true;

@@ -1,6 +1,5 @@
 import { describe, it, expect } from "vitest";
 import { parseLevel, parseLevels } from "../src/engine/levelData";
-import type { LevelData } from "../src/engine/types";
 
 describe("Level Data", () => {
   describe("parseLevel", () => {
