@@ -164,9 +164,13 @@ function refreshGameUI(): void {
   // Hint text — inserted into flow between track and game area
   hintEl = document.createElement("div");
   hintEl.style.textAlign = "center";
-  hintEl.style.padding = "6px 0";
-  hintEl.style.color = "#555";
-  hintEl.style.fontSize = "16px";
+  hintEl.style.padding = "6px 16px";
+  hintEl.style.margin = "4px auto";
+  hintEl.style.display = "inline-block";
+  hintEl.style.background = "rgba(255,255,255,0.85)";
+  hintEl.style.borderRadius = "16px";
+  hintEl.style.color = "#333";
+  hintEl.style.fontSize = "15px";
   hintEl.style.fontWeight = "bold";
   hintEl.style.zIndex = "250";
   hintEl.style.pointerEvents = "none";
