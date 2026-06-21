@@ -87,7 +87,7 @@ Goal: Make every tap feel acknowledged and make the track animate like a physica
 - [x] Task: Conductor - User Manual Verification 'Button & Track Animation' (Protocol in workflow.md)
     - [x] All 5 animation behaviors verified: button press feedback, track add/delete, GO pulse, panel dimming
 
-## Phase 4 — Canvas Juice: Movement & Signature Moves
+## Phase 4 — Canvas Juice: Movement & Signature Moves [checkpoint: 413fb7e]
 
 Goal: Add GDD-specified movement and action visual effects.
 
