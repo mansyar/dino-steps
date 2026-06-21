@@ -5,9 +5,30 @@ import { initCanvas } from "./render/canvas";
 import { startLoop } from "./render/loop";
 import { drawGrid } from "./render/grid";
 import { drawDino, createDinoAnimState } from "./render/dino";
+import { createMovementState, updateMovement, isIdle } from "./render/movement";
 import { parseLevels } from "./engine/levelData";
-import type { DinoCharacter, Facing } from "./engine/types";
+import {
+  createInitialState,
+  addCommand,
+  removeCommand,
+  setExecuting,
+  resetToStart,
+} from "./engine/state";
+import { executeQueue } from "./engine/executor";
+import { loadPersisted, saveCharacter, saveMuted, saveUnlockedLevel } from "./engine/persistence";
+import {
+  renderActionMenu,
+  renderTrack,
+  renderGoButton,
+  renderSwapButton,
+  renderMuteButton,
+  renderHomeScreen,
+  renderLevelSelect,
+  renderCharacterCarousel,
+} from "./input/tap";
+import type { DinoCharacter, GameState, Command } from "./engine/types";
 
+// Level data
 const levelsData = [
   {
     id: 1,
@@ -26,28 +47,243 @@ const levelsData = [
 ];
 
 const levels = parseLevels(levelsData);
-const level1 = levels[0];
 
-initCanvas();
+// App state
+const persisted = loadPersisted();
+let gameState: GameState | null = null;
+let currentLevelIndex = 0;
+let currentMuted = persisted.muted;
+let showingHome = true;
+let showingLevelSelect = false;
 
+// UI containers
+let uiContainer: HTMLDivElement;
+let actionMenuEl: HTMLElement | null = null;
+let trackEl: HTMLElement | null = null;
+let goBtnEl: HTMLButtonElement | null = null;
+let swapBtnEl: HTMLButtonElement | null = null;
+let muteBtnEl: HTMLButtonElement | null = null;
+let homeEl: HTMLElement | null = null;
+let levelSelectEl: HTMLElement | null = null;
+let carouselEl: HTMLElement | null = null;
+
+// Animation state
 const dinoAnim = createDinoAnimState();
-let dinoX = level1.start.x;
-let dinoY = level1.start.y;
-let dinoFacing: Facing = level1.startFacing;
-let dinoCharacter: DinoCharacter = "Rexy";
+let movement = createMovementState(0, 1);
 
-startLoop((dt) => {
-  dinoAnim.idleTime += dt;
-  const gridMetrics = drawGrid(level1);
-  drawDino(
-    gridMetrics.offsetX + gridMetrics.tileSize * dinoX,
-    gridMetrics.offsetY + gridMetrics.tileSize * dinoY,
-    gridMetrics.tileSize,
-    dinoCharacter,
-    dinoFacing,
-    dinoAnim,
-    "idle",
+function clearUI(): void {
+  if (actionMenuEl) {
+    actionMenuEl.remove();
+    actionMenuEl = null;
+  }
+  if (trackEl) {
+    trackEl.remove();
+    trackEl = null;
+  }
+  if (goBtnEl) {
+    goBtnEl.remove();
+    goBtnEl = null;
+  }
+  if (swapBtnEl) {
+    swapBtnEl.remove();
+    swapBtnEl = null;
+  }
+  if (muteBtnEl) {
+    muteBtnEl.remove();
+    muteBtnEl = null;
+  }
+  if (homeEl) {
+    homeEl.remove();
+    homeEl = null;
+  }
+  if (levelSelectEl) {
+    levelSelectEl.remove();
+    levelSelectEl = null;
+  }
+  if (carouselEl) {
+    carouselEl.remove();
+    carouselEl = null;
+  }
+}
+
+function refreshGameUI(): void {
+  if (!gameState) return;
+  clearUI();
+
+  // Action menu
+  actionMenuEl = renderActionMenu(
+    uiContainer,
+    {
+      onCommandTap: (cmd: Command) => {
+        if (!gameState || gameState.isExecuting) return;
+        gameState = addCommand(gameState, cmd);
+        refreshGameUI();
+      },
+      onTrackTap: () => {},
+      onGoTap: () => handleGo(),
+      onSwapTap: () => handleSwap(),
+      onMuteTap: () => handleMute(),
+    },
+    !gameState.isExecuting,
   );
-});
 
-console.log("DinoSteps loaded!");
+  // Track slots
+  trackEl = renderTrack(
+    uiContainer,
+    gameState.trackBudget,
+    gameState.commandQueue,
+    !gameState.isExecuting,
+    (index: number) => {
+      if (!gameState || gameState.isExecuting) return;
+      gameState = removeCommand(gameState, index);
+      refreshGameUI();
+    },
+  );
+
+  // GO button
+  goBtnEl = renderGoButton(
+    uiContainer,
+    !gameState.isExecuting && gameState.commandQueue.length > 0,
+    () => handleGo(),
+  );
+
+  // Swap button
+  swapBtnEl = renderSwapButton(uiContainer, !gameState.isExecuting, () => handleSwap());
+}
+
+function handleGo(): void {
+  if (!gameState || gameState.isExecuting) return;
+  if (gameState.commandQueue.length === 0) return;
+
+  gameState = setExecuting(gameState, true);
+  refreshGameUI();
+
+  const level = levels[currentLevelIndex];
+  const execResult = executeQueue(gameState, level);
+
+  // Apply result
+  gameState = execResult.state;
+  if (execResult.result.type === "win") {
+    // Advance to next level
+    const nextIndex = currentLevelIndex + 1;
+    if (nextIndex < levels.length) {
+      currentLevelIndex = nextIndex;
+      saveUnlockedLevel(nextIndex + 1);
+      gameState = createInitialState(levels[nextIndex], gameState.character);
+    }
+  } else if (execResult.result.type === "idle" || execResult.result.type === "hint") {
+    // Hard failure or hint — reset position
+    gameState = resetToStart(gameState, level);
+  }
+
+  gameState = setExecuting(gameState, false);
+  refreshGameUI();
+}
+
+function handleSwap(): void {
+  if (!gameState || gameState.isExecuting) return;
+  carouselEl = renderCharacterCarousel(
+    uiContainer,
+    gameState.character,
+    (ch: DinoCharacter) => {
+      if (!gameState) return;
+      gameState = { ...gameState, character: ch };
+      saveCharacter(ch);
+      refreshGameUI();
+    },
+    () => {
+      if (carouselEl) {
+        carouselEl.remove();
+        carouselEl = null;
+      }
+    },
+  );
+}
+
+function handleMute(): void {
+  currentMuted = !currentMuted;
+  saveMuted(currentMuted);
+  if (muteBtnEl) {
+    muteBtnEl.remove();
+    muteBtnEl = null;
+  }
+  muteBtnEl = renderMuteButton(uiContainer, currentMuted, () => handleMute());
+}
+
+function enterGame(levelIndex: number): void {
+  currentLevelIndex = levelIndex;
+  const level = levels[levelIndex];
+  const persisted = loadPersisted();
+  gameState = createInitialState(level, persisted.chosenCharacter);
+  showingHome = false;
+  showingLevelSelect = false;
+  clearUI();
+  refreshGameUI();
+}
+
+function showHome(): void {
+  showingHome = true;
+  clearUI();
+  homeEl = renderHomeScreen(uiContainer, (ch) => {
+    saveCharacter(ch);
+    showingHome = false;
+    showingLevelSelect = true;
+    clearUI();
+    showLevelSelect();
+  });
+}
+
+function showLevelSelect(): void {
+  const persisted = loadPersisted();
+  levelSelectEl = renderLevelSelect(uiContainer, persisted.unlockedLevel, levels.length, (id) => {
+    enterGame(id - 1);
+  });
+}
+
+// Init
+document.addEventListener("DOMContentLoaded", () => {
+  const canvasCtx = initCanvas();
+  uiContainer = document.createElement("div");
+  uiContainer.style.position = "relative";
+  uiContainer.style.width = "100%";
+  uiContainer.style.height = "100%";
+  canvasCtx.canvas.parentElement?.appendChild(uiContainer);
+
+  showHome();
+
+  startLoop((dt) => {
+    dinoAnim.idleTime += dt;
+
+    if (gameState && !showingHome && !showingLevelSelect) {
+      const level = levels[currentLevelIndex];
+      const gridMetrics = drawGrid(level);
+
+      // Update movement interpolation
+      const pos = updateMovement(movement, dt);
+
+      drawDino(
+        gridMetrics.offsetX + gridMetrics.tileSize * pos.x,
+        gridMetrics.offsetY + gridMetrics.tileSize * pos.y,
+        gridMetrics.tileSize,
+        gameState.character,
+        gameState.dinoFacing,
+        dinoAnim,
+        isIdle(movement) ? "idle" : movement.animState,
+      );
+    } else if (showingHome || showingLevelSelect) {
+      // Draw idle dino on level 1 grid behind home screen
+      const gridMetrics = drawGrid(levels[0]);
+      drawDino(
+        gridMetrics.offsetX + gridMetrics.tileSize * levels[0].start.x,
+        gridMetrics.offsetY + gridMetrics.tileSize * levels[0].start.y,
+        gridMetrics.tileSize,
+        "Rexy",
+        levels[0].startFacing,
+        dinoAnim,
+        "idle",
+      );
+    }
+  });
+
+  console.log("DinoSteps loaded!");
+});
