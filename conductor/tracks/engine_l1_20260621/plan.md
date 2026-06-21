@@ -181,50 +181,50 @@
 
 ## Phase 5: Input System & UI
 
-- [ ] Task: Read `spec.md` and `workflow.md` before starting this phase
+- [x] Task: Read `spec.md` and `workflow.md` before starting this phase
 
-- [ ] Task: Implement tap-to-append input
-    - [ ] Create `src/input/tap.ts`: Pointer Events listener on action menu buttons; maps tap → `addCommand(state, cmd)` if track has capacity
-    - [ ] Create `src/ui/actionMenu.ts`: render 4 command buttons (🐾 ↩️ ↪️ 🦕) as DOM elements over canvas, 64px minimum tap targets
-    - [ ] Verify tapping buttons fills track slots in browser
+- [x] Task: Implement tap-to-append input
+    - [x] Create `src/input/tap.ts`: Pointer Events listener on action menu buttons; maps tap → `addCommand(state, cmd)` if track has capacity
+    - [x] Create `src/ui/actionMenu.ts`: render 4 command buttons (🐾 ↩️ ↪️ 🦕) as DOM elements over canvas, 64px minimum tap targets
+    - [x] Verify tapping buttons fills track slots in browser
 
-- [ ] Task: Implement tap-to-delete input
-    - [ ] Add tap listener on track slots → `removeCommand(state, index)` with pop animation
-    - [ ] Create `src/ui/track.ts`: render track slots (variable count from `trackBudget`), show placed commands as emoji blocks
-    - [ ] Verify tapping a placed block removes it in browser
+- [x] Task: Implement tap-to-delete input
+    - [x] Add tap listener on track slots → `removeCommand(state, index)` with pop animation
+    - [x] Create `src/ui/track.ts`: render track slots (variable count from `trackBudget`), show placed commands as emoji blocks
+    - [x] Verify tapping a placed block removes it in browser
 
-- [ ] Task: Implement GO button
-    - [ ] Create `src/ui/goButton.ts`: render GO button (green, ▶️ icon, 64px target)
-    - [ ] Wire GO tap → `setExecuting(state, true)` → `executeQueue(state, level)` → render results
-    - [ ] Disable GO during execution; re-enable after terminal state
-    - [ ] Verify GO executes the queue in browser
+- [x] Task: Implement GO button
+    - [x] Create `src/ui/goButton.ts`: render GO button (green, ▶️ icon, 64px target)
+    - [x] Wire GO tap → `setExecuting(state, true)` → `executeQueue(state, level)` → render results
+    - [x] Disable GO during execution; re-enable after terminal state
+    - [x] Verify GO executes the queue in browser
 
-- [ ] Task: Implement track budget display
-    - [ ] Render correct slot count from `trackBudget` (6 for Level 1)
-    - [ ] Show empty slots vs filled slots visually
-    - [ ] Animate slot growth when budget changes between levels (future-proof; test with hardcoded 6→8)
-    - [ ] Verify track shows 6 slots for Level 1 in browser
+- [x] Task: Implement track budget display
+    - [x] Render correct slot count from `trackBudget` (6 for Level 1)
+    - [x] Show empty slots vs filled slots visually
+    - [x] Animate slot growth when budget changes between levels (future-proof; test with hardcoded 6→8)
+    - [x] Verify track shows 6 slots for Level 1 in browser
 
-- [ ] Task: Implement character swap UI
-    - [ ] Create `src/ui/swapButton.ts`: render swap button (top-right, 🦖 icon)
-    - [ ] Create `src/ui/characterCarousel.ts`: overlay with 3 character options
-    - [ ] Wire swap → `saveCharacter()` + update `activeDino` in state; disabled during `isExecuting`
-    - [ ] Verify swap changes dino skin during editing, disabled during execution in browser
+- [x] Task: Implement character swap UI
+    - [x] Create `src/ui/swapButton.ts`: render swap button (top-right, 🦖 icon)
+    - [x] Create `src/ui/characterCarousel.ts`: overlay with 3 character options
+    - [x] Wire swap → `saveCharacter()` + update `activeDino` in state; disabled during `isExecuting`
+    - [x] Verify swap changes dino skin during editing, disabled during execution in browser
 
-- [ ] Task: Implement home screen (character selection)
-    - [ ] Create `src/ui/home.ts`: render 3 character cards (Rexy, Trikey, Sera) with names and colors
-    - [ ] Wire selection → set `chosenCharacter`, enter Level 1
-    - [ ] Verify home screen shows on first load in browser
+- [x] Task: Implement home screen (character selection)
+    - [x] Create `src/ui/home.ts`: render 3 character cards (Rexy, Trikey, Sera) with names and colors
+    - [x] Wire selection → set `chosenCharacter`, enter Level 1
+    - [x] Verify home screen shows on first load in browser
 
-- [ ] Task: Implement level-select screen
-    - [ ] Create `src/ui/levelSelect.ts`: render level tiles gated by `unlockedLevel`
-    - [ ] Wire selection → load level data, enter game view
-    - [ ] Verify only Level 1 is unlocked on first play in browser
+- [x] Task: Implement level-select screen
+    - [x] Create `src/ui/levelSelect.ts`: render level tiles gated by `unlockedLevel`
+    - [x] Wire selection → load level data, enter game view
+    - [x] Verify only Level 1 is unlocked on first play in browser
 
-- [ ] Task: Implement mute toggle
-    - [ ] Create `src/ui/muteButton.ts`: render mute/unmute button
-    - [ ] Wire tap → `saveMuted(!current)` + update audio system
-    - [ ] Verify mute persists across reloads in browser
+- [x] Task: Implement mute toggle
+    - [x] Create `src/ui/muteButton.ts`: render mute/unmute button
+    - [x] Wire tap → `saveMuted(!current)` + update audio system
+    - [x] Verify mute persists across reloads in browser
 
 - [ ] Task: Conductor - User Manual Verification 'Phase 5: Input System & UI' (Protocol in workflow.md)
 
