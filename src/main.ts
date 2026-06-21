@@ -5,6 +5,7 @@ import { initCanvas } from "./render/canvas";
 import { startLoop } from "./render/loop";
 import { drawGrid } from "./render/grid";
 import { drawDino, createDinoAnimState } from "./render/dino";
+import { preloadCharacters } from "./render/characters";
 import {
   createMovementState,
   updateMovement,
@@ -355,8 +356,11 @@ function showLevelSelect(): void {
 }
 
 // Init
-function init(): void {
+async function init(): Promise<void> {
   initCanvas();
+
+  // Preload character SVGs before rendering
+  await preloadCharacters();
   uiContainer = document.createElement("div");
   uiContainer.id = "ui-overlay";
   uiContainer.style.position = "fixed";
