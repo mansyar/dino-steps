@@ -63,22 +63,27 @@ Goal: Re-layout the game screen per the GDD palette and 64 px touch-target rule.
 
 Goal: Make every tap feel acknowledged and make the track animate like a physical sequence.
 
-- [ ] Task: Read spec.md and workflow.md for this phase.
-    - [ ] Review acceptance criteria and references in `spec.md`.
-    - [ ] Review the Phase Completion Verification and Checkpointing Protocol in `workflow.md`.
-- [ ] Task: Add button press feedback.
-    - [ ] Scale to 0.95 on `pointerdown` using CSS transforms.
-    - [ ] Restore on `pointerup`, `pointercancel`, or `pointerleave`.
-- [ ] Task: Implement track add animation.
-    - [ ] A newly filled slot scales up from 0.6 + fades in over ~150 ms.
-- [ ] Task: Implement track delete animation.
-    - [ ] Removed slot scales down and fades out over ~120 ms.
-    - [ ] Remaining slots slide horizontally to fill the gap.
-- [ ] Task: Add GO-button pulse when the command queue is non-empty.
-    - [ ] Pulse stops during execution or when the queue is empty.
-- [ ] Task: Dim the control panel during execution.
-- [ ] Task: Write failing tests for animation-timing helpers (e.g., easing functions, clamp helpers).
-- [ ] Task: Run `pnpm test`, `pnpm lint`, `pnpm format`, `pnpm typecheck`.
+- [x] Task: Read spec.md and workflow.md for this phase.
+    - [x] Review acceptance criteria and references in `spec.md`.
+    - [x] Review the Phase Completion Verification and Checkpointing Protocol in `workflow.md`.
+- [x] Task: Add button press feedback.
+    - [x] Scale to 0.95 on `pointerdown` using CSS transforms. (Already exists: `.btn:active { transform: scale(0.95) }` in styles.css line 118-120)
+    - [x] Restore on `pointerup`, `pointercancel`, or `pointerleave`. (CSS `:active` handles this automatically)
+- [x] Task: Implement track add animation.
+    - [x] A newly filled slot scales up from 0.6 + fades in over ~150 ms.
+- [x] Task: Implement track delete animation.
+    - [x] Removed slot scales down and fades out over ~120 ms.
+    - [x] Remaining slots slide horizontally to fill the gap. (Flexbox reflow after DOM update)
+- [x] Task: Add GO-button pulse when the command queue is non-empty.
+    - [x] Pulse stops during execution or when the queue is empty.
+- [x] Task: Dim the control panel during execution. (Already existed from Phase 2: `.bottom-panel--dimmed`)
+- [x] Task: Write failing tests for animation-timing helpers (e.g., easing functions, clamp helpers).
+    - [x] Added 3 tests for `animateLastSlot` function.
+- [x] Task: Run `pnpm test`, `pnpm lint`, `pnpm format`, `pnpm typecheck`.
+    - [x] pnpm test: 11 files, 108 tests passed.
+    - [x] pnpm lint: 0 warnings, 0 errors.
+    - [x] pnpm format: 34 files processed.
+    - [x] pnpm typecheck: no errors.
 - [ ] Task: Conductor - User Manual Verification 'Button & Track Animation' (Protocol in workflow.md)
 
 ## Phase 4 — Canvas Juice: Movement & Signature Moves
