@@ -1,15 +1,15 @@
 // Grid rendering — draws the 5×3 game grid with tile backgrounds
 
-import { getCanvasContext } from "./canvas";
-import type { LevelData } from "../engine/types";
-import { GRID_WIDTH, GRID_HEIGHT } from "../engine/constants";
+import { getCanvasContext } from './canvas';
+import type { LevelData } from '../engine/types';
+import { GRID_WIDTH, GRID_HEIGHT } from '../engine/constants';
 
 const COLORS = {
-  empty: "#a8e6cf",
-  obstacle: "#8b7355",
-  food: "#ff6b6b",
-  interactable: "#87ceeb",
-  border: "#2d5016",
+  empty: '#c4eed0', // GDD secondary — mint grid tiles
+  obstacle: '#8b7355',
+  food: '#ff6b6b',
+  interactable: '#b2dfdb',
+  border: '#a8d5ba', // Soft green border
 };
 
 export interface GridMetrics {
@@ -36,7 +36,7 @@ export function drawGrid(level: LevelData): GridMetrics {
 
   for (let y = 0; y < GRID_HEIGHT; y++) {
     for (let x = 0; x < GRID_WIDTH; x++) {
-      const tileType = level.grid[y]?.[x] ?? "empty";
+      const tileType = level.grid[y]?.[x] ?? 'empty';
       const px = offsetX + x * tileSize;
       const py = offsetY + y * tileSize;
 
@@ -48,21 +48,21 @@ export function drawGrid(level: LevelData): GridMetrics {
       ctx.strokeRect(px, py, tileSize, tileSize);
 
       // Draw food emoji on food tiles
-      if (tileType === "food") {
+      if (tileType === 'food') {
         const fontSize = Math.floor(tileSize * 0.5);
         ctx.font = `${fontSize}px serif`;
-        ctx.textAlign = "center";
-        ctx.textBaseline = "middle";
-        ctx.fillText("🍎", px + tileSize / 2, py + tileSize / 2);
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+        ctx.fillText('🍎', px + tileSize / 2, py + tileSize / 2);
       }
 
       // Draw rock emoji on obstacle tiles
-      if (tileType === "obstacle") {
+      if (tileType === 'obstacle') {
         const fontSize = Math.floor(tileSize * 0.5);
         ctx.font = `${fontSize}px serif`;
-        ctx.textAlign = "center";
-        ctx.textBaseline = "middle";
-        ctx.fillText("🪨", px + tileSize / 2, py + tileSize / 2);
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+        ctx.fillText('🪨', px + tileSize / 2, py + tileSize / 2);
       }
     }
   }
@@ -70,9 +70,7 @@ export function drawGrid(level: LevelData): GridMetrics {
   return { offsetX, offsetY, tileSize };
 }
 
-/**
- * Draw a food tile with wiggle animation (for hint feedback)
- */
+/** Draw a food tile with wiggle animation (for hint feedback) */
 export function drawFoodWiggle(level: LevelData, time: number, reducedMotion?: boolean): void {
   const { ctx, width, height } = getCanvasContext();
   const { offsetX, offsetY, tileSize } = computeGridMetrics(width, height);
@@ -93,9 +91,9 @@ export function drawFoodWiggle(level: LevelData, time: number, reducedMotion?: b
   // Draw food emoji 🍎
   const fontSize = Math.floor(tileSize * 0.5);
   ctx.font = `${fontSize}px serif`;
-  ctx.textAlign = "center";
-  ctx.textBaseline = "middle";
-  ctx.fillText("🍎", px + tileSize / 2, py + tileSize / 2);
+  ctx.textAlign = 'center';
+  ctx.textBaseline = 'middle';
+  ctx.fillText('🍎', px + tileSize / 2, py + tileSize / 2);
 
   ctx.restore();
 }

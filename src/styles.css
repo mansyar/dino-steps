@@ -33,7 +33,7 @@
   --gap-lg: 24px;
 
   /* --- Typography --- */
-  --font-family: "Segoe UI", system-ui, -apple-system, sans-serif;
+  --font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
   --font-size-sm: 12px;
   --font-size-base: 16px;
   --font-size-lg: 20px;
@@ -187,9 +187,10 @@ body {
 /* --- Action Menu --- */
 .action-menu {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   align-items: center;
   gap: var(--gap-sm);
+  justify-content: center;
 }
 
 /* --- Track --- */
@@ -438,9 +439,19 @@ body {
   padding: var(--gap-sm);
   gap: var(--gap-sm);
   pointer-events: auto;
+  background-color: rgba(243, 248, 246, 0.95);
+  border-top: 2px solid var(--color-secondary);
 }
 
 .bottom-panel--dimmed {
   opacity: 0.5;
   pointer-events: none;
+}
+
+/* --- Track Row (track + GO button) --- */
+.track-row {
+  display: flex;
+  align-items: center;
+  gap: var(--gap-sm);
+  justify-content: center;
 }

@@ -34,24 +34,29 @@ Goal: Centralize visual tokens and stop hard-coding colors/sizes in `tap.ts`.
 
 Goal: Re-layout the game screen per the GDD palette and 64 px touch-target rule.
 
-- [ ] Task: Read spec.md and workflow.md for this phase.
-    - [ ] Review acceptance criteria and references in `spec.md`.
-    - [ ] Review the Phase Completion Verification and Checkpointing Protocol in `workflow.md`.
-- [ ] Task: Update `index.html` / canvas background to use the sage background color.
-    - [ ] Keep the canvas full-size; set CSS background to `--color-background`.
-- [ ] Task: Update `src/render/grid.ts` to draw mint tiles with the new palette.
-- [ ] Task: Add a top bar in the game UI.
-    - [ ] Home button (left).
-    - [ ] Current level title (center).
-    - [ ] Swap dino + mute buttons (right).
-    - [ ] Ensure each top control is at least 64×64 px.
-- [ ] Task: Rebuild the bottom control panel.
-    - [ ] Command menu row.
-    - [ ] Action track row with placeholder icons in empty slots.
-    - [ ] Large GO pill to the right of the track.
-- [ ] Task: Relocate the hint pill above the command menu/track area.
-- [ ] Task: Write failing tests for UI layout math if new helpers are added (e.g., breakpoint/space split).
-- [ ] Task: Run `pnpm test`, `pnpm lint`, `pnpm format`, `pnpm typecheck`.
+- [x] Task: Read spec.md and workflow.md for this phase.
+    - [x] Review acceptance criteria and references in `spec.md`.
+    - [x] Review the Phase Completion Verification and Checkpointing Protocol in `workflow.md`.
+- [x] Task: Update `index.html` / canvas background to use the sage background color.
+    - [x] Keep the canvas full-size; set CSS background to `--color-background`.
+- [x] Task: Update `src/render/grid.ts` to draw mint tiles with the new palette.
+- [x] Task: Add a top bar in the game UI.
+    - [x] Home button (left).
+    - [x] Current level title (center).
+    - [x] Swap dino + mute buttons (right).
+    - [x] Ensure each top control is at least 64×64 px.
+- [x] Task: Rebuild the bottom control panel.
+    - [x] Command menu row.
+    - [x] Action track row with placeholder icons in empty slots.
+    - [x] Large GO pill to the right of the track.
+- [x] Task: Relocate the hint pill above the command menu/track area.
+- [x] Task: Write failing tests for UI layout math if new helpers are added (e.g., breakpoint/space split).
+    - [x] No new pure JS helpers introduced in this phase — layout handled via CSS flexbox.
+- [x] Task: Run `pnpm test`, `pnpm lint`, `pnpm format`, `pnpm typecheck`.
+    - [x] pnpm test: 11 files, 105 tests passed.
+    - [x] pnpm lint: 0 warnings, 0 errors.
+    - [x] pnpm format: 34 files processed.
+    - [x] pnpm typecheck: no errors.
 - [ ] Task: Conductor - User Manual Verification 'Game Screen Layout & Controls' (Protocol in workflow.md)
 
 ## Phase 3 — Button & Track Animation

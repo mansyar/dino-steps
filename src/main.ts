@@ -30,8 +30,7 @@ import {
   renderActionMenu,
   renderTrack,
   renderGoButton,
-  renderSwapButton,
-  renderMuteButton,
+  renderTopBar,
   renderHomeScreen,
   renderLevelSelect,
   renderCharacterCarousel,
@@ -91,11 +90,11 @@ const confetti = createConfettiState();
 
 // UI containers
 let uiContainer: HTMLDivElement;
+let topBarEl: HTMLElement | null = null;
+let bottomPanelEl: HTMLElement | null = null;
 let actionMenuEl: HTMLElement | null = null;
 let trackEl: HTMLElement | null = null;
 let goBtnEl: HTMLButtonElement | null = null;
-let swapBtnEl: HTMLButtonElement | null = null;
-let muteBtnEl: HTMLButtonElement | null = null;
 let homeEl: HTMLElement | null = null;
 let levelSelectEl: HTMLElement | null = null;
 let carouselEl: HTMLElement | null = null;
@@ -107,6 +106,14 @@ const dinoAnim = createDinoAnimState();
 let movement = createMovementState(0, 1);
 
 function clearUI(): void {
+  if (topBarEl) {
+    topBarEl.remove();
+    topBarEl = null;
+  }
+  if (bottomPanelEl) {
+    bottomPanelEl.remove();
+    bottomPanelEl = null;
+  }
   if (actionMenuEl) {
     actionMenuEl.remove();
     actionMenuEl = null;
@@ -118,14 +125,6 @@ function clearUI(): void {
   if (goBtnEl) {
     goBtnEl.remove();
     goBtnEl = null;
-  }
-  if (swapBtnEl) {
-    swapBtnEl.remove();
-    swapBtnEl = null;
-  }
-  if (muteBtnEl) {
-    muteBtnEl.remove();
-    muteBtnEl = null;
   }
   if (homeEl) {
     homeEl.remove();
@@ -153,9 +152,44 @@ function refreshGameUI(): void {
   if (!gameState) return;
   clearUI();
 
-  // Action menu
-  actionMenuEl = renderActionMenu(
+  const level = levels[currentLevelIndex];
+
+  // Top bar — home, level title, swap, mute
+  topBarEl = renderTopBar(
     uiContainer,
+    `${currentLevelIndex + 1}. ${level.title}`,
+    !gameState.isExecuting,
+    {
+      onHomeTap: () => {
+        showingHome = true;
+        showingLevelSelect = false;
+        clearUI();
+        showHome();
+      },
+      onSwapTap: () => handleSwap(),
+      onMuteTap: () => handleMute(),
+      muted: currentMuted,
+    },
+  );
+
+  // Bottom panel container
+  bottomPanelEl = document.createElement('div');
+  bottomPanelEl.className = 'bottom-panel';
+  if (gameState.isExecuting) {
+    bottomPanelEl.classList.add('bottom-panel--dimmed');
+  }
+
+  // Hint pill — above the command menu
+  hintEl = document.createElement('div');
+  hintEl.className = 'hint-text';
+  hintEl.textContent = `🍎 Feed ${gameState.character}!`;
+  hintEl.style.position = 'static';
+  hintEl.style.transform = 'none';
+  bottomPanelEl.appendChild(hintEl);
+
+  // Action menu — command buttons row
+  actionMenuEl = renderActionMenu(
+    bottomPanelEl,
     {
       onCommandTap: (cmd: Command) => {
         if (!gameState || gameState.isExecuting) return;
@@ -170,9 +204,12 @@ function refreshGameUI(): void {
     !gameState.isExecuting,
   );
 
-  // Track slots
+  // Track row — track slots + GO button
+  const trackRow = document.createElement('div');
+  trackRow.className = 'track-row';
+
   trackEl = renderTrack(
-    uiContainer,
+    trackRow,
     gameState.trackBudget,
     gameState.commandQueue,
     !gameState.isExecuting,
@@ -183,24 +220,14 @@ function refreshGameUI(): void {
     },
   );
 
-  // GO button
   goBtnEl = renderGoButton(
-    uiContainer,
+    trackRow,
     !gameState.isExecuting && gameState.commandQueue.length > 0,
     () => handleGo(),
   );
 
-  // Hint text — inserted into flow between track and game area
-  hintEl = document.createElement('div');
-  hintEl.className = 'hint-text';
-  hintEl.textContent = `🍎 Feed ${gameState.character}!`;
-  uiContainer.appendChild(hintEl);
-
-  // Swap button
-  swapBtnEl = renderSwapButton(uiContainer, !gameState.isExecuting, () => handleSwap());
-
-  // Mute button (top-left corner)
-  muteBtnEl = renderMuteButton(uiContainer, currentMuted, () => handleMute());
+  bottomPanelEl.appendChild(trackRow);
+  uiContainer.appendChild(bottomPanelEl);
 }
 
 function handleGo(): void {
@@ -371,11 +398,7 @@ function handleSwap(): void {
 function handleMute(): void {
   currentMuted = !currentMuted;
   saveMuted(currentMuted);
-  if (muteBtnEl) {
-    muteBtnEl.remove();
-    muteBtnEl = null;
-  }
-  muteBtnEl = renderMuteButton(uiContainer, currentMuted, () => handleMute());
+  refreshGameUI();
 }
 
 function enterGame(levelIndex: number): void {

@@ -55,6 +55,60 @@ function createButton(
   return btn;
 }
 
+/** Render the top bar with home button, level title, and swap/mute buttons */
+export function renderTopBar(
+  container: HTMLElement,
+  levelTitle: string,
+  enabled: boolean,
+  handlers: {
+    onHomeTap: () => void;
+    onSwapTap: () => void;
+    onMuteTap: () => void;
+    muted: boolean;
+  },
+): HTMLElement {
+  const bar = document.createElement('div');
+  bar.className = 'top-bar';
+
+  // Left: Home button
+  const left = document.createElement('div');
+  left.className = 'top-bar__left';
+  const homeBtn = createButton('🏠', 'Home', 'btn btn-mute', handlers.onHomeTap);
+  left.appendChild(homeBtn);
+
+  // Center: Level title
+  const center = document.createElement('div');
+  center.className = 'top-bar__center';
+  const title = document.createElement('span');
+  title.className = 'top-bar__title';
+  title.textContent = levelTitle;
+  center.appendChild(title);
+
+  // Right: Swap + Mute
+  const right = document.createElement('div');
+  right.className = 'top-bar__right';
+  const swapBtn = createButton('🦖', 'Swap Character', 'btn btn-swap', handlers.onSwapTap);
+  const muteBtn = createButton(
+    handlers.muted ? '🔇' : '🔊',
+    handlers.muted ? 'Unmute' : 'Mute',
+    'btn btn-mute',
+    handlers.onMuteTap,
+  );
+  if (!enabled) {
+    swapBtn.disabled = true;
+    swapBtn.classList.add('btn--disabled');
+  }
+  right.appendChild(swapBtn);
+  right.appendChild(muteBtn);
+
+  bar.appendChild(left);
+  bar.appendChild(center);
+  bar.appendChild(right);
+
+  container.appendChild(bar);
+  return bar;
+}
+
 /** Render the action menu with 4 command buttons */
 export function renderActionMenu(
   container: HTMLElement,
@@ -66,7 +120,7 @@ export function renderActionMenu(
 
   const commands: Command[] = ['F', 'L', 'R', 'A'];
   for (const cmd of commands) {
-    const btn = createButton(COMMAND_EMOJI[cmd], COMMAND_LABELS[cmd], `cmd-btn cmd-${cmd}`, () =>
+    const btn = createButton(COMMAND_EMOJI[cmd], COMMAND_LABELS[cmd], `cmd-btn btn-command`, () =>
       handler.onCommandTap(cmd),
     );
     if (!enabled) {
@@ -127,9 +181,11 @@ export function renderGoButton(
   enabled: boolean,
   onGo: () => void,
 ): HTMLButtonElement {
-  const btn = createButton('▶️', 'Go', 'btn-go', onGo);
+  const btn = createButton('▶️', 'Go', 'btn btn-go', onGo);
   btn.style.fontSize = '28px';
   btn.style.fontWeight = 'bold';
+  btn.style.borderRadius = '24px';
+  btn.style.padding = '8px 24px';
 
   if (!enabled) {
     btn.disabled = true;
@@ -146,16 +202,7 @@ export function renderSwapButton(
   enabled: boolean,
   onSwap: () => void,
 ): HTMLButtonElement {
-  const btn = createButton('🦖', 'Swap Character', 'btn-swap', onSwap);
-  btn.style.position = 'absolute';
-  btn.style.top = '8px';
-  btn.style.right = '8px';
-  btn.style.borderRadius = '50%';
-  btn.style.width = '48px';
-  btn.style.height = '48px';
-  btn.style.minWidth = '48px';
-  btn.style.minHeight = '48px';
-  btn.style.fontSize = '20px';
+  const btn = createButton('🦖', 'Swap Character', 'btn btn-swap', onSwap);
 
   if (!enabled) {
     btn.disabled = true;
@@ -172,10 +219,12 @@ export function renderMuteButton(
   muted: boolean,
   onToggle: () => void,
 ): HTMLButtonElement {
-  const btn = createButton(muted ? '🔇' : '🔊', muted ? 'Unmute' : 'Mute', 'btn-mute', onToggle);
-  btn.style.position = 'absolute';
-  btn.style.top = '8px';
-  btn.style.left = '8px';
+  const btn = createButton(
+    muted ? '🔇' : '🔊',
+    muted ? 'Unmute' : 'Mute',
+    'btn btn-mute',
+    onToggle,
+  );
 
   container.appendChild(btn);
   return btn;
