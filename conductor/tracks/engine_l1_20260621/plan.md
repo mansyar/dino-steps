@@ -237,34 +237,34 @@
 
 ## Phase 6: Audio System
 
-- [ ] Task: Read `spec.md` and `workflow.md` before starting this phase
+- [x] Task: Read `spec.md` and `workflow.md` before starting this phase
 
-- [ ] Task: Initialize Web Audio API context
-    - [ ] Create `src/audio/context.ts`: lazy-init `AudioContext` on first user interaction (tap), not page load (mobile autoplay policy)
-    - [ ] Create `src/audio/synth.ts`: base helper to create oscillator + gain envelope
-    - [ ] Verify AudioContext initializes on first tap in browser
+- [x] Task: Initialize Web Audio API context
+    - [x] Create `src/audio/context.ts`: lazy-init `AudioContext` on first user interaction (tap), not page load (mobile autoplay policy)
+    - [x] Create `src/audio/synth.ts`: base helper to create oscillator + gain envelope
+    - [x] Verify AudioContext initializes on first tap in browser
 
-- [ ] Task: Implement stomp sound
-    - [ ] Create `src/audio/sfx.ts`: `playStomp()` — sine wave, frequency sweep 120Hz→20Hz over 0.15s, fast attack + exponential decay
-    - [ ] Verify stomp sound plays on Forward command in browser
+- [x] Task: Implement stomp sound
+    - [x] Create `src/audio/sfx.ts`: `playStomp()` — sine wave, frequency sweep 120Hz→20Hz over 0.15s, fast attack + exponential decay
+    - [x] Verify stomp sound plays on Forward command in browser
 
-- [ ] Task: Implement dizzy/bonk sound
-    - [ ] Implement `playBonk()` — triangle wave, frequency sweep 400Hz→800Hz vibrato over 0.3s
-    - [ ] Verify bonk sound plays on hard failure in browser
+- [x] Task: Implement dizzy/bonk sound
+    - [x] Implement `playBonk()` — triangle wave, frequency sweep 400Hz→800Hz vibrato over 0.3s
+    - [x] Verify bonk sound plays on hard failure in browser
 
-- [ ] Task: Implement success chime
-    - [ ] Implement `playSuccess()` — square wave (soft filtered), C5→E5→G5→C6 fast arpeggio
-    - [ ] Verify chime plays on Level 1 win in browser
+- [x] Task: Implement success chime
+    - [x] Implement `playSuccess()` — square wave (soft filtered), C5→E5→G5→C6 fast arpeggio
+    - [x] Verify chime plays on Level 1 win in browser
 
-- [ ] Task: Implement signature SFX per character
-    - [ ] Implement `playSignature(character)` — Rexy: low growl sweep; Trikey: snort + horn click; Sera: high chirp + wing woosh
-    - [ ] Verify signature plays on 🦕 action (clear/no-op) in browser
+- [x] Task: Implement signature SFX per character
+    - [x] Implement `playSignature(character)` — Rexy: low growl sweep; Trikey: snort + horn click; Sera: high chirp + wing woosh
+    - [x] Verify signature plays on 🦕 action (clear/no-op) in browser
 
-- [ ] Task: Implement mute support
-    - [ ] Check `persisted.muted` before playing any SFX; skip if muted
-    - [ ] Verify no audio plays when muted in browser
+- [x] Task: Implement mute support
+    - [x] Check `persisted.muted` before playing any SFX; skip if muted
+    - [x] Verify no audio plays when muted in browser
 
-- [ ] Task: Conductor - User Manual Verification 'Phase 6: Audio System' (Protocol in workflow.md)
+- [x] Task: Conductor - User Manual Verification 'Phase 6: Audio System' (Protocol in workflow.md)
 
 ---
 
