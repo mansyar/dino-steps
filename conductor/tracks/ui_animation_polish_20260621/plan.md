@@ -124,20 +124,25 @@ Goal: Add GDD-specified movement and action visual effects.
 
 Goal: Polish the pre-game screens with character art, metadata, and progression cues.
 
-- [ ] Task: Read spec.md and workflow.md for this phase.
-    - [ ] Review acceptance criteria and references in `spec.md`.
-    - [ ] Review the Phase Completion Verification and Checkpointing Protocol in `workflow.md`.
-- [ ] Task: Refactor `renderHomeScreen` to embed the actual SVG character images.
-    - [ ] Each card shows the chosen SVG with a slow idle bob.
-    - [ ] Add staggered fade/slide-up entrance animation.
-    - [ ] Add press feedback (scale 0.95 on active).
-- [ ] Task: Refactor `renderLevelSelect`.
-    - [ ] Add a top bar with a back/home button.
-    - [ ] Render level tiles showing number, title, and a tiny grid preview.
-    - [ ] Mark completed levels with a star/check.
-    - [ ] Visually group levels by track-budget band (6/8/10).
-- [ ] Task: Write failing tests for level-select helpers if any new pure functions are created.
-- [ ] Task: Run `pnpm test`, `pnpm lint`, `pnpm format`, `pnpm typecheck`.
+- [x] Task: Read spec.md and workflow.md for this phase.
+    - [x] Review acceptance criteria and references in `spec.md`.
+    - [x] Review the Phase Completion Verification and Checkpointing Protocol in `workflow.md`.
+- [x] Task: Refactor `renderHomeScreen` to embed the actual SVG character images.
+    - [x] Each card shows the chosen SVG with a slow idle bob.
+    - [x] Add staggered fade/slide-up entrance animation.
+    - [x] Add press feedback (scale 0.95 on active).
+- [x] Task: Refactor `renderLevelSelect`.
+    - [x] Add a top bar with a back/home button.
+    - [x] Render level tiles showing number, title, and a tiny grid preview.
+    - [x] Mark completed levels with a star/check.
+    - [x] Visually group levels by track-budget band (6/8/10).
+- [x] Task: Write failing tests for level-select helpers if any new pure functions are created.
+    - [x] No new pure functions created — only rendering function modifications.
+- [x] Task: Run `pnpm test`, `pnpm lint`, `pnpm format`, `pnpm typecheck`.
+    - [x] pnpm test: 133 tests pass across 12 test files.
+    - [x] pnpm lint: 0 warnings, 0 errors.
+    - [x] pnpm format: all files formatted.
+    - [x] pnpm typecheck: no errors.
 - [ ] Task: Conductor - User Manual Verification 'Home & Level Select Screens' (Protocol in workflow.md)
 
 ## Phase 6 — Integration & Quality Gates
