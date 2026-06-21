@@ -87,6 +87,33 @@ export function drawDino(
   ctx.closePath();
   ctx.fill();
 
+  // Character-specific features
+  if (character === "Trikey") {
+    // Spikes along the back
+    ctx.fillStyle = color;
+    for (let i = 0; i < 3; i++) {
+      const sx = -s * 0.15 + i * s * 0.12;
+      ctx.beginPath();
+      ctx.moveTo(sx, -s * 0.25);
+      ctx.lineTo(sx + s * 0.05, -s * 0.38);
+      ctx.lineTo(sx + s * 0.1, -s * 0.25);
+      ctx.closePath();
+      ctx.fill();
+    }
+  } else if (character === "Sera") {
+    // Frill around the head
+    ctx.fillStyle = color;
+    const frillCount = 5;
+    for (let i = 0; i < frillCount; i++) {
+      const angle = -Math.PI / 2 - Math.PI / 3 + (i / (frillCount - 1)) * (Math.PI * 2 / 3);
+      const fx = s * 0.3 + Math.cos(angle) * s * 0.2;
+      const fy = -s * 0.1 + Math.sin(angle) * s * 0.2;
+      ctx.beginPath();
+      ctx.arc(fx, fy, s * 0.06, 0, Math.PI * 2);
+      ctx.fill();
+    }
+  }
+
   ctx.restore();
 }
 
