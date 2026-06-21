@@ -48,8 +48,60 @@ export function drawGrid(level: LevelData): GridMetrics {
       ctx.strokeStyle = COLORS.border;
       ctx.lineWidth = 2;
       ctx.strokeRect(px, py, tileSize, tileSize);
+
+      // Draw food emoji on food tiles
+      if (tileType === "food") {
+        const fontSize = Math.floor(tileSize * 0.5);
+        ctx.font = `${fontSize}px serif`;
+        ctx.textAlign = "center";
+        ctx.textBaseline = "middle";
+        ctx.fillText("🍎", px + tileSize / 2, py + tileSize / 2);
+      }
+
+      // Draw rock emoji on obstacle tiles
+      if (tileType === "obstacle") {
+        const fontSize = Math.floor(tileSize * 0.5);
+        ctx.font = `${fontSize}px serif`;
+        ctx.textAlign = "center";
+        ctx.textBaseline = "middle";
+        ctx.fillText("🪨", px + tileSize / 2, py + tileSize / 2);
+      }
     }
   }
 
   return { offsetX, offsetY, tileSize };
+}
+
+/**
+ * Draw a food tile with wiggle animation (for hint feedback)
+ */
+export function drawFoodWiggle(
+  level: LevelData,
+  time: number,
+  reducedMotion?: boolean,
+): void {
+  const { ctx, width, height } = getCanvasContext();
+  const { offsetX, offsetY, tileSize } = computeGridMetrics(width, height);
+
+  const { x: fx, y: fy } = level.food;
+  const px = offsetX + fx * tileSize;
+  const py = offsetY + fy * tileSize;
+
+  // Wiggle: gentle oscillation (< 3Hz for accessibility)
+  const freq = reducedMotion ? 1.5 : 2.5;
+  const amplitude = reducedMotion ? 1 : 2;
+  const wiggleX = Math.sin(time * freq * Math.PI * 2) * amplitude;
+  const wiggleY = Math.cos(time * freq * Math.PI * 2 * 0.7) * amplitude * 0.5;
+
+  ctx.save();
+  ctx.translate(wiggleX, wiggleY);
+
+  // Draw food emoji 🍎
+  const fontSize = Math.floor(tileSize * 0.5);
+  ctx.font = `${fontSize}px serif`;
+  ctx.textAlign = "center";
+  ctx.textBaseline = "middle";
+  ctx.fillText("🍎", px + tileSize / 2, py + tileSize / 2);
+
+  ctx.restore();
 }

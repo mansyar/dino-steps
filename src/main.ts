@@ -3,8 +3,8 @@
 
 import { initCanvas } from "./render/canvas";
 import { startLoop } from "./render/loop";
-import { drawGrid } from "./render/grid";
-import { drawDino, createDinoAnimState } from "./render/dino";
+import { drawGrid, drawFoodWiggle } from "./render/grid";
+import { drawDino, drawDizzyRings, drawBump, createDinoAnimState } from "./render/dino";
 import { preloadCharacters } from "./render/characters";
 import {
   createMovementState,
@@ -13,6 +13,7 @@ import {
   startWalk,
   startTurn,
 } from "./render/movement";
+import { createConfettiState, burstConfetti, burstConfettiReduced, updateConfetti } from "./render/confetti";
 import { parseLevels } from "./engine/levelData";
 import { createInitialState, addCommand, removeCommand, resetToStart } from "./engine/state";
 import { processNextCommand, applyCommand, hardFail, checkTerminalState } from "./engine/executor";
@@ -29,7 +30,7 @@ import {
   renderLevelSelect,
   renderCharacterCarousel,
 } from "./input/tap";
-import type { DinoCharacter, GameState, Command } from "./engine/types";
+import type { DinoCharacter, GameState, Command, Facing } from "./engine/types";
 
 // Level data
 const levelsData = [
@@ -51,6 +52,9 @@ const levelsData = [
 
 const levels = parseLevels(levelsData);
 
+// Accessibility: check prefers-reduced-motion
+const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
 // App state
 const persisted = loadPersisted();
 let gameState: GameState | null = null;
@@ -62,6 +66,22 @@ let showingLevelSelect = false;
 // Win state
 let winTimer = 0;
 let showWin = false;
+let backflipProgress = 0;
+
+// Failure animation state
+let failTimer = 0;
+let showFail = false;
+let failFacing: Facing = "E";
+let failBumpProgress = 0;
+let failDizzyProgress = 0;
+
+// Hint animation state
+let showHint = false;
+let hintTimer = 0;
+let hintTime = 0;
+
+// Confetti
+const confetti = createConfettiState();
 
 // UI containers
 let uiContainer: HTMLDivElement;
@@ -191,6 +211,11 @@ function handleGo(): void {
   // Resume audio context if it exists (mobile autoplay policy)
   resumeAudioContext();
 
+  // Clear any previous animations
+  showFail = false;
+  showHint = false;
+  hintTimer = 0;
+
   // Set activeCommandIndex to 0 to start execution
   gameState = {
     ...gameState,
@@ -214,9 +239,20 @@ function processNextExecCommand(): void {
     case "win": {
       gameState = { ...gameState, isExecuting: false };
       if (!currentMuted) playSuccess();
-      // Show win overlay
+
+      // Start win animation
       showWin = true;
-      winTimer = 1.5; // 1.5 seconds of celebration
+      winTimer = 2.0; // 2 seconds of celebration
+      backflipProgress = 0;
+
+      // Burst confetti
+      if (prefersReducedMotion) {
+        burstConfettiReduced(confetti, 300, 300);
+      } else {
+        burstConfetti(confetti, 300, 300);
+      }
+
+      // Show win overlay
       winEl = document.createElement("div");
       winEl.style.position = "fixed";
       winEl.style.inset = "0";
@@ -234,9 +270,19 @@ function processNextExecCommand(): void {
       break;
     }
     case "hardFail": {
+      // Save facing before reset for bump animation
+      failFacing = gameState.dinoFacing;
+
       gameState = hardFail(gameState, level);
       if (!currentMuted) playBonk();
-      // Sync movement to reset position
+
+      // Start failure animation
+      showFail = true;
+      failTimer = 1.2;
+      failBumpProgress = 0;
+      failDizzyProgress = 0;
+
+      // Sync movement to reset position (teleport will happen via animation)
       movement.fromX = level.start.x;
       movement.fromY = level.start.y;
       movement.toX = level.start.x;
@@ -256,7 +302,10 @@ function processNextExecCommand(): void {
       if (gameState.activeCommandIndex >= gameState.commandQueue.length) {
         const terminal = checkTerminalState(gameState, level);
         if (terminal.type === "hint") {
-          // On food without action — hint, reset
+          // On food without action — show hint
+          showHint = true;
+          hintTimer = 2.0;
+          hintTime = 0;
           gameState = resetToStart(gameState, level);
         }
         gameState = { ...gameState, isExecuting: false };
@@ -285,6 +334,10 @@ function processNextExecCommand(): void {
       if (gameState.activeCommandIndex >= gameState.commandQueue.length) {
         const terminal = checkTerminalState(gameState, level);
         if (terminal.type === "hint") {
+          // On food without action — show hint
+          showHint = true;
+          hintTimer = 2.0;
+          hintTime = 0;
           gameState = resetToStart(gameState, level);
           movement.fromX = level.start.x;
           movement.fromY = level.start.y;
@@ -342,6 +395,13 @@ function enterGame(levelIndex: number): void {
   gameState = createInitialState(level, persisted.chosenCharacter);
   showingHome = false;
   showingLevelSelect = false;
+
+  // Reset animation states
+  showWin = false;
+  showFail = false;
+  showHint = false;
+  hintTimer = 0;
+
   clearUI();
   refreshGameUI();
 }
@@ -394,8 +454,14 @@ async function init(): Promise<void> {
       // Win timer — advance after celebration
       if (showWin) {
         winTimer -= dt;
+        backflipProgress = Math.min(backflipProgress + dt * 1.5, 1); // backflip over ~0.67s
+
+        // Update confetti
+        updateConfetti(confetti, dt);
+
         if (winTimer <= 0) {
           showWin = false;
+          backflipProgress = 0;
           if (winEl) {
             winEl.remove();
             winEl = null;
@@ -411,6 +477,31 @@ async function init(): Promise<void> {
         }
       }
 
+      // Failure animation timer
+      if (showFail) {
+        failTimer -= dt;
+        failBumpProgress = Math.min(failBumpProgress + dt * 4, 1); // bump over 0.25s
+        failDizzyProgress += dt;
+
+        if (failTimer <= 0) {
+          showFail = false;
+          failBumpProgress = 0;
+          failDizzyProgress = 0;
+        }
+      }
+
+      // Hint animation timer
+      if (showHint) {
+        hintTimer -= dt;
+        hintTime += dt;
+
+        if (hintTimer <= 0) {
+          showHint = false;
+          hintTimer = 0;
+          hintTime = 0;
+        }
+      }
+
       // Step-by-step execution: process next command when animation is idle
       if (gameState.isExecuting && isIdle(movement)) {
         processNextExecCommand();
@@ -419,15 +510,49 @@ async function init(): Promise<void> {
       // Update movement interpolation
       const pos = updateMovement(movement, dt);
 
+      // Calculate dino position (with bump offset during failure)
+      let dinoX = gridMetrics.offsetX + gridMetrics.tileSize * pos.x;
+      let dinoY = gridMetrics.offsetY + gridMetrics.tileSize * pos.y;
+
+      if (showFail && failBumpProgress < 1) {
+        const bumpOffset = drawBump(0, 0, gridMetrics.tileSize, failBumpProgress, failFacing);
+        dinoX += bumpOffset.x;
+        dinoY += bumpOffset.y;
+      }
+
+      // Draw dino with appropriate animation
+      const animType = isIdle(movement)
+        ? showWin
+          ? "celebrating"
+          : "idle"
+        : movement.animState;
+
       drawDino(
-        gridMetrics.offsetX + gridMetrics.tileSize * pos.x,
-        gridMetrics.offsetY + gridMetrics.tileSize * pos.y,
+        dinoX,
+        dinoY,
         gridMetrics.tileSize,
         gameState.character,
         gameState.dinoFacing,
         dinoAnim,
-        isIdle(movement) ? "idle" : movement.animState,
+        animType,
+        showWin ? backflipProgress : undefined,
       );
+
+      // Draw dizzy rings during failure
+      if (showFail && failTimer > 0.3) {
+        drawDizzyRings(
+          dinoX,
+          dinoY,
+          gridMetrics.tileSize,
+          failDizzyProgress,
+          prefersReducedMotion,
+        );
+      }
+
+      // Draw food wiggle during hint
+      if (showHint) {
+        drawFoodWiggle(level, hintTime, prefersReducedMotion);
+      }
     } else if (showingHome || showingLevelSelect) {
       // Draw idle dino on level 1 grid behind home screen
       const gridMetrics = drawGrid(levels[0]);

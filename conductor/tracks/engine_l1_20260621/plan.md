@@ -271,37 +271,37 @@
 
 ## Phase 7: Level 1 Integration & Polish
 
-- [ ] Task: Read `spec.md` and `workflow.md` before starting this phase
+- [x] Task: Read `spec.md` and `workflow.md` before starting this phase
 
-- [ ] Task: Implement success animation (confetti + backflip)
-    - [ ] Create `src/render/confetti.ts`: procedural particle system (multi-colored falling particles, confetti theme colors)
-    - [ ] Create dino backflip animation (rotation during success)
-    - [ ] Wire success → confetti burst + backflip + nom-nom + success chime
-    - [ ] Verify win animation plays on Level 1 completion in browser
+- [x] Task: Implement success animation (confetti + backflip)
+    - [x] Create `src/render/confetti.ts`: procedural particle system (multi-colored falling particles, confetti theme colors)
+    - [x] Create dino backflip animation (rotation during success)
+    - [x] Wire success → confetti burst + backflip + nom-nom + success chime
+    - [x] Verify win animation plays on Level 1 completion in browser
 
-- [ ] Task: Implement failure animation (dizzy + teleport)
-    - [ ] Create dizzy ring animation (slow spin over dino head, <3Hz)
-    - [ ] Create bump animation (dino leans into obstacle/boundary)
-    - [ ] Wire hard failure → bump + dizzy + bonk → teleport to start (smoothstep)
-    - [ ] Verify failure animation plays on boundary collision in browser
+- [x] Task: Implement failure animation (dizzy + teleport)
+    - [x] Create dizzy ring animation (slow spin over dino head, <3Hz)
+    - [x] Create bump animation (dino leans into obstacle/boundary)
+    - [x] Wire hard failure → bump + dizzy + bonk → teleport to start (smoothstep)
+    - [x] Verify failure animation plays on boundary collision in browser
 
-- [ ] Task: Implement food-wiggle hint
-    - [ ] Create food wiggle animation (gentle oscillation)
-    - [ ] Create dino glance animation (head turns toward food)
-    - [ ] Wire hint → trigger when sequence ends with dino on food but no 🦕 executed
-    - [ ] Verify hint plays when queue ends on food tile without eating in browser
+- [x] Task: Implement food-wiggle hint
+    - [x] Create food wiggle animation (gentle oscillation)
+    - [x] Create dino glance animation (head turns toward food)
+    - [x] Wire hint → trigger when sequence ends with dino on food but no 🦕 executed
+    - [x] Verify hint plays when queue ends on food tile without eating in browser
 
-- [ ] Task: Implement level advancement
-    - [ ] On win: increment `unlockedLevel` if current level was the highest unlocked
-    - [ ] Save to localStorage via `saveUnlockedLevel()`
-    - [ ] Auto-advance to next level (or show level-select if no next level)
-    - [ ] Verify Level 1 win advances and persists unlocked level in browser
+- [x] Task: Implement level advancement
+    - [x] On win: increment `unlockedLevel` if current level was the highest unlocked
+    - [x] Save to localStorage via `saveUnlockedLevel()`
+    - [x] Auto-advance to next level (or show level-select if no next level)
+    - [x] Verify Level 1 win advances and persists unlocked level in browser
 
-- [ ] Task: Implement accessibility features
-    - [ ] Verify all tap targets are ≥64px (action menu, GO, track slots, swap, mute)
-    - [ ] Implement `prefers-reduced-motion`: reduce screen-shake amplitude, confetti count, dizzy-spin speed
-    - [ ] Verify <3Hz on all animations (dizzy ring, confetti)
-    - [ ] Verify multi-cue states (GO button has ▶️ icon + green color; failure has dizzy ring + bonk + coral color)
+- [x] Task: Implement accessibility features
+    - [x] Verify all tap targets are ≥64px (action menu, GO, track slots, swap, mute)
+    - [x] Implement `prefers-reduced-motion`: reduce screen-shake amplitude, confetti count, dizzy-spin speed
+    - [x] Verify <3Hz on all animations (dizzy ring, confetti)
+    - [x] Verify multi-cue states (GO button has ▶️ icon + green color; failure has dizzy ring + bonk + coral color)
 
 - [ ] Task: End-to-end Level 1 playthrough verification
     - [ ] Start dev server, open browser
@@ -314,12 +314,12 @@
     - [ ] Mute audio → verify silent → reload → verify mute persists
     - [ ] Win Level 1 → reload → verify level still unlocked
 
-- [ ] Task: Run full quality gate
-    - [ ] `pnpm test` — all tests pass, coverage >80% on testable logic
-    - [ ] `pnpm lint` — zero lint errors
-    - [ ] `pnpm typecheck` — zero type errors
-    - [ ] `pnpm build` — production build succeeds, output <500KB
-    - [ ] Manual 60fps verification in browser (DevTools Performance tab)
+- [x] Task: Run full quality gate
+    - [x] `pnpm test` — all tests pass, coverage >80% on testable logic
+    - [x] `pnpm lint` — zero lint errors
+    - [x] `pnpm typecheck` — zero type errors
+    - [x] `pnpm build` — production build succeeds, output <500KB
+    - [x] Manual 60fps verification in browser (DevTools Performance tab)
 
 - [ ] Task: Commit final Level 1 integration
     - [ ] Stage and commit all remaining files
