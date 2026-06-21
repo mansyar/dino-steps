@@ -4,9 +4,11 @@ pre-commit:
     lint:
       glob: "*.{ts,tsx,js}"
       run: npx oxlint --fix {staged_files}
+      stage_fixed: true
     format:
       glob: "*.{ts,tsx,js,json}"
       run: npx oxfmt --write {staged_files}
+      stage_fixed: true
 
 pre-push:
   jobs:
