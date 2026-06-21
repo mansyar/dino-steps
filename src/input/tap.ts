@@ -20,10 +20,15 @@ export const COMMAND_LABELS: Record<Command, string> = {
 };
 
 // Shared character definitions (single source of truth)
-export const CHARACTERS: { name: DinoCharacter; color: string; emoji: string }[] = [
-  { name: 'Rexy', color: '#4caf50', emoji: '🦖' },
-  { name: 'Trikey', color: '#42a5f5', emoji: '🦕' },
-  { name: 'Sera', color: '#ef5350', emoji: '🦕' },
+export const CHARACTERS: {
+  name: DinoCharacter;
+  color: string;
+  emoji: string;
+  svg: string;
+}[] = [
+  { name: 'Rexy', color: '#4caf50', emoji: '🦖', svg: '/characters/rexy.svg' },
+  { name: 'Trikey', color: '#42a5f5', emoji: '🦕', svg: '/characters/trikey.svg' },
+  { name: 'Sera', color: '#ef5350', emoji: '🦕', svg: '/characters/sera.svg' },
 ];
 
 export interface TapHandler {
@@ -278,15 +283,19 @@ export function renderHomeScreen(
   const cards = document.createElement('div');
   cards.className = 'home-screen__cards';
 
-  for (const ch of chars) {
+  for (let i = 0; i < chars.length; i++) {
+    const ch = chars[i];
     const card = document.createElement('button');
-    card.className = 'char-card';
+    card.className = 'char-card char-card--enter';
     card.style.borderColor = ch.color;
+    card.style.animationDelay = `${i * 100}ms`;
 
-    const emoji = document.createElement('span');
-    emoji.textContent = ch.emoji;
-    emoji.className = 'char-card__emoji';
-    card.appendChild(emoji);
+    // SVG character image with idle bob
+    const img = document.createElement('img');
+    img.src = ch.svg;
+    img.alt = ch.name;
+    img.className = 'char-card__img';
+    card.appendChild(img);
 
     const name = document.createElement('span');
     name.textContent = ch.name;
@@ -311,7 +320,7 @@ export function renderHomeScreen(
 export function renderLevelSelect(
   container: HTMLElement,
   unlockedLevel: number,
-  totalLevels: number,
+  levels: { id: number; title: string; grid: string[][]; trackBudget: number }[],
   onSelect: (levelId: number) => void,
 ): HTMLElement {
   const screen = document.createElement('div');
@@ -322,26 +331,93 @@ export function renderLevelSelect(
   title.className = 'level-select-screen__title';
   screen.appendChild(title);
 
+  // Group levels by track-budget band
+  const bands = new Map<number, typeof levels>();
+  for (const level of levels) {
+    const band = level.trackBudget;
+    if (!bands.has(band)) bands.set(band, []);
+    bands.get(band)!.push(level);
+  }
+
   const grid = document.createElement('div');
   grid.className = 'level-select__grid';
 
-  for (let i = 1; i <= totalLevels; i++) {
-    const tile = document.createElement('button');
-    tile.textContent = String(i);
-    tile.className = 'level-tile';
+  // Sort bands by budget (6 → 8 → 10)
+  const sortedBands = [...bands.entries()].sort(([a], [b]) => a - b);
 
-    if (i <= unlockedLevel) {
-      tile.classList.add('level-tile--unlocked');
-      tile.addEventListener('pointerdown', (e) => {
-        e.preventDefault();
-        onSelect(i);
-      });
-    } else {
-      tile.classList.add('level-tile--locked');
-      tile.disabled = true;
+  for (const [budget, bandLevels] of sortedBands) {
+    // Band header
+    const bandHeader = document.createElement('div');
+    bandHeader.className = 'level-band__header';
+    bandHeader.textContent = `${budget} Steps`;
+    grid.appendChild(bandHeader);
+
+    for (const level of bandLevels) {
+      const tile = document.createElement('button');
+      tile.className = 'level-tile';
+      tile.style.animationDelay = `${(level.id - 1) * 60}ms`;
+
+      const isCompleted = level.id < unlockedLevel;
+      const isCurrent = level.id === unlockedLevel;
+      const isLocked = level.id > unlockedLevel;
+
+      if (isLocked) {
+        tile.classList.add('level-tile--locked');
+        tile.disabled = true;
+      } else {
+        tile.classList.add('level-tile--unlocked');
+        tile.addEventListener('pointerdown', (e) => {
+          e.preventDefault();
+          onSelect(level.id);
+        });
+      }
+
+      if (isCompleted) {
+        tile.classList.add('level-tile--completed');
+      }
+      if (isCurrent) {
+        tile.classList.add('level-tile--current');
+      }
+
+      // Level number
+      const num = document.createElement('span');
+      num.className = 'level-tile__num';
+      num.textContent = String(level.id);
+      tile.appendChild(num);
+
+      // Title
+      const tileTitle = document.createElement('span');
+      tileTitle.className = 'level-tile__title';
+      tileTitle.textContent = level.title;
+      tile.appendChild(tileTitle);
+
+      // Mini grid preview
+      const preview = document.createElement('div');
+      preview.className = 'level-tile__preview';
+      for (let r = 0; r < level.grid.length; r++) {
+        for (let c = 0; c < level.grid[r].length; c++) {
+          const cell = document.createElement('div');
+          cell.className = 'level-tile__cell';
+          const tileType = level.grid[r][c];
+          if (tileType === 'food') cell.classList.add('level-tile__cell--food');
+          else if (tileType === 'obstacle') cell.classList.add('level-tile__cell--obstacle');
+          else if (tileType === 'interactable')
+            cell.classList.add('level-tile__cell--interactable');
+          preview.appendChild(cell);
+        }
+      }
+      tile.appendChild(preview);
+
+      // Completed star
+      if (isCompleted) {
+        const star = document.createElement('span');
+        star.className = 'level-tile__star';
+        star.textContent = '⭐';
+        tile.appendChild(star);
+      }
+
+      grid.appendChild(tile);
     }
-
-    grid.appendChild(tile);
   }
 
   screen.appendChild(grid);
@@ -371,12 +447,23 @@ export function renderCharacterCarousel(
 
   for (const ch of chars) {
     const btn = document.createElement('button');
-    btn.textContent = `${ch.emoji} ${ch.name}`;
     btn.className = 'character-carousel__btn';
     btn.style.borderColor = ch.name === current ? ch.color : '#ddd';
     if (ch.name === current) {
       btn.style.backgroundColor = `${ch.color}22`;
     }
+
+    // SVG character image
+    const img = document.createElement('img');
+    img.src = ch.svg;
+    img.alt = ch.name;
+    img.className = 'character-carousel__img';
+    btn.appendChild(img);
+
+    const label = document.createElement('span');
+    label.textContent = ch.name;
+    label.style.color = ch.color;
+    btn.appendChild(label);
 
     btn.addEventListener('pointerdown', (e) => {
       e.preventDefault();

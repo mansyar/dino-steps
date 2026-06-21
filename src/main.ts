@@ -497,7 +497,7 @@ function showHome(): void {
 
 function showLevelSelect(): void {
   const persisted = loadPersisted();
-  levelSelectEl = renderLevelSelect(uiContainer, persisted.unlockedLevel, levels.length, (id) => {
+  levelSelectEl = renderLevelSelect(uiContainer, persisted.unlockedLevel, levels, (id) => {
     enterGame(id - 1);
   });
 }
