@@ -145,7 +145,7 @@ Goal: Polish the pre-game screens with character art, metadata, and progression 
     - [x] pnpm typecheck: no errors.
 - [ ] Task: Conductor - User Manual Verification 'Home & Level Select Screens' (Protocol in workflow.md)
 
-## Phase 6 — Integration & Quality Gates
+## Phase 6 — Integration & Quality Gates [checkpoint: 0e7adcb]
 
 Goal: Verify the whole track meets acceptance criteria and project quality gates.
 
@@ -163,6 +163,6 @@ Goal: Verify the whole track meets acceptance criteria and project quality gates
     - [x] `pnpm typecheck` — no errors
     - [x] `pnpm test` — 133 tests pass across 12 files
 - [x] Task: Verify production bundle size stays under 500 KB. (38 KB total, 12 KB gzip)
-- [ ] Task: Update `plan.md` task statuses and record checkpoint SHA.
-- [ ] Task: Conductor - User Manual Verification 'Integration & Quality Gates' (Protocol in workflow.md)
+- [x] Task: Update `plan.md` task statuses and record checkpoint SHA.
+- [x] Task: Conductor - User Manual Verification 'Integration & Quality Gates' (Protocol in workflow.md)
 </protect>
