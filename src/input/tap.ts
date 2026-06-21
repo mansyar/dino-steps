@@ -51,6 +51,7 @@ function createButton(
   btn.style.display = "flex";
   btn.style.alignItems = "center";
   btn.style.justifyContent = "center";
+  btn.style.pointerEvents = "auto";
 
   btn.addEventListener("pointerdown", (e) => {
     e.preventDefault();
@@ -74,6 +75,7 @@ export function renderActionMenu(
   menu.style.gap = "8px";
   menu.style.justifyContent = "center";
   menu.style.padding = "8px";
+  menu.style.pointerEvents = "auto";
 
   const commands: Command[] = ["F", "L", "R", "A"];
   for (const cmd of commands) {
@@ -107,6 +109,7 @@ export function renderTrack(
   track.style.gap = "4px";
   track.style.justifyContent = "center";
   track.style.padding = "8px";
+  track.style.pointerEvents = "auto";
 
   for (let i = 0; i < budget; i++) {
     const slot = document.createElement("div");
@@ -188,6 +191,7 @@ export function renderSwapButton(
   btn.style.minWidth = "48px";
   btn.style.minHeight = "48px";
   btn.style.fontSize = "20px";
+  btn.style.pointerEvents = "auto";
 
   if (!enabled) {
     btn.disabled = true;
@@ -239,6 +243,7 @@ export function renderHomeScreen(
   home.style.justifyContent = "center";
   home.style.background = "#fff";
   home.style.zIndex = "100";
+  home.style.pointerEvents = "auto";
 
   const title = document.createElement("h1");
   title.textContent = "DinoSteps";
@@ -324,6 +329,7 @@ export function renderLevelSelect(
   screen.style.justifyContent = "center";
   screen.style.background = "#fff";
   screen.style.zIndex = "100";
+  screen.style.pointerEvents = "auto";
 
   const title = document.createElement("h2");
   title.textContent = "Select Level";
@@ -389,6 +395,7 @@ export function renderCharacterCarousel(
   overlay.style.justifyContent = "center";
   overlay.style.background = "rgba(0,0,0,0.5)";
   overlay.style.zIndex = "200";
+  overlay.style.pointerEvents = "auto";
 
   const panel = document.createElement("div");
   panel.style.background = "white";

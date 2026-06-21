@@ -14,47 +14,61 @@ import type { GameState, LevelData } from "../src/engine/types";
 console.log("IMPORTS DONE");
 
 const level1: LevelData = {
-  id: 1, title: "Hungry Steps",
+  id: 1,
+  title: "Hungry Steps",
   grid: [
     ["empty", "empty", "empty", "empty", "empty"],
     ["empty", "empty", "empty", "food", "empty"],
     ["empty", "empty", "empty", "empty", "empty"],
   ],
-  start: { x: 0, y: 1 }, startFacing: "E",
-  food: { x: 3, y: 1 }, trackBudget: 6,
+  start: { x: 0, y: 1 },
+  startFacing: "E",
+  food: { x: 3, y: 1 },
+  trackBudget: 6,
   verifiedSolution: ["F", "F", "F", "A"],
 };
 
 const levelObstacle: LevelData = {
-  id: 2, title: "Rocky Path",
+  id: 2,
+  title: "Rocky Path",
   grid: [
     ["empty", "empty", "empty", "empty", "empty"],
     ["empty", "empty", "obstacle", "food", "empty"],
     ["empty", "empty", "empty", "empty", "empty"],
   ],
-  start: { x: 0, y: 1 }, startFacing: "E",
-  food: { x: 3, y: 1 }, trackBudget: 8,
+  start: { x: 0, y: 1 },
+  startFacing: "E",
+  food: { x: 3, y: 1 },
+  trackBudget: 8,
   verifiedSolution: ["F", "F", "L", "F", "R", "F", "A"],
 };
 
 const levelInteractable: LevelData = {
-  id: 3, title: "Turtle Bridge",
+  id: 3,
+  title: "Turtle Bridge",
   grid: [
     ["empty", "empty", "empty", "empty", "empty"],
     ["empty", "interactable", "empty", "food", "empty"],
     ["empty", "empty", "empty", "empty", "empty"],
   ],
-  start: { x: 0, y: 1 }, startFacing: "E",
-  food: { x: 3, y: 1 }, trackBudget: 8,
+  start: { x: 0, y: 1 },
+  startFacing: "E",
+  food: { x: 3, y: 1 },
+  trackBudget: 8,
   verifiedSolution: ["A", "F", "F", "F", "A"],
 };
 
 function gs(overrides: Partial<GameState> = {}): GameState {
   return {
-    levelId: 1, character: "Rexy",
-    dinoPos: { x: 0, y: 1 }, dinoFacing: "E",
-    commandQueue: [], activeCommandIndex: -1,
-    trackBudget: 6, clearedInteractables: [], isExecuting: false,
+    levelId: 1,
+    character: "Rexy",
+    dinoPos: { x: 0, y: 1 },
+    dinoFacing: "E",
+    commandQueue: [],
+    activeCommandIndex: -1,
+    trackBudget: 6,
+    clearedInteractables: [],
+    isExecuting: false,
     ...overrides,
   };
 }
@@ -134,7 +148,8 @@ describe("Action", () => {
     const s = gs({
       dinoPos: { x: 1, y: 1 },
       clearedInteractables: [{ x: 1, y: 1 }],
-      commandQueue: ["A"], activeCommandIndex: 0,
+      commandQueue: ["A"],
+      activeCommandIndex: 0,
     });
     expect(processNextCommand(s, levelInteractable)).toEqual({ type: "continue" });
     expect(applyAction(s, levelInteractable).clearedInteractables).toEqual([{ x: 1, y: 1 }]);
@@ -149,8 +164,10 @@ describe("Action", () => {
 describe("hardFail", () => {
   it("resets to start", () => {
     const s = gs({
-      dinoPos: { x: 3, y: 2 }, dinoFacing: "W",
-      commandQueue: ["F"], activeCommandIndex: 0,
+      dinoPos: { x: 3, y: 2 },
+      dinoFacing: "W",
+      commandQueue: ["F"],
+      activeCommandIndex: 0,
       clearedInteractables: [{ x: 1, y: 1 }],
     });
     const ns = hardFail(s, level1);

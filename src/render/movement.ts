@@ -16,10 +16,7 @@ export interface MovementState {
 
 const WALK_DURATION = 0.2; // 200ms per step
 
-export function createMovementState(
-  startX: number,
-  startY: number,
-): MovementState {
+export function createMovementState(startX: number, startY: number): MovementState {
   return {
     fromX: startX,
     fromY: startY,
@@ -31,11 +28,7 @@ export function createMovementState(
   };
 }
 
-export function startWalk(
-  state: MovementState,
-  toX: number,
-  toY: number,
-): void {
+export function startWalk(state: MovementState, toX: number, toY: number): void {
   state.fromX = state.toX;
   state.fromY = state.toY;
   state.toX = toX;
@@ -51,10 +44,7 @@ export function startTurn(state: MovementState): void {
   state.animState = "turning";
 }
 
-export function updateMovement(
-  state: MovementState,
-  dt: number,
-): { x: number; y: number } {
+export function updateMovement(state: MovementState, dt: number): { x: number; y: number } {
   if (state.animState === "idle") {
     return { x: state.toX, y: state.toY };
   }
@@ -63,6 +53,9 @@ export function updateMovement(
   const t = smoothstep(state.elapsed / state.duration);
 
   if (state.animState === "walking") {
+    if (state.elapsed >= state.duration) {
+      state.animState = "idle";
+    }
     return {
       x: lerp(state.fromX, state.toX, t),
       y: lerp(state.fromY, state.toY, t),

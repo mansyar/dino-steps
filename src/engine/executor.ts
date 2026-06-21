@@ -12,10 +12,7 @@ export type CommandResult =
   | { type: "softResist" };
 
 // Terminal state result
-export type TerminalResult =
-  | { type: "win" }
-  | { type: "idle" }
-  | { type: "hint" };
+export type TerminalResult = { type: "win" } | { type: "idle" } | { type: "hint" };
 
 // Grid dimensions
 const GRID_WIDTH = 5;
@@ -90,7 +87,14 @@ export function forwardCommand(state: GameState, level: LevelData): CommandResul
   }
 
   // Check uncleared interactable at CURRENT position (exiting)
-  if (isUnclearedInteractable(level.grid, state.clearedInteractables, state.dinoPos.x, state.dinoPos.y)) {
+  if (
+    isUnclearedInteractable(
+      level.grid,
+      state.clearedInteractables,
+      state.dinoPos.x,
+      state.dinoPos.y,
+    )
+  ) {
     return { type: "softResist" };
   }
 
@@ -273,7 +277,10 @@ export function executeQueue(
 ): { state: GameState; result: TerminalResult } {
   let current = setExecuting(state, true);
 
-  while (current.activeCommandIndex >= 0 && current.activeCommandIndex < current.commandQueue.length) {
+  while (
+    current.activeCommandIndex >= 0 &&
+    current.activeCommandIndex < current.commandQueue.length
+  ) {
     const result = processNextCommand(current, level);
 
     switch (result.type) {

@@ -20,10 +20,7 @@ export interface GridMetrics {
   tileSize: number;
 }
 
-export function computeGridMetrics(
-  canvasWidth: number,
-  canvasHeight: number,
-): GridMetrics {
+export function computeGridMetrics(canvasWidth: number, canvasHeight: number): GridMetrics {
   const maxTileW = (canvasWidth - 40) / GRID_WIDTH;
   const maxTileH = (canvasHeight - 40) / GRID_HEIGHT;
   const tileSize = Math.floor(Math.min(maxTileW, maxTileH, 120));
