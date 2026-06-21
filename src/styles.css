@@ -1,0 +1,446 @@
+/* ============================================
+   Dino Steps — Global Stylesheet
+   GDD §10.2 Palette & Design Tokens
+   ============================================ */
+
+:root {
+  /* --- GDD Palette --- */
+  --color-primary: #0b57d0; /* Interface Trim */
+  --color-secondary: #c4eed0; /* Grid Tiles */
+  --color-background: #f3f8f6; /* Jungle Terrain */
+  --color-button: #e2ece9; /* Command Buttons Normal */
+  --color-go: #34a853; /* Play Sequence (Go Button) */
+  --color-dizzy: #ff8a80; /* Failure FX */
+
+  /* --- Confetti Accents --- */
+  --color-confetti-1: #f4b400;
+  --color-confetti-2: #db4437;
+  --color-confetti-3: #4285f4;
+  --color-confetti-4: #0f9d58;
+
+  /* --- Character Colors --- */
+  --color-rexy: #4caf50;
+  --color-trikey: #42a5f5;
+  --color-sera: #ef5350;
+
+  /* --- Layout Constants --- */
+  --tap-target-min: 64px; /* Minimum tap target size */
+  --track-slot-size: 48px;
+  --border-radius: 12px;
+  --border-radius-sm: 8px;
+  --gap-sm: 8px;
+  --gap-md: 16px;
+  --gap-lg: 24px;
+
+  /* --- Typography --- */
+  --font-family: "Segoe UI", system-ui, -apple-system, sans-serif;
+  --font-size-sm: 12px;
+  --font-size-base: 16px;
+  --font-size-lg: 20px;
+  --font-size-xl: 24px;
+  --font-weight-normal: 400;
+  --font-weight-semibold: 600;
+
+  /* --- Transitions --- */
+  --transition-fast: 150ms ease;
+  --transition-normal: 250ms ease;
+}
+
+/* --- Global Reset --- */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html,
+body {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+body {
+  font-family: var(--font-family);
+  font-size: var(--font-size-base);
+  background-color: var(--color-background);
+  color: #333;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* --- Accessibility: Reduced Motion --- */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* --- Shared UI Utility Classes --- */
+.ui-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+.ui-overlay > * {
+  pointer-events: auto;
+}
+
+/* --- Button Base --- */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: var(--tap-target-min);
+  min-height: var(--tap-target-min);
+  border: none;
+  border-radius: var(--border-radius);
+  cursor: pointer;
+  font-family: var(--font-family);
+  font-weight: var(--font-weight-semibold);
+  transition:
+    transform var(--transition-fast),
+    box-shadow var(--transition-fast);
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.btn:active {
+  transform: scale(0.95);
+}
+
+/* --- Go Button Variant --- */
+.btn-go {
+  background-color: var(--color-go);
+  color: #fff;
+}
+
+/* --- Swap Button Variant --- */
+.btn-swap {
+  background-color: var(--color-primary);
+  color: #fff;
+}
+
+/* --- Command Button Variant --- */
+.btn-command {
+  background-color: var(--color-button);
+  color: #333;
+}
+
+/* --- Mute Button Variant --- */
+.btn-mute {
+  background-color: transparent;
+  min-width: 48px;
+  min-height: 48px;
+  border-radius: 50%;
+}
+
+/* --- Hint Text --- */
+.hint-text {
+  position: absolute;
+  bottom: 80px;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: var(--color-primary);
+  color: #fff;
+  padding: 8px 16px;
+  border-radius: var(--border-radius-sm);
+  font-size: var(--font-size-sm);
+  white-space: nowrap;
+  pointer-events: none;
+  opacity: 0.9;
+}
+
+/* --- Win Overlay --- */
+.win-overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(243, 248, 246, 0.85);
+  pointer-events: auto;
+}
+
+.win-overlay h2 {
+  font-size: var(--font-size-xl);
+  color: var(--color-go);
+  margin-bottom: var(--gap-md);
+}
+
+.win-overlay .btn {
+  background-color: var(--color-primary);
+  color: #fff;
+}
+
+/* --- Action Menu --- */
+.action-menu {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--gap-sm);
+}
+
+/* --- Track --- */
+.track {
+  display: flex;
+  gap: var(--gap-sm);
+  align-items: center;
+}
+
+.track-slot {
+  width: var(--track-slot-size);
+  height: var(--track-slot-size);
+  border: 2px dashed var(--color-primary);
+  border-radius: var(--border-radius-sm);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(11, 87, 208, 0.05);
+}
+
+.track-slot--filled {
+  border-style: solid;
+  background-color: var(--color-secondary);
+}
+
+/* --- Disabled State --- */
+.btn--disabled,
+.btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+/* --- Home Screen --- */
+.home-screen {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--color-background);
+  z-index: 100;
+  pointer-events: auto;
+}
+
+.home-screen__title {
+  font-size: 36px;
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-primary);
+  margin-bottom: var(--gap-lg);
+}
+
+.home-screen__subtitle {
+  font-size: 18px;
+  color: #666;
+  margin-bottom: var(--gap-md);
+}
+
+.home-screen__cards {
+  display: flex;
+  gap: var(--gap-md);
+}
+
+.char-card {
+  width: 120px;
+  height: 140px;
+  border: 3px solid var(--color-primary);
+  border-radius: var(--border-radius);
+  background-color: #fff;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--gap-sm);
+  touch-action: manipulation;
+  transition: transform var(--transition-fast);
+}
+
+.char-card:active {
+  transform: scale(0.95);
+}
+
+.char-card__emoji {
+  font-size: 48px;
+}
+
+.char-card__name {
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-semibold);
+}
+
+/* --- Level Select Screen --- */
+.level-select-screen {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--color-background);
+  z-index: 100;
+  pointer-events: auto;
+}
+
+.level-select-screen__title {
+  font-size: var(--font-size-xl);
+  margin-bottom: var(--gap-md);
+  color: var(--color-primary);
+}
+
+.level-select__grid {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.level-tile {
+  width: var(--tap-target-min);
+  height: var(--tap-target-min);
+  border-radius: var(--border-radius);
+  font-size: var(--font-size-xl);
+  font-weight: var(--font-weight-semibold);
+  border: none;
+  touch-action: manipulation;
+  transition: transform var(--transition-fast);
+}
+
+.level-tile:active:not(:disabled) {
+  transform: scale(0.95);
+}
+
+.level-tile--unlocked {
+  background-color: var(--color-go);
+  color: #fff;
+  cursor: pointer;
+}
+
+.level-tile--locked {
+  background-color: #e0e0e0;
+  color: #999;
+  cursor: not-allowed;
+}
+
+/* --- Character Carousel --- */
+.character-carousel {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 200;
+  pointer-events: auto;
+}
+
+.character-carousel__panel {
+  background-color: #fff;
+  border-radius: var(--border-radius);
+  padding: var(--gap-lg);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--gap-md);
+}
+
+.character-carousel__title {
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-primary);
+}
+
+.character-carousel__btn {
+  width: 200px;
+  padding: 12px;
+  border: 3px solid #ddd;
+  border-radius: var(--border-radius);
+  background-color: #fff;
+  font-size: 18px;
+  cursor: pointer;
+  touch-action: manipulation;
+  transition: transform var(--transition-fast);
+}
+
+.character-carousel__btn:active {
+  transform: scale(0.95);
+}
+
+.character-carousel__btn--active {
+  background-color: rgba(11, 87, 208, 0.1);
+  border-color: var(--color-primary);
+}
+
+.character-carousel__close {
+  padding: 8px 24px;
+  border: 1px solid #ccc;
+  border-radius: var(--border-radius-sm);
+  background-color: #fff;
+  cursor: pointer;
+  transition: transform var(--transition-fast);
+}
+
+.character-carousel__close:active {
+  transform: scale(0.95);
+}
+
+/* --- Top Bar --- */
+.top-bar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--gap-sm);
+  z-index: 50;
+  pointer-events: auto;
+}
+
+.top-bar__left,
+.top-bar__center,
+.top-bar__right {
+  display: flex;
+  align-items: center;
+  gap: var(--gap-sm);
+}
+
+.top-bar__title {
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-primary);
+}
+
+/* --- Bottom Panel --- */
+.bottom-panel {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: var(--gap-sm);
+  gap: var(--gap-sm);
+  pointer-events: auto;
+}
+
+.bottom-panel--dimmed {
+  opacity: 0.5;
+  pointer-events: none;
+}
