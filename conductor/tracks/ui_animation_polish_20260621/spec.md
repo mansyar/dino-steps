@@ -1,3 +1,4 @@
+<protect>
 # Track: UI & Animation Polish
 
 ## Overview
@@ -152,3 +153,4 @@ Feature
 - `docs/GDD.md` §7 (UI & UX), §8 (Failure & Success), §10.2 (Theme Colors), §11.1 (Asset Pipeline), §11.2 (Accessibility)
 - `conductor/product-guidelines.md` §2 (Branding & Visual Identity), §3 (UX Principles), §4 (Accessibility Principles)
 - `conductor/tech-stack.md` — Canvas2D, TypeScript, Vite, zero runtime dependencies
+</protect>

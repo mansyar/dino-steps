@@ -1,9 +1,13 @@
+<protect>
 # Track: UI & Animation Polish — Implementation Plan
 
 ## Phase 1 — Foundation: Theme & Stylesheet
 
 Goal: Centralize visual tokens and stop hard-coding colors/sizes in `tap.ts`.
 
+- [ ] Task: Read spec.md and workflow.md for this phase.
+    - [ ] Review acceptance criteria and references in `spec.md`.
+    - [ ] Review the Phase Completion Verification and Checkpointing Protocol in `workflow.md`.
 - [ ] Task: Create `src/styles.css` with GDD palette CSS custom properties.
     - [ ] Define background, grid, command, GO, failure, and character accent variables.
     - [ ] Add utility classes for buttons, slots, overlays, and screens.
@@ -20,6 +24,9 @@ Goal: Centralize visual tokens and stop hard-coding colors/sizes in `tap.ts`.
 
 Goal: Re-layout the game screen per the GDD palette and 64 px touch-target rule.
 
+- [ ] Task: Read spec.md and workflow.md for this phase.
+    - [ ] Review acceptance criteria and references in `spec.md`.
+    - [ ] Review the Phase Completion Verification and Checkpointing Protocol in `workflow.md`.
 - [ ] Task: Update `index.html` / canvas background to use the sage background color.
     - [ ] Keep the canvas full-size; set CSS background to `--color-background`.
 - [ ] Task: Update `src/render/grid.ts` to draw mint tiles with the new palette.
@@ -41,6 +48,9 @@ Goal: Re-layout the game screen per the GDD palette and 64 px touch-target rule.
 
 Goal: Make every tap feel acknowledged and make the track animate like a physical sequence.
 
+- [ ] Task: Read spec.md and workflow.md for this phase.
+    - [ ] Review acceptance criteria and references in `spec.md`.
+    - [ ] Review the Phase Completion Verification and Checkpointing Protocol in `workflow.md`.
 - [ ] Task: Add button press feedback.
     - [ ] Scale to 0.95 on `pointerdown` using CSS transforms.
     - [ ] Restore on `pointerup`, `pointercancel`, or `pointerleave`.
@@ -60,6 +70,9 @@ Goal: Make every tap feel acknowledged and make the track animate like a physica
 
 Goal: Add GDD-specified movement and action visual effects.
 
+- [ ] Task: Read spec.md and workflow.md for this phase.
+    - [ ] Review acceptance criteria and references in `spec.md`.
+    - [ ] Review the Phase Completion Verification and Checkpointing Protocol in `workflow.md`.
 - [ ] Task: Create `src/render/juice.ts` for shared canvas effect helpers.
     - [ ] Screen-shake helper (`jitterX`, `jitterY`, decay).
     - [ ] Smoke/dust puff particle renderer.
@@ -84,6 +97,9 @@ Goal: Add GDD-specified movement and action visual effects.
 
 Goal: Polish the pre-game screens with character art, metadata, and progression cues.
 
+- [ ] Task: Read spec.md and workflow.md for this phase.
+    - [ ] Review acceptance criteria and references in `spec.md`.
+    - [ ] Review the Phase Completion Verification and Checkpointing Protocol in `workflow.md`.
 - [ ] Task: Refactor `renderHomeScreen` to embed the actual SVG character images.
     - [ ] Each card shows the chosen SVG with a slow idle bob.
     - [ ] Add staggered fade/slide-up entrance animation.
@@ -101,6 +117,9 @@ Goal: Polish the pre-game screens with character art, metadata, and progression 
 
 Goal: Verify the whole track meets acceptance criteria and project quality gates.
 
+- [ ] Task: Read spec.md and workflow.md for this phase.
+    - [ ] Review acceptance criteria and references in `spec.md`.
+    - [ ] Review the Phase Completion Verification and Checkpointing Protocol in `workflow.md`.
 - [ ] Task: Manual UI/animation pass on desktop and mobile viewport sizes.
     - [ ] Verify 64 px tap targets using browser dev tools.
     - [ ] Verify `prefers-reduced-motion` disables/reduces motion.
@@ -114,3 +133,4 @@ Goal: Verify the whole track meets acceptance criteria and project quality gates
 - [ ] Task: Verify production bundle size stays under 500 KB.
 - [ ] Task: Update `plan.md` task statuses and record checkpoint SHA.
 - [ ] Task: Conductor - User Manual Verification 'Integration & Quality Gates' (Protocol in workflow.md)
+</protect>
