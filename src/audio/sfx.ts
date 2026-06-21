@@ -1,7 +1,7 @@
 // Sound effects for DinoSteps
 // All sounds are procedurally generated via Web Audio API
 
-import { playTone, playArpeggio } from './synth';
+import { playTone, playArpeggio } from "./synth";
 
 // Note frequencies (Hz)
 const C5 = 523.25;
@@ -15,7 +15,7 @@ const C6 = 1046.5;
  */
 export function playStomp(): void {
   playTone({
-    type: 'sine',
+    type: "sine",
     frequencyStart: 120,
     frequencyEnd: 20,
     duration: 0.15,
@@ -30,7 +30,7 @@ export function playStomp(): void {
  */
 export function playBonk(): void {
   playTone({
-    type: 'triangle',
+    type: "triangle",
     frequencyStart: 400,
     frequencyEnd: 800,
     duration: 0.3,
@@ -45,7 +45,7 @@ export function playBonk(): void {
  * Played on level win.
  */
 export function playSuccess(): void {
-  playArpeggio([C5, E5, G5, C6], 0.1, 'square', 0.15);
+  playArpeggio([C5, E5, G5, C6], 0.1, "square", 0.15);
 }
 
 /**
@@ -54,7 +54,7 @@ export function playSuccess(): void {
  */
 export function playTurn(): void {
   playTone({
-    type: 'sine',
+    type: "sine",
     frequencyStart: 300,
     frequencyEnd: 500,
     duration: 0.08,
@@ -69,7 +69,7 @@ export function playTurn(): void {
  */
 export function playAction(): void {
   playTone({
-    type: 'sine',
+    type: "sine",
     frequencyStart: 600,
     frequencyEnd: 400,
     duration: 0.1,
@@ -77,5 +77,3 @@ export function playAction(): void {
     gainEnd: 0.001,
   });
 }
-
-

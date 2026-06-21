@@ -1,8 +1,8 @@
 // Movement interpolation — smoothstep tweening between grid cells
 
-import { smoothstep, lerp } from './smoothstep';
+import { smoothstep, lerp } from "./smoothstep";
 
-export type AnimationState = 'idle' | 'walking' | 'turning';
+export type AnimationState = "idle" | "walking" | "turning";
 
 export interface MovementState {
   fromX: number;
@@ -24,7 +24,7 @@ export function createMovementState(startX: number, startY: number): MovementSta
     toY: startY,
     elapsed: 0,
     duration: WALK_DURATION,
-    animState: 'idle',
+    animState: "idle",
   };
 }
 
@@ -35,26 +35,26 @@ export function startWalk(state: MovementState, toX: number, toY: number): void 
   state.toY = toY;
   state.elapsed = 0;
   state.duration = WALK_DURATION;
-  state.animState = 'walking';
+  state.animState = "walking";
 }
 
 export function startTurn(state: MovementState): void {
   state.elapsed = 0;
   state.duration = 0.15; // 150ms for turn
-  state.animState = 'turning';
+  state.animState = "turning";
 }
 
 export function updateMovement(state: MovementState, dt: number): { x: number; y: number } {
-  if (state.animState === 'idle') {
+  if (state.animState === "idle") {
     return { x: state.toX, y: state.toY };
   }
 
   state.elapsed = Math.min(state.elapsed + dt, state.duration);
   const t = smoothstep(state.elapsed / state.duration);
 
-  if (state.animState === 'walking') {
+  if (state.animState === "walking") {
     if (state.elapsed >= state.duration) {
-      state.animState = 'idle';
+      state.animState = "idle";
     }
     return {
       x: lerp(state.fromX, state.toX, t),
@@ -64,11 +64,11 @@ export function updateMovement(state: MovementState, dt: number): { x: number; y
 
   // turning — stay at current position
   if (state.elapsed >= state.duration) {
-    state.animState = 'idle';
+    state.animState = "idle";
   }
   return { x: state.toX, y: state.toY };
 }
 
 export function isIdle(state: MovementState): boolean {
-  return state.animState === 'idle';
+  return state.animState === "idle";
 }

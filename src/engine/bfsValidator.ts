@@ -1,12 +1,12 @@
 // BFS Level Validator
 // Validates solutions and computes minimum solution lengths using BFS
 
-import type { LevelData, Command } from './types';
-import { DIRECTIONS, forward, turnLeft, turnRight } from './direction';
-import { GRID_WIDTH, GRID_HEIGHT } from './constants';
+import type { LevelData, Command } from "./types";
+import { DIRECTIONS, forward, turnLeft, turnRight } from "./direction";
+import { GRID_WIDTH, GRID_HEIGHT } from "./constants";
 
 // Result types for solution replay
-export type ReplayResult = 'win' | 'fail' | 'incomplete';
+export type ReplayResult = "win" | "fail" | "incomplete";
 
 // State for BFS
 interface BFSState {
@@ -27,14 +27,14 @@ function isInBounds(x: number, y: number): boolean {
  * Check if a tile is an obstacle
  */
 function isObstacle(grid: string[][], x: number, y: number): boolean {
-  return grid[y][x] === 'obstacle';
+  return grid[y][x] === "obstacle";
 }
 
 /**
  * Check if a tile is food
  */
 function isFood(grid: string[][], x: number, y: number): boolean {
-  return grid[y][x] === 'food';
+  return grid[y][x] === "food";
 }
 
 /**
@@ -47,33 +47,33 @@ export function replaySolution(level: LevelData, commands: Command[]): ReplayRes
 
   for (const cmd of commands) {
     switch (cmd) {
-      case 'F': {
+      case "F": {
         const next = forward({ x, y }, dir);
         // Check bounds
         if (!isInBounds(next.x, next.y)) {
-          return 'fail';
+          return "fail";
         }
         // Check obstacle
         if (isObstacle(level.grid, next.x, next.y)) {
-          return 'fail';
+          return "fail";
         }
         // Move forward
         x = next.x;
         y = next.y;
         break;
       }
-      case 'L': {
+      case "L": {
         dir = turnLeft(dir);
         break;
       }
-      case 'R': {
+      case "R": {
         dir = turnRight(dir);
         break;
       }
-      case 'A': {
+      case "A": {
         // Action: check if on food
         if (isFood(level.grid, x, y)) {
-          return 'win';
+          return "win";
         }
         // Otherwise no-op
         break;
@@ -82,7 +82,7 @@ export function replaySolution(level: LevelData, commands: Command[]): ReplayRes
   }
 
   // After all commands, not on food with action → incomplete
-  return 'incomplete';
+  return "incomplete";
 }
 
 /**
@@ -113,13 +113,13 @@ export function computeMinimum(level: LevelData): number {
     }
 
     // Try all possible commands
-    const commands: Command[] = ['F', 'L', 'R'];
+    const commands: Command[] = ["F", "L", "R"];
 
     for (const cmd of commands) {
       let newState = { ...state };
 
       switch (cmd) {
-        case 'F': {
+        case "F": {
           const next = forward({ x: state.x, y: state.y }, { dx: state.dx, dy: state.dy });
           if (isInBounds(next.x, next.y) && !isObstacle(level.grid, next.x, next.y)) {
             newState.x = next.x;
@@ -129,13 +129,13 @@ export function computeMinimum(level: LevelData): number {
           }
           break;
         }
-        case 'L': {
+        case "L": {
           const turned = turnLeft({ dx: state.dx, dy: state.dy });
           newState.dx = turned.dx;
           newState.dy = turned.dy;
           break;
         }
-        case 'R': {
+        case "R": {
           const turned = turnRight({ dx: state.dx, dy: state.dy });
           newState.dx = turned.dx;
           newState.dy = turned.dy;

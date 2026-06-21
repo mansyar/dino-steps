@@ -1,30 +1,30 @@
 // DinoSteps - Main Entry Point
 // A text-free web game that introduces sequencing to preschoolers
 
-import { initCanvas } from './render/canvas';
-import { startLoop } from './render/loop';
-import { drawGrid, drawFoodWiggle } from './render/grid';
-import { drawDino, drawDizzyRings, drawBump, createDinoAnimState } from './render/dino';
-import { preloadCharacters } from './render/characters';
+import { initCanvas } from "./render/canvas";
+import { startLoop } from "./render/loop";
+import { drawGrid, drawFoodWiggle } from "./render/grid";
+import { drawDino, drawDizzyRings, drawBump, createDinoAnimState } from "./render/dino";
+import { preloadCharacters } from "./render/characters";
 import {
   createMovementState,
   updateMovement,
   isIdle,
   startWalk,
   startTurn,
-} from './render/movement';
+} from "./render/movement";
 import {
   createConfettiState,
   burstConfetti,
   burstConfettiReduced,
   updateConfetti,
-} from './render/confetti';
-import { parseLevels } from './engine/levelData';
-import { createInitialState, addCommand, removeCommand, resetToStart } from './engine/state';
-import { processNextCommand, applyCommand, hardFail, checkTerminalState } from './engine/executor';
-import { loadPersisted, saveCharacter, saveMuted, saveUnlockedLevel } from './engine/persistence';
-import { playStomp, playBonk, playSuccess, playTurn, playAction } from './audio/sfx';
-import { resumeAudioContext } from './audio/context';
+} from "./render/confetti";
+import { parseLevels } from "./engine/levelData";
+import { createInitialState, addCommand, removeCommand, resetToStart } from "./engine/state";
+import { processNextCommand, applyCommand, hardFail, checkTerminalState } from "./engine/executor";
+import { loadPersisted, saveCharacter, saveMuted, saveUnlockedLevel } from "./engine/persistence";
+import { playStomp, playBonk, playSuccess, playTurn, playAction } from "./audio/sfx";
+import { resumeAudioContext } from "./audio/context";
 import {
   renderActionMenu,
   renderTrack,
@@ -34,31 +34,31 @@ import {
   renderHomeScreen,
   renderLevelSelect,
   renderCharacterCarousel,
-} from './input/tap';
-import type { DinoCharacter, GameState, Command, Facing } from './engine/types';
+} from "./input/tap";
+import type { DinoCharacter, GameState, Command, Facing } from "./engine/types";
 
 // Level data
 const levelsData = [
   {
     id: 1,
-    title: 'Hungry Steps',
+    title: "Hungry Steps",
     grid: [
-      ['empty', 'empty', 'empty', 'empty', 'empty'],
-      ['empty', 'empty', 'empty', 'food', 'empty'],
-      ['empty', 'empty', 'empty', 'empty', 'empty'],
+      ["empty", "empty", "empty", "empty", "empty"],
+      ["empty", "empty", "empty", "food", "empty"],
+      ["empty", "empty", "empty", "empty", "empty"],
     ],
     start: { x: 0, y: 1 },
-    startFacing: 'E',
+    startFacing: "E",
     food: { x: 3, y: 1 },
     trackBudget: 6,
-    verifiedSolution: ['F', 'F', 'F', 'A'],
+    verifiedSolution: ["F", "F", "F", "A"],
   },
 ];
 
 const levels = parseLevels(levelsData);
 
 // Accessibility: check prefers-reduced-motion
-const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
 // App state
 const persisted = loadPersisted();
@@ -76,7 +76,7 @@ let backflipProgress = 0;
 // Failure animation state
 let failTimer = 0;
 let showFail = false;
-let failFacing: Facing = 'E';
+let failFacing: Facing = "E";
 let failBumpProgress = 0;
 let failDizzyProgress = 0;
 
@@ -190,18 +190,18 @@ function refreshGameUI(): void {
   );
 
   // Hint text — inserted into flow between track and game area
-  hintEl = document.createElement('div');
-  hintEl.style.textAlign = 'center';
-  hintEl.style.padding = '6px 16px';
-  hintEl.style.margin = '4px auto';
-  hintEl.style.display = 'inline-block';
-  hintEl.style.background = 'rgba(255,255,255,0.85)';
-  hintEl.style.borderRadius = '16px';
-  hintEl.style.color = '#333';
-  hintEl.style.fontSize = '15px';
-  hintEl.style.fontWeight = 'bold';
-  hintEl.style.zIndex = '250';
-  hintEl.style.pointerEvents = 'none';
+  hintEl = document.createElement("div");
+  hintEl.style.textAlign = "center";
+  hintEl.style.padding = "6px 16px";
+  hintEl.style.margin = "4px auto";
+  hintEl.style.display = "inline-block";
+  hintEl.style.background = "rgba(255,255,255,0.85)";
+  hintEl.style.borderRadius = "16px";
+  hintEl.style.color = "#333";
+  hintEl.style.fontSize = "15px";
+  hintEl.style.fontWeight = "bold";
+  hintEl.style.zIndex = "250";
+  hintEl.style.pointerEvents = "none";
   hintEl.textContent = `🍎 Feed ${gameState.character}!`;
   uiContainer.appendChild(hintEl);
 
@@ -244,7 +244,7 @@ function processNextExecCommand(): void {
   const result = processNextCommand(gameState, level);
 
   switch (result.type) {
-    case 'win': {
+    case "win": {
       gameState = { ...gameState, isExecuting: false };
       if (!currentMuted) playSuccess();
 
@@ -261,23 +261,23 @@ function processNextExecCommand(): void {
       }
 
       // Show win overlay
-      winEl = document.createElement('div');
-      winEl.style.position = 'fixed';
-      winEl.style.inset = '0';
-      winEl.style.display = 'flex';
-      winEl.style.flexDirection = 'column';
-      winEl.style.alignItems = 'center';
-      winEl.style.justifyContent = 'center';
-      winEl.style.background = 'rgba(76, 175, 80, 0.85)';
-      winEl.style.zIndex = '300';
-      winEl.style.pointerEvents = 'auto';
+      winEl = document.createElement("div");
+      winEl.style.position = "fixed";
+      winEl.style.inset = "0";
+      winEl.style.display = "flex";
+      winEl.style.flexDirection = "column";
+      winEl.style.alignItems = "center";
+      winEl.style.justifyContent = "center";
+      winEl.style.background = "rgba(76, 175, 80, 0.85)";
+      winEl.style.zIndex = "300";
+      winEl.style.pointerEvents = "auto";
       winEl.innerHTML =
         '<div style="font-size:64px;margin-bottom:16px">🎉</div>' +
         '<div style="font-size:32px;color:white;font-weight:bold">Level Complete!</div>';
       uiContainer.appendChild(winEl);
       break;
     }
-    case 'hardFail': {
+    case "hardFail": {
       // Save facing before reset for bump animation
       failFacing = gameState.dinoFacing;
 
@@ -295,12 +295,12 @@ function processNextExecCommand(): void {
       movement.fromY = level.start.y;
       movement.toX = level.start.x;
       movement.toY = level.start.y;
-      movement.animState = 'idle';
+      movement.animState = "idle";
       movement.elapsed = 0;
       refreshGameUI();
       break;
     }
-    case 'softResist': {
+    case "softResist": {
       // Advance index without moving
       gameState = {
         ...gameState,
@@ -309,7 +309,7 @@ function processNextExecCommand(): void {
       // Check if queue is exhausted
       if (gameState.activeCommandIndex >= gameState.commandQueue.length) {
         const terminal = checkTerminalState(gameState, level);
-        if (terminal.type === 'hint') {
+        if (terminal.type === "hint") {
           // On food without action — show hint
           showHint = true;
           hintTimer = 2.0;
@@ -321,27 +321,27 @@ function processNextExecCommand(): void {
       }
       break;
     }
-    case 'continue': {
+    case "continue": {
       // Apply command — this updates position/facing
       gameState = applyCommand(gameState, level);
 
       // Start animation for the command
       const cmd = gameState.commandQueue[gameState.activeCommandIndex - 1];
-      if (cmd === 'F') {
+      if (cmd === "F") {
         if (!currentMuted) playStomp();
         // Walk animation — from old pos to new pos
         startWalk(movement, gameState.dinoPos.x, gameState.dinoPos.y);
-      } else if (cmd === 'L' || cmd === 'R') {
+      } else if (cmd === "L" || cmd === "R") {
         if (!currentMuted) playTurn();
         startTurn(movement);
-      } else if (cmd === 'A') {
+      } else if (cmd === "A") {
         if (!currentMuted) playAction();
       }
 
       // Check if queue is exhausted after this command
       if (gameState.activeCommandIndex >= gameState.commandQueue.length) {
         const terminal = checkTerminalState(gameState, level);
-        if (terminal.type === 'hint') {
+        if (terminal.type === "hint") {
           // On food without action — show hint
           showHint = true;
           hintTimer = 2.0;
@@ -351,11 +351,11 @@ function processNextExecCommand(): void {
           movement.fromY = level.start.y;
           movement.toX = level.start.x;
           movement.toY = level.start.y;
-          movement.animState = 'idle';
+          movement.animState = "idle";
           movement.elapsed = 0;
           gameState = { ...gameState, isExecuting: false };
           refreshGameUI();
-        } else if (terminal.type === 'idle') {
+        } else if (terminal.type === "idle") {
           gameState = { ...gameState, isExecuting: false };
           refreshGameUI();
         }
@@ -440,14 +440,14 @@ async function init(): Promise<void> {
 
   // Preload character SVGs before rendering
   await preloadCharacters();
-  uiContainer = document.createElement('div');
-  uiContainer.id = 'ui-overlay';
-  uiContainer.style.position = 'fixed';
-  uiContainer.style.top = '0';
-  uiContainer.style.left = '0';
-  uiContainer.style.width = '100%';
-  uiContainer.style.height = '100%';
-  uiContainer.style.pointerEvents = 'none';
+  uiContainer = document.createElement("div");
+  uiContainer.id = "ui-overlay";
+  uiContainer.style.position = "fixed";
+  uiContainer.style.top = "0";
+  uiContainer.style.left = "0";
+  uiContainer.style.width = "100%";
+  uiContainer.style.height = "100%";
+  uiContainer.style.pointerEvents = "none";
   document.body.appendChild(uiContainer);
 
   showHome();
@@ -529,7 +529,7 @@ async function init(): Promise<void> {
       }
 
       // Draw dino with appropriate animation
-      const animType = isIdle(movement) ? (showWin ? 'celebrating' : 'idle') : movement.animState;
+      const animType = isIdle(movement) ? (showWin ? "celebrating" : "idle") : movement.animState;
 
       drawDino(
         dinoX,
@@ -558,14 +558,13 @@ async function init(): Promise<void> {
         gridMetrics.offsetX + gridMetrics.tileSize * levels[0].start.x,
         gridMetrics.offsetY + gridMetrics.tileSize * levels[0].start.y,
         gridMetrics.tileSize,
-        'Rexy',
+        "Rexy",
         levels[0].startFacing,
         dinoAnim,
-        'idle',
+        "idle",
       );
     }
   });
-
 }
 
 init();

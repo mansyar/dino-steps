@@ -1,7 +1,7 @@
 // State Tree Module
 // Manages runtime game state and state transitions
 
-import type { GameState, LevelData, Command, DinoCharacter } from './types';
+import type { GameState, LevelData, Command, DinoCharacter } from "./types";
 
 /**
  * Create initial game state for a level

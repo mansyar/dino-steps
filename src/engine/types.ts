@@ -2,7 +2,7 @@
 // Type definitions for the game engine
 
 // Command types for the track
-export type Command = 'F' | 'L' | 'R' | 'A';
+export type Command = "F" | "L" | "R" | "A";
 
 // Direction vectors for movement
 export interface Direction {
@@ -11,13 +11,13 @@ export interface Direction {
 }
 
 // Facing directions
-export type Facing = 'E' | 'S' | 'W' | 'N';
+export type Facing = "E" | "S" | "W" | "N";
 
 // Tile types on the grid
-export type TileType = 'empty' | 'obstacle' | 'food' | 'interactable';
+export type TileType = "empty" | "obstacle" | "food" | "interactable";
 
 // Dino character selection
-export type DinoCharacter = 'Rexy' | 'Trikey' | 'Sera';
+export type DinoCharacter = "Rexy" | "Trikey" | "Sera";
 
 // Level data structure
 export interface LevelData {

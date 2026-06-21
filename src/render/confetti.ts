@@ -1,8 +1,8 @@
 // Confetti particle system for win celebration
 // Procedurally generated multi-colored falling particles
 
-import { getCanvasContext } from './canvas';
-import { lerp } from './smoothstep';
+import { getCanvasContext } from "./canvas";
+import { lerp } from "./smoothstep";
 
 interface Particle {
   x: number;
@@ -19,10 +19,10 @@ interface Particle {
 
 // Confetti theme colors — brand palette (GDD §3.2)
 const CONFETTI_COLORS = [
-  '#f4b400', // yellow
-  '#db4437', // red
-  '#4285f4', // blue
-  '#0f9d58', // green
+  "#f4b400", // yellow
+  "#db4437", // red
+  "#4285f4", // blue
+  "#0f9d58", // green
 ];
 
 const GRAVITY = 180; // pixels per second²

@@ -13,7 +13,7 @@ export function getAudioContext(): AudioContext {
     ctx = new AudioContext();
   }
   // Resume if suspended (e.g., after mobile autoplay policy)
-  if (ctx.state === 'suspended') {
+  if (ctx.state === "suspended") {
     ctx.resume().catch(() => {});
   }
   return ctx;
@@ -24,7 +24,7 @@ export function getAudioContext(): AudioContext {
  * Safe to call anytime — won't create a new context.
  */
 export function resumeAudioContext(): void {
-  if (ctx && ctx.state === 'suspended') {
+  if (ctx && ctx.state === "suspended") {
     ctx.resume().catch(() => {});
   }
 }

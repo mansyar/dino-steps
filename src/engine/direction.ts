@@ -1,7 +1,7 @@
 // Direction Vector Module
 // Handles movement directions and rotations using integer vectors
 
-import type { Direction, Facing } from './types';
+import type { Direction, Facing } from "./types";
 
 // Direction vectors for each facing direction
 export const DIRECTIONS: Record<Facing, Direction> = {
