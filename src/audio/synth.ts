@@ -1,6 +1,6 @@
 // Base synthesizer helpers for Web Audio API oscillators + gain envelopes
 
-import { getAudioContext } from "./context";
+import { getAudioContext } from './context';
 
 export interface SynthOptions {
   type: OscillatorType;
@@ -13,9 +13,7 @@ export interface SynthOptions {
   vibrato?: { depth: number; rate: number };
 }
 
-/**
- * Play a single synthesized tone with frequency sweep and gain envelope.
- */
+/** Play a single synthesized tone with frequency sweep and gain envelope. */
 export function playTone(opts: SynthOptions): void {
   const ac = getAudioContext();
   const now = ac.currentTime;
@@ -32,7 +30,7 @@ export function playTone(opts: SynthOptions): void {
   if (opts.vibrato) {
     const lfo = ac.createOscillator();
     const lfoGain = ac.createGain();
-    lfo.type = "sine";
+    lfo.type = 'sine';
     lfo.frequency.value = opts.vibrato.rate;
     lfoGain.gain.value = opts.vibrato.depth;
     lfo.connect(lfoGain);
@@ -54,9 +52,7 @@ export function playTone(opts: SynthOptions): void {
   osc.stop(now + opts.duration);
 }
 
-/**
- * Play a rapid arpeggio of notes.
- */
+/** Play a rapid arpeggio of notes. */
 export function playArpeggio(
   notes: number[],
   noteDuration: number,

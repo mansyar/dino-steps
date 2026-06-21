@@ -1,51 +1,41 @@
 // Command Execution Engine
 // Processes command queue with two-tier failure model and win detection
 
-import type { GameState, LevelData, Facing } from "./types";
-import { forward, turnLeft, turnRight, DIRECTIONS } from "./direction";
-import { GRID_WIDTH, GRID_HEIGHT } from "./constants";
+import type { GameState, LevelData, Facing } from './types';
+import { forward, turnLeft, turnRight, DIRECTIONS } from './direction';
+import { GRID_WIDTH, GRID_HEIGHT } from './constants';
 
 // Execution result types
 export type CommandResult =
-  | { type: "continue" }
-  | { type: "win" }
-  | { type: "hardFail" }
-  | { type: "softResist" };
+  | { type: 'continue' }
+  | { type: 'win' }
+  | { type: 'hardFail' }
+  | { type: 'softResist' };
 
 // Terminal state result
-export type TerminalResult = { type: "win" } | { type: "idle" } | { type: "hint" };
+export type TerminalResult = { type: 'win' } | { type: 'idle' } | { type: 'hint' };
 
-/**
- * Check if a position is within grid bounds
- */
+/** Check if a position is within grid bounds */
 function isInBounds(x: number, y: number): boolean {
   return x >= 0 && x < GRID_WIDTH && y >= 0 && y < GRID_HEIGHT;
 }
 
-/**
- * Check if a tile is an obstacle
- */
+/** Check if a tile is an obstacle */
 function isObstacle(grid: string[][], x: number, y: number): boolean {
-  return grid[y][x] === "obstacle";
+  return grid[y][x] === 'obstacle';
 }
 
-/**
- * Check if a tile is food
- */
+/** Check if a tile is food */
 function isFood(grid: string[][], x: number, y: number): boolean {
-  return grid[y][x] === "food";
+  return grid[y][x] === 'food';
 }
 
-/**
- * Check if a tile is an interactable
- */
+/** Check if a tile is an interactable */
 function isInteractable(grid: string[][], x: number, y: number): boolean {
-  return grid[y][x] === "interactable";
+  return grid[y][x] === 'interactable';
 }
 
-/**
- * Check if an interactable tile has been cleared
- */
+/** Check if an interactable tile has been cleared */
 function isCleared(
   clearedInteractables: { x: number; y: number }[],
   x: number,
@@ -54,9 +44,7 @@ function isCleared(
   return clearedInteractables.some((t) => t.x === x && t.y === y);
 }
 
-/**
- * Check if the current tile is an uncleared interactable
- */
+/** Check if the current tile is an uncleared interactable */
 function isUnclearedInteractable(
   grid: string[][],
   clearedInteractables: { x: number; y: number }[],
@@ -66,21 +54,19 @@ function isUnclearedInteractable(
   return isInteractable(grid, x, y) && !isCleared(clearedInteractables, x, y);
 }
 
-/**
- * Process Forward command
- */
+/** Process Forward command */
 export function forwardCommand(state: GameState, level: LevelData): CommandResult {
   const dir = DIRECTIONS[state.dinoFacing];
   const next = forward(state.dinoPos, dir);
 
   // Check bounds
   if (!isInBounds(next.x, next.y)) {
-    return { type: "hardFail" };
+    return { type: 'hardFail' };
   }
 
   // Check obstacle
   if (isObstacle(level.grid, next.x, next.y)) {
-    return { type: "hardFail" };
+    return { type: 'hardFail' };
   }
 
   // Check uncleared interactable at CURRENT position (exiting)
@@ -92,16 +78,14 @@ export function forwardCommand(state: GameState, level: LevelData): CommandResul
       state.dinoPos.y,
     )
   ) {
-    return { type: "softResist" };
+    return { type: 'softResist' };
   }
 
   // Valid move
-  return { type: "continue" };
+  return { type: 'continue' };
 }
 
-/**
- * Apply Forward command to state (after validation)
- */
+/** Apply Forward command to state (after validation) */
 export function applyForward(state: GameState): GameState {
   const dir = DIRECTIONS[state.dinoFacing];
   const next = forward(state.dinoPos, dir);
@@ -112,16 +96,12 @@ export function applyForward(state: GameState): GameState {
   };
 }
 
-/**
- * Process Left command
- */
+/** Process Left command */
 export function leftCommand(): CommandResult {
-  return { type: "continue" };
+  return { type: 'continue' };
 }
 
-/**
- * Apply Left command to state
- */
+/** Apply Left command to state */
 export function applyLeft(state: GameState): GameState {
   const newFacing = facingToDirection(turnLeft(DIRECTIONS[state.dinoFacing]));
   return {
@@ -131,16 +111,12 @@ export function applyLeft(state: GameState): GameState {
   };
 }
 
-/**
- * Process Right command
- */
+/** Process Right command */
 export function rightCommand(): CommandResult {
-  return { type: "continue" };
+  return { type: 'continue' };
 }
 
-/**
- * Apply Right command to state
- */
+/** Apply Right command to state */
 export function applyRight(state: GameState): GameState {
   const newFacing = facingToDirection(turnRight(DIRECTIONS[state.dinoFacing]));
   return {
@@ -150,29 +126,25 @@ export function applyRight(state: GameState): GameState {
   };
 }
 
-/**
- * Process Action (🦕) command
- */
+/** Process Action (🦕) command */
 export function actionCommand(state: GameState, level: LevelData): CommandResult {
   const { x, y } = state.dinoPos;
 
   // On food → win
   if (isFood(level.grid, x, y)) {
-    return { type: "win" };
+    return { type: 'win' };
   }
 
   // On uncleared interactable → clear (continue)
   if (isUnclearedInteractable(level.grid, state.clearedInteractables, x, y)) {
-    return { type: "continue" };
+    return { type: 'continue' };
   }
 
   // On cleared interactable or empty → no-op (continue)
-  return { type: "continue" };
+  return { type: 'continue' };
 }
 
-/**
- * Apply Action command to state (after validation)
- */
+/** Apply Action command to state (after validation) */
 export function applyAction(state: GameState, level: LevelData): GameState {
   const { x, y } = state.dinoPos;
 
@@ -192,30 +164,26 @@ export function applyAction(state: GameState, level: LevelData): GameState {
   };
 }
 
-/**
- * Process a single command and return the result type
- */
+/** Process a single command and return the result type */
 export function processNextCommand(state: GameState, level: LevelData): CommandResult {
   const cmd = state.commandQueue[state.activeCommandIndex];
   if (!cmd) {
-    return { type: "continue" };
+    return { type: 'continue' };
   }
 
   switch (cmd) {
-    case "F":
+    case 'F':
       return forwardCommand(state, level);
-    case "L":
+    case 'L':
       return leftCommand();
-    case "R":
+    case 'R':
       return rightCommand();
-    case "A":
+    case 'A':
       return actionCommand(state, level);
   }
 }
 
-/**
- * Apply a command to state (after validation passes)
- */
+/** Apply a command to state (after validation passes) */
 export function applyCommand(state: GameState, level: LevelData): GameState {
   const cmd = state.commandQueue[state.activeCommandIndex];
   if (!cmd) {
@@ -223,20 +191,18 @@ export function applyCommand(state: GameState, level: LevelData): GameState {
   }
 
   switch (cmd) {
-    case "F":
+    case 'F':
       return applyForward(state);
-    case "L":
+    case 'L':
       return applyLeft(state);
-    case "R":
+    case 'R':
       return applyRight(state);
-    case "A":
+    case 'A':
       return applyAction(state, level);
   }
 }
 
-/**
- * Reset dino to start position (hard failure)
- */
+/** Reset dino to start position (hard failure) */
 export function hardFail(state: GameState, level: LevelData): GameState {
   return {
     ...state,
@@ -249,25 +215,20 @@ export function hardFail(state: GameState, level: LevelData): GameState {
   };
 }
 
-/**
- * Check terminal state after queue exhaustion
- */
+/** Check terminal state after queue exhaustion */
 export function checkTerminalState(state: GameState, level: LevelData): TerminalResult {
   const { x, y } = state.dinoPos;
 
   // On food without action → hint
   if (isFood(level.grid, x, y)) {
-    return { type: "hint" };
+    return { type: 'hint' };
   }
 
   // Not on food → idle
-  return { type: "idle" };
+  return { type: 'idle' };
 }
 
-/**
- * Execute the full command queue (called by GO button)
- * Returns the final state and terminal result
- */
+/** Execute the full command queue (called by GO button) Returns the final state and terminal result */
 export function executeQueue(
   state: GameState,
   level: LevelData,
@@ -281,21 +242,21 @@ export function executeQueue(
     const result = processNextCommand(current, level);
 
     switch (result.type) {
-      case "win": {
+      case 'win': {
         // Win → return immediately
         return {
           state: { ...current, isExecuting: false },
-          result: { type: "win" },
+          result: { type: 'win' },
         };
       }
-      case "hardFail": {
+      case 'hardFail': {
         // Hard failure → reset
         return {
           state: hardFail(current, level),
-          result: { type: "idle" },
+          result: { type: 'idle' },
         };
       }
-      case "softResist": {
+      case 'softResist': {
         // Soft resist → advance index, continue
         current = {
           ...current,
@@ -303,7 +264,7 @@ export function executeQueue(
         };
         break;
       }
-      case "continue": {
+      case 'continue': {
         // Continue → apply command, advance index
         current = applyCommand(current, level);
         break;
@@ -318,12 +279,10 @@ export function executeQueue(
   };
 }
 
-/**
- * Helper: convert Direction to Facing
- */
+/** Helper: convert Direction to Facing */
 function facingToDirection(dir: { dx: number; dy: number }): Facing {
-  if (dir.dx === 1) return "E";
-  if (dir.dy === 1) return "S";
-  if (dir.dx === -1) return "W";
-  return "N";
+  if (dir.dx === 1) return 'E';
+  if (dir.dy === 1) return 'S';
+  if (dir.dx === -1) return 'W';
+  return 'N';
 }

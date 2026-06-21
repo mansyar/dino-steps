@@ -1,11 +1,9 @@
 // State Tree Module
 // Manages runtime game state and state transitions
 
-import type { GameState, LevelData, Command, DinoCharacter } from "./types";
+import type { GameState, LevelData, Command, DinoCharacter } from './types';
 
-/**
- * Create initial game state for a level
- */
+/** Create initial game state for a level */
 export function createInitialState(level: LevelData, character: DinoCharacter): GameState {
   return {
     levelId: level.id,
@@ -20,9 +18,7 @@ export function createInitialState(level: LevelData, character: DinoCharacter): 
   };
 }
 
-/**
- * Add a command to the queue if there's budget remaining
- */
+/** Add a command to the queue if there's budget remaining */
 export function addCommand(state: GameState, cmd: Command): GameState {
   if (state.commandQueue.length >= state.trackBudget) {
     return state; // Budget exceeded, return unchanged
@@ -34,9 +30,7 @@ export function addCommand(state: GameState, cmd: Command): GameState {
   };
 }
 
-/**
- * Remove a command at the specified index
- */
+/** Remove a command at the specified index */
 export function removeCommand(state: GameState, index: number): GameState {
   if (index < 0 || index >= state.commandQueue.length) {
     return state; // Invalid index, return unchanged
@@ -51,9 +45,7 @@ export function removeCommand(state: GameState, index: number): GameState {
   };
 }
 
-/**
- * Advance the active command index
- */
+/** Advance the active command index */
 export function advanceIndex(state: GameState): GameState {
   return {
     ...state,
@@ -61,9 +53,7 @@ export function advanceIndex(state: GameState): GameState {
   };
 }
 
-/**
- * Mark an interactable as cleared
- */
+/** Mark an interactable as cleared */
 export function clearInteractable(state: GameState, tile: { x: number; y: number }): GameState {
   // Check if already cleared
   const alreadyCleared = state.clearedInteractables.some((t) => t.x === tile.x && t.y === tile.y);
@@ -78,9 +68,7 @@ export function clearInteractable(state: GameState, tile: { x: number; y: number
   };
 }
 
-/**
- * Reset dino to start position and clear queue
- */
+/** Reset dino to start position and clear queue */
 export function resetToStart(state: GameState, level: LevelData): GameState {
   return {
     ...state,
@@ -92,9 +80,7 @@ export function resetToStart(state: GameState, level: LevelData): GameState {
   };
 }
 
-/**
- * Set the executing flag
- */
+/** Set the executing flag */
 export function setExecuting(state: GameState, executing: boolean): GameState {
   return {
     ...state,

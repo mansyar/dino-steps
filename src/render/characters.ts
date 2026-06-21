@@ -1,11 +1,11 @@
 // SVG character loader — preloads character SVGs as Image objects for Canvas drawing
 
-import type { DinoCharacter } from "../engine/types";
+import type { DinoCharacter } from '../engine/types';
 
 const CHARACTER_FILES: Record<DinoCharacter, string> = {
-  Rexy: "/characters/rexy.svg",
-  Trikey: "/characters/trikey.svg",
-  Sera: "/characters/sera.svg",
+  Rexy: '/characters/rexy.svg',
+  Trikey: '/characters/trikey.svg',
+  Sera: '/characters/sera.svg',
 };
 
 const cache = new Map<DinoCharacter, HTMLImageElement>();
@@ -13,8 +13,8 @@ let loading = false;
 let loaded = false;
 
 /**
- * Preload all character SVGs. Call once at startup.
- * Returns a promise that resolves when all images are ready.
+ * Preload all character SVGs. Call once at startup. Returns a promise that resolves when all images
+ * are ready.
  */
 export function preloadCharacters(): Promise<void> {
   if (loaded) return Promise.resolve();
@@ -43,10 +43,7 @@ export function preloadCharacters(): Promise<void> {
   });
 }
 
-/**
- * Get the preloaded Image for a character.
- * Returns null if not yet loaded.
- */
+/** Get the preloaded Image for a character. Returns null if not yet loaded. */
 export function getCharacterImage(char: DinoCharacter): HTMLImageElement | null {
   return cache.get(char) ?? null;
 }

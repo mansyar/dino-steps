@@ -10,23 +10,23 @@ export interface CanvasContext {
 
 let canvasCtx: CanvasContext | null = null;
 
-export function initCanvas(canvasId = "gameCanvas"): CanvasContext {
+export function initCanvas(canvasId = 'gameCanvas'): CanvasContext {
   const canvas = document.getElementById(canvasId) as HTMLCanvasElement | null;
   if (!canvas) throw new Error(`Canvas element #${canvasId} not found`);
 
-  const ctx = canvas.getContext("2d");
-  if (!ctx) throw new Error("Failed to get 2D context");
+  const ctx = canvas.getContext('2d');
+  if (!ctx) throw new Error('Failed to get 2D context');
 
   canvasCtx = { canvas, ctx, width: 0, height: 0, dpr: 1 };
   handleResize();
 
-  window.addEventListener("resize", handleResize);
+  window.addEventListener('resize', handleResize);
 
   return canvasCtx;
 }
 
 export function getCanvasContext(): CanvasContext {
-  if (!canvasCtx) throw new Error("Canvas not initialized. Call initCanvas() first.");
+  if (!canvasCtx) throw new Error('Canvas not initialized. Call initCanvas() first.');
   return canvasCtx;
 }
 

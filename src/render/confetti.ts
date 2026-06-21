@@ -1,8 +1,8 @@
 // Confetti particle system for win celebration
 // Procedurally generated multi-colored falling particles
 
-import { getCanvasContext } from "./canvas";
-import { lerp } from "./smoothstep";
+import { getCanvasContext } from './canvas';
+import { lerp } from './smoothstep';
 
 interface Particle {
   x: number;
@@ -19,10 +19,10 @@ interface Particle {
 
 // Confetti theme colors — brand palette (GDD §3.2)
 const CONFETTI_COLORS = [
-  "#f4b400", // yellow
-  "#db4437", // red
-  "#4285f4", // blue
-  "#0f9d58", // green
+  '#f4b400', // yellow
+  '#db4437', // red
+  '#4285f4', // blue
+  '#0f9d58', // green
 ];
 
 const GRAVITY = 180; // pixels per second²
@@ -38,9 +38,7 @@ export function createConfettiState(): ConfettiState {
   return { particles: [], active: false };
 }
 
-/**
- * Burst confetti from a center point
- */
+/** Burst confetti from a center point */
 export function burstConfetti(state: ConfettiState, cx: number, cy: number): void {
   state.active = true;
   state.particles = [];
@@ -64,9 +62,7 @@ export function burstConfetti(state: ConfettiState, cx: number, cy: number): voi
   }
 }
 
-/**
- * Burst confetti with reduced count (for prefers-reduced-motion)
- */
+/** Burst confetti with reduced count (for prefers-reduced-motion) */
 export function burstConfettiReduced(state: ConfettiState, cx: number, cy: number): void {
   state.active = true;
   state.particles = [];
@@ -91,10 +87,7 @@ export function burstConfettiReduced(state: ConfettiState, cx: number, cy: numbe
   }
 }
 
-/**
- * Update and draw confetti particles
- * Returns true if any particles are still alive
- */
+/** Update and draw confetti particles Returns true if any particles are still alive */
 export function updateConfetti(state: ConfettiState, dt: number): boolean {
   if (!state.active || state.particles.length === 0) return false;
 
