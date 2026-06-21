@@ -30,7 +30,7 @@ Goal: Centralize visual tokens and stop hard-coding colors/sizes in `tap.ts`.
     - [x] pnpm typecheck: no errors.
 - [ ] Task: Conductor - User Manual Verification 'Foundation: Theme & Stylesheet' (Protocol in workflow.md)
 
-## Phase 2 — Game Screen Layout & Controls
+## Phase 2 — Game Screen Layout & Controls [checkpoint: 2672c7f]
 
 Goal: Re-layout the game screen per the GDD palette and 64 px touch-target rule.
 
