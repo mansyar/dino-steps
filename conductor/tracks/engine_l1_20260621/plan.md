@@ -321,10 +321,11 @@
     - [x] `pnpm build` — production build succeeds, output <500KB
     - [x] Manual 60fps verification in browser (DevTools Performance tab)
 
-- [ ] Task: Commit final Level 1 integration
-    - [ ] Stage and commit all remaining files
-    - [ ] Attach git note with task summary
+- [x] Task: Commit final Level 1 integration
+    - [x] Stage and commit all remaining files
+    - [x] Attach git note with task summary
 
 - [ ] Task: Conductor - User Manual Verification 'Phase 7: Level 1 Integration & Polish' (Protocol in workflow.md)
+    - Checkpoint SHA: `6f05bb4`
 
 </protect>
