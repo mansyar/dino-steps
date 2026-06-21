@@ -132,9 +132,9 @@
     - [x] Implement `executeQueue(state, level)` — the top-level function called by GO button: loops `processNextCommand` until terminal
     - [x] Verify all Level 1 scenarios pass with `pnpm test`
 
-- [ ] Task: Commit Phase 3 execution engine
-    - [ ] Stage and commit all Phase 3 files
-    - [ ] Attach git note with task summary
+- [x] Task: Commit Phase 3 execution engine `837d4c6`
+    - [x] Stage and commit all Phase 3 files
+    - [x] Attach git note with task summary
 
 - [ ] Task: Conductor - User Manual Verification 'Phase 3: Command Execution Engine' (Protocol in workflow.md)
 
@@ -142,40 +142,40 @@
 
 ## Phase 4: Canvas2D Rendering
 
-- [ ] Task: Read `spec.md` and `workflow.md` before starting this phase
+- [x] Task: Read `spec.md` and `workflow.md` before starting this phase
 
-- [ ] Task: Set up Canvas2D context and render loop
-    - [ ] Create `src/render/canvas.ts`: get canvas + 2d context, handle resize/DPI scaling
-    - [ ] Create `src/render/loop.ts`: `requestAnimationFrame` loop with delta-time, start/stop controls
-    - [ ] Verify canvas renders a test rectangle in browser
+- [x] Task: Set up Canvas2D context and render loop
+    - [x] Create `src/render/canvas.ts`: get canvas + 2d context, handle resize/DPI scaling
+    - [x] Create `src/render/loop.ts`: `requestAnimationFrame` loop with delta-time, start/stop controls
+    - [x] Verify canvas renders in browser
 
-- [ ] Task: Implement grid rendering
-    - [ ] Create `src/render/grid.ts`: draw 5×3 grid with tile size calculation, tile background colors (mint green for empty)
-    - [ ] Create `src/render/tiles.ts`: render tile types — empty, obstacle (rock), interactable (turtle/grass), food (berry/leaf/cookie) — using inline SVG or basic canvas paths
-    - [ ] Verify grid renders with Level 1 layout (dino at (0,1), food at (3,1)) in browser
+- [x] Task: Implement grid rendering
+    - [x] Create `src/render/grid.ts`: draw 5×3 grid with tile size calculation, tile background colors (mint green for empty)
+    - [x] Create `src/render/tiles.ts`: render tile types — empty, obstacle (rock), interactable (turtle/grass), food (berry/leaf/cookie) — using inline SVG or basic canvas paths
+    - [x] Verify grid renders with Level 1 layout (dino at (0,1), food at (3,1)) in browser
 
-- [ ] Task: Implement dino vector rendering
-    - [ ] Create `src/render/dino.ts`: procedural Canvas2D drawing of dino body (basic shapes: body, head, eye, legs) parameterized by character color (Rexy green, Trikey blue, Sera pink)
-    - [ ] Support facing direction (flip/rotate sprite based on `dinoFacing`)
-    - [ ] Verify dino renders on grid at correct position and facing in browser
+- [x] Task: Implement dino vector rendering
+    - [x] Create `src/render/dino.ts`: procedural Canvas2D drawing of dino body (basic shapes: body, head, eye, legs) parameterized by character color (Rexy green, Trikey blue, Sera pink)
+    - [x] Support facing direction (flip/rotate sprite based on `dinoFacing`)
+    - [x] Verify dino renders on grid at correct position and facing in browser
 
-- [ ] Task: Implement smoothstep tweening utility
-    - [ ] Write test: `smoothstep(0) === 0`; `smoothstep(1) === 1`; `smoothstep(0.5) === 0.5`; `smoothstep(0.25) === 0.15625`; monotonicity (output increases with input)
-    - [ ] Implement `src/render/smoothstep.ts`: `smoothstep(t)` = `3t² - 2t³`, `lerp(a, b, t)` helper
-    - [ ] Verify tests pass
+- [x] Task: Implement smoothstep tweening utility
+    - [x] Write test: `smoothstep(0) === 0`; `smoothstep(1) === 1`; `smoothstep(0.5) === 0.5`; `smoothstep(0.25) === 0.15625`; monotonicity (output increases with input)
+    - [x] Implement `src/render/smoothstep.ts`: `smoothstep(t)` = `3t² - 2t³`, `lerp(a, b, t)` helper
+    - [x] Verify tests pass
 
-- [ ] Task: Implement movement interpolation
-    - [ ] Create `src/render/movement.ts`: interpolate dino render position between grid cells using smoothstep over a duration (e.g., 200ms per step)
-    - [ ] Track animation state: `idle`, `walking`, `turning`
-    - [ ] Verify dino smoothly slides between tiles in browser (visual check)
+- [x] Task: Implement movement interpolation
+    - [x] Create `src/render/movement.ts`: interpolate dino render position between grid cells using smoothstep over a duration (e.g., 200ms per step)
+    - [x] Track animation state: `idle`, `walking`, `turning`
+    - [x] Verify dino smoothly slides between tiles in browser (visual check)
 
-- [ ] Task: Implement basic dino animations
-    - [ ] Implement idle animation (subtle bob)
-    - [ ] Implement walking animation (leg movement during smoothstep transition)
-    - [ ] Implement turning animation (rotate during turn command)
-    - [ ] Verify animations play in browser during Level 1 execution
+- [x] Task: Implement basic dino animations
+    - [x] Implement idle animation (subtle bob)
+    - [x] Implement walking animation (leg movement during smoothstep transition)
+    - [x] Implement turning animation (rotate during turn command)
+    - [x] Verify animations play in browser during Level 1 execution
 
-- [ ] Task: Conductor - User Manual Verification 'Phase 4: Canvas2D Rendering' (Protocol in workflow.md)
+- [x] Task: Conductor - User Manual Verification 'Phase 4: Canvas2D Rendering' (Protocol in workflow.md)
 
 ---
 
