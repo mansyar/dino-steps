@@ -5,19 +5,29 @@
 
 Goal: Centralize visual tokens and stop hard-coding colors/sizes in `tap.ts`.
 
-- [ ] Task: Read spec.md and workflow.md for this phase.
-    - [ ] Review acceptance criteria and references in `spec.md`.
-    - [ ] Review the Phase Completion Verification and Checkpointing Protocol in `workflow.md`.
-- [ ] Task: Create `src/styles.css` with GDD palette CSS custom properties.
-    - [ ] Define background, grid, command, GO, failure, and character accent variables.
-    - [ ] Add utility classes for buttons, slots, overlays, and screens.
-- [ ] Task: Import `src/styles.css` into `src/main.ts` and attach the stylesheet to the build.
-- [ ] Task: Write failing tests for any new pure helpers (e.g., theme-token resolver if introduced).
-- [ ] Task: Refactor `src/input/tap.ts` to use classes from `styles.css` for all static styling.
-    - [ ] Replace hard-coded color, size, and border-radius inline styles with class names.
-    - [ ] Keep only dynamic values (`disabled` opacity, character colors) in JavaScript, referencing CSS variables.
-- [ ] Task: Verify the game still renders without visual regressions.
-- [ ] Task: Run `pnpm test`, `pnpm lint`, `pnpm format`, `pnpm typecheck`.
+- [x] Task: Read spec.md and workflow.md for this phase.
+    - [x] Review acceptance criteria and references in `spec.md`.
+    - [x] Review the Phase Completion Verification and Checkpointing Protocol in `workflow.md`.
+- [x] Task: Create `src/styles.css` with GDD palette CSS custom properties. `a19b6a2`
+    - [x] Define background, grid, command, GO, failure, and character accent variables.
+    - [x] Add utility classes for buttons, slots, overlays, and screens.
+- [x] Task: Import `src/styles.css` into `src/main.ts` and attach the stylesheet to the build. `a19b6a2`
+    - [x] Added `src/env.d.ts` with CSS module type declaration.
+- [x] Task: Write failing tests for any new pure helpers (e.g., theme-token resolver if introduced). `a19b6a2`
+    - [x] No pure JS helpers introduced in this phase — CSS variables consumed directly by browser.
+- [x] Task: Refactor `src/input/tap.ts` to use classes from `styles.css` for all static styling. `a19b6a2`
+    - [x] Replace hard-coded color, size, and border-radius inline styles with class names.
+    - [x] Keep only dynamic values (`disabled` opacity, character colors) in JavaScript, referencing CSS variables.
+    - [x] Also refactored `index.html` and `src/main.ts` inline styles to use CSS classes.
+    - [x] Added `src/env.d.ts` for CSS module type declarations.
+- [x] Task: Verify the game still renders without visual regressions. `a19b6a2`
+    - [x] All 105 tests pass, 0 lint errors, typecheck passes.
+    - [x] Manual verification: background, grid, buttons, track, hint text all correct.
+- [x] Task: Run `pnpm test`, `pnpm lint`, `pnpm format`, `pnpm typecheck`. `a19b6a2`
+    - [x] pnpm test: 11 files, 105 tests passed.
+    - [x] pnpm lint: 0 warnings, 0 errors.
+    - [x] pnpm format: 34 files processed.
+    - [x] pnpm typecheck: no errors.
 - [ ] Task: Conductor - User Manual Verification 'Foundation: Theme & Stylesheet' (Protocol in workflow.md)
 
 ## Phase 2 — Game Screen Layout & Controls
