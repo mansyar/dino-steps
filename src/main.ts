@@ -2,10 +2,29 @@
 // A text-free web game that introduces sequencing to preschoolers
 
 import './styles.css';
-import { initCanvas } from './render/canvas';
+import { initCanvas, getCanvasContext } from './render/canvas';
 import { startLoop } from './render/loop';
 import { drawGrid, drawFoodWiggle } from './render/grid';
 import { drawDino, drawDizzyRings, drawBump, createDinoAnimState } from './render/dino';
+import {
+  createShakeState,
+  triggerShake,
+  updateShake,
+  createDustState,
+  spawnDust,
+  updateDust,
+  createSignatureState,
+  triggerSignature,
+  updateSignature,
+  drawSignature,
+  createSoftResistState,
+  triggerSoftResist,
+  updateSoftResist,
+  getSoftResistOffset,
+  createFoodGlanceState,
+  triggerFoodGlance,
+  updateFoodGlance,
+} from './render/juice';
 import { preloadCharacters } from './render/characters';
 import {
   createMovementState,
@@ -105,6 +124,14 @@ let hintEl: HTMLElement | null = null;
 // Animation state
 const dinoAnim = createDinoAnimState();
 let movement = createMovementState(0, 1);
+
+// Canvas juice state
+const shakeState = createShakeState();
+const dustState = createDustState();
+const signatureState = createSignatureState();
+const softResistState = createSoftResistState();
+const foodGlanceState = createFoodGlanceState();
+let prevAnimState: 'idle' | 'walking' | 'turning' = 'idle';
 
 // Track slot animation state
 let animateNewSlot = false;
@@ -339,6 +366,9 @@ function processNextExecCommand(): void {
       break;
     }
     case 'softResist': {
+      // Trigger soft-resist animation (dino leans, tile bounces back)
+      triggerSoftResist(softResistState);
+
       // Advance index without moving
       gameState = {
         ...gameState,
@@ -348,7 +378,8 @@ function processNextExecCommand(): void {
       if (gameState.activeCommandIndex >= gameState.commandQueue.length) {
         const terminal = checkTerminalState(gameState, level);
         if (terminal.type === 'hint') {
-          // On food without action — show hint
+          // On food without action — show hint + food glance
+          triggerFoodGlance(foodGlanceState, level.food.x, level.food.y);
           showHint = true;
           hintTimer = 2.0;
           hintTime = 0;
@@ -374,13 +405,16 @@ function processNextExecCommand(): void {
         startTurn(movement);
       } else if (cmd === 'A') {
         if (!currentMuted) playAction();
+        // Trigger signature move visual
+        triggerSignature(signatureState, gameState.character);
       }
 
       // Check if queue is exhausted after this command
       if (gameState.activeCommandIndex >= gameState.commandQueue.length) {
         const terminal = checkTerminalState(gameState, level);
         if (terminal.type === 'hint') {
-          // On food without action — show hint
+          // On food without action — show hint + food glance
+          triggerFoodGlance(foodGlanceState, level.food.x, level.food.y);
           showHint = true;
           hintTimer = 2.0;
           hintTime = 0;
@@ -488,6 +522,30 @@ async function init(): Promise<void> {
       const level = levels[currentLevelIndex];
       const gridMetrics = drawGrid(level);
 
+      // Detect walk completion for screen shake + dust
+      if (movement.animState === 'walking') {
+        prevAnimState = 'walking';
+      } else if (prevAnimState === 'walking' && movement.animState === 'idle') {
+        // Walk just completed — trigger shake + dust
+        prevAnimState = 'idle';
+        if (!prefersReducedMotion) {
+          triggerShake(shakeState, 3, 0.08);
+        }
+        const dustX =
+          gridMetrics.offsetX + gridMetrics.tileSize * movement.toX + gridMetrics.tileSize / 2;
+        const dustY =
+          gridMetrics.offsetY + gridMetrics.tileSize * movement.toY + gridMetrics.tileSize * 0.8;
+        spawnDust(dustState, dustX, dustY, gridMetrics.tileSize, prefersReducedMotion);
+      }
+
+      // Apply screen shake
+      const shake = updateShake(shakeState, dt, prefersReducedMotion);
+      if (shake.x !== 0 || shake.y !== 0) {
+        const { ctx } = getCanvasContext();
+        ctx.save();
+        ctx.translate(shake.x, shake.y);
+      }
+
       // Win timer — advance after celebration
       if (showWin) {
         winTimer -= dt;
@@ -557,6 +615,21 @@ async function init(): Promise<void> {
         dinoY += bumpOffset.y;
       }
 
+      // Apply soft-resist offset
+      const softResistOffset = getSoftResistOffset(
+        softResistState,
+        gridMetrics.tileSize,
+        gameState.dinoFacing,
+      );
+      dinoX += softResistOffset.x;
+      dinoY += softResistOffset.y;
+
+      // Update canvas juice effects
+      updateDust(dustState, dt);
+      updateSignature(signatureState, dt);
+      updateSoftResist(softResistState, dt);
+      updateFoodGlance(foodGlanceState, dt);
+
       // Draw dino with appropriate animation
       const animType = isIdle(movement) ? (showWin ? 'celebrating' : 'idle') : movement.animState;
 
@@ -571,6 +644,9 @@ async function init(): Promise<void> {
         showWin ? backflipProgress : undefined,
       );
 
+      // Draw signature move effect (after dino)
+      drawSignature(dinoX, dinoY, gridMetrics.tileSize, signatureState, prefersReducedMotion);
+
       // Draw dizzy rings during failure
       if (showFail && failTimer > 0.3) {
         drawDizzyRings(dinoX, dinoY, gridMetrics.tileSize, failDizzyProgress, prefersReducedMotion);
@@ -579,6 +655,12 @@ async function init(): Promise<void> {
       // Draw food wiggle during hint
       if (showHint) {
         drawFoodWiggle(level, hintTime, prefersReducedMotion);
+      }
+
+      // Close screen shake transform
+      if (shake.x !== 0 || shake.y !== 0) {
+        const { ctx } = getCanvasContext();
+        ctx.restore();
       }
     } else if (showingHome || showingLevelSelect) {
       // Draw idle dino on level 1 grid behind home screen
