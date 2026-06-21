@@ -118,7 +118,6 @@ Goal: Add GDD-specified movement and action visual effects.
     - [x] pnpm format: all files formatted.
     - [x] pnpm typecheck: no errors.
 - [x] Task: Conductor - User Manual Verification 'Canvas Juice: Movement & Signature Moves' (Protocol in workflow.md)
-- [ ] Task: Conductor - User Manual Verification 'Canvas Juice: Movement & Signature Moves' (Protocol in workflow.md)
 
 ## Phase 5 — Home & Level Select Screens [checkpoint: 012a4ff]
 
@@ -152,8 +151,8 @@ Goal: Verify the whole track meets acceptance criteria and project quality gates
 - [x] Task: Read spec.md and workflow.md for this phase.
     - [x] Review acceptance criteria and references in `spec.md`.
     - [x] Review the Phase Completion Verification and Checkpointing Protocol in `workflow.md`.
-- [~] Task: Manual UI/animation pass on desktop and mobile viewport sizes.
-    - [x] Verify 64 px tap targets using browser dev tools. (CSS: --tap-target-min: 64px applied to all .btn)
+- [x] Task: Manual UI/animation pass on desktop and mobile viewport sizes.
+    - [x] Verify 64 px tap targets using browser dev tools. (CSS: --tap-target-min: 64px applied to all .btn and track slots)
     - [x] Verify `prefers-reduced-motion` disables/reduces motion. (CSS: disables all animations; Canvas: reduces dust/shake/signature intensity)
 - [x] Task: Run full test suite and coverage.
     - [x] `pnpm coverage` must pass the 80% threshold. (86.42% statements, 85.54% branch, 96% functions)
@@ -165,4 +164,14 @@ Goal: Verify the whole track meets acceptance criteria and project quality gates
 - [x] Task: Verify production bundle size stays under 500 KB. (38 KB total, 12 KB gzip)
 - [x] Task: Update `plan.md` task statuses and record checkpoint SHA.
 - [x] Task: Conductor - User Manual Verification 'Integration & Quality Gates' (Protocol in workflow.md)
+
+## Phase: Review Fixes
+
+- [x] Task: Apply review suggestions d2f9d46
+    - [x] Remove remaining hard-coded sizes/colors from `src/input/tap.ts`.
+    - [x] Ensure home/mute top-bar buttons meet the 64×64 px minimum tap target.
+    - [x] Implement `drawFoodGlance` and wire it into the game render loop.
+    - [x] Add keyboard (`Enter`/`Space`) activation to all tap-built buttons and filled track slots.
+    - [x] Fix `plan.md` duplicate task and open manual-verification task.
+
 </protect>
