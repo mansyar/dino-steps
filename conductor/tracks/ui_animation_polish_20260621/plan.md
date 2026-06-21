@@ -1,7 +1,7 @@
 <protect>
 # Track: UI & Animation Polish — Implementation Plan
 
-## Phase 1 — Foundation: Theme & Stylesheet
+## Phase 1 — Foundation: Theme & Stylesheet [checkpoint: e81fbeb]
 
 Goal: Centralize visual tokens and stop hard-coding colors/sizes in `tap.ts`.
 
