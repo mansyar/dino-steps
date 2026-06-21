@@ -1,63 +1,79 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 80">
-  <!-- Rexy - Friendly T-Rex (green) -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120">
+  <!-- Rexy - Cute Chibi T-Rex (green) -->
   <defs>
-    <radialGradient id="bodyGrad" cx="40%" cy="35%">
+    <linearGradient id="bodyGrad" x1="0" y1="0" x2="0" y2="1">
       <stop offset="0%" stop-color="#66bb6a"/>
       <stop offset="100%" stop-color="#388e3c"/>
-    </radialGradient>
+    </linearGradient>
+    <linearGradient id="headGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#81c784"/>
+      <stop offset="100%" stop-color="#4caf50"/>
+    </linearGradient>
   </defs>
 
-  <!-- Tail -->
-  <path d="M25,38 Q10,34 5,30 Q2,28 4,32 Q6,36 8,40 Q12,44 25,42 Z" fill="#4caf50"/>
-  <path d="M12,33 Q6,30 4,32" fill="none" stroke="#388e3c" stroke-width="1.5" stroke-linecap="round"/>
+  <!-- Tail (curves up and to the right) -->
+  <path d="M72,72 Q90,68 100,58 Q108,50 106,44 Q104,40 98,42 Q92,46 84,56 Q78,64 72,68 Z" fill="#4caf50"/>
+  <path d="M92,54 Q100,48 104,44" fill="none" stroke="#388e3c" stroke-width="1.5" stroke-linecap="round"/>
 
-  <!-- Back leg -->
-  <path d="M38,48 L38,62 Q38,66 42,66 L46,66 Q50,66 50,62 L50,48" fill="#388e3c"/>
-  <ellipse cx="44" cy="66" rx="6" ry="3" fill="#2e7d32"/>
+  <!-- Back leg (left) -->
+  <path d="M44,78 L42,96 Q42,100 46,100 L52,100 Q56,100 56,96 L54,78" fill="#388e3c"/>
+  <ellipse cx="49" cy="100" rx="8" ry="3" fill="#2e7d32"/>
 
-  <!-- Front leg -->
-  <path d="M58,46 L58,60 Q58,64 62,64 L66,64 Q70,64 70,60 L70,46" fill="#388e3c"/>
-  <ellipse cx="64" cy="64" rx="6" ry="3" fill="#2e7d32"/>
+  <!-- Front leg (right) -->
+  <path d="M62,76 L60,94 Q60,98 64,98 L70,98 Q74,98 74,94 L72,76" fill="#388e3c"/>
+  <ellipse cx="67" cy="98" rx="8" ry="3" fill="#2e7d32"/>
 
-  <!-- Body -->
-  <ellipse cx="48" cy="38" rx="24" ry="16" fill="url(#bodyGrad)"/>
+  <!-- Body (small, round) -->
+  <ellipse cx="56" cy="68" rx="20" ry="14" fill="url(#bodyGrad)"/>
 
-  <!-- Belly highlight -->
-  <ellipse cx="50" cy="42" rx="16" ry="8" fill="rgba(255,255,255,0.15)"/>
+  <!-- Belly -->
+  <ellipse cx="58" cy="72" rx="12" ry="8" fill="rgba(255,255,255,0.15)"/>
+
+  <!-- Left arm (tiny) -->
+  <path d="M42,64 Q38,68 36,72 L38,74 Q40,70 44,66 Z" fill="#4caf50"/>
+  <!-- Left hand fingers -->
+  <circle cx="36" cy="73" r="1.5" fill="#4caf50"/>
+
+  <!-- Right arm (tiny) -->
+  <path d="M64,62 Q68,66 70,70 L72,68 Q70,64 66,60 Z" fill="#4caf50"/>
+  <!-- Right hand fingers -->
+  <circle cx="71" cy="69" r="1.5" fill="#4caf50"/>
 
   <!-- Neck -->
-  <path d="M66,30 Q70,20 74,16 L80,18 Q76,22 72,32 Z" fill="#4caf50"/>
+  <path d="M50,56 Q48,48 50,42 L60,40 Q62,46 60,56 Z" fill="#4caf50"/>
 
-  <!-- Head -->
-  <ellipse cx="82" cy="14" rx="14" ry="10" fill="#4caf50"/>
+  <!-- Head (BIG - dominant feature) -->
+  <ellipse cx="54" cy="30" rx="26" ry="22" fill="url(#headGrad)"/>
 
   <!-- Snout -->
-  <ellipse cx="96" cy="16" rx="8" ry="6" fill="#4caf50"/>
+  <ellipse cx="76" cy="34" rx="12" ry="9" fill="#4caf50"/>
 
-  <!-- Top of head bump -->
-  <ellipse cx="80" cy="6" rx="8" ry="4" fill="#4caf50"/>
+  <!-- Top of head -->
+  <ellipse cx="48" cy="12" rx="14" ry="8" fill="#66bb6a"/>
 
-  <!-- Jaw (lower) -->
-  <path d="M88,20 Q92,22 98,20 Q96,18 92,18 Q88,18 88,20 Z" fill="#388e3c"/>
-
-  <!-- Eye white -->
-  <circle cx="84" cy="10" r="5" fill="white"/>
+  <!-- Eye socket (white) -->
+  <circle cx="60" cy="22" r="10" fill="white"/>
   <!-- Pupil -->
-  <circle cx="86" cy="10" r="2.5" fill="#1a1a1a"/>
+  <circle cx="63" cy="22" r="5" fill="#1a1a1a"/>
   <!-- Eye shine -->
-  <circle cx="87" cy="8.5" r="1" fill="white"/>
+  <circle cx="65" cy="19" r="2" fill="white"/>
 
-  <!-- Nostril -->
-  <circle cx="102" cy="14" r="1.2" fill="#388e3c"/>
+  <!-- Brow ridge -->
+  <path d="M48,14 Q54,12 62,14" fill="none" stroke="#388e3c" stroke-width="2" stroke-linecap="round"/>
 
-  <!-- Smile -->
-  <path d="M90,18 Q94,21 98,18" fill="none" stroke="#2e7d32" stroke-width="1" stroke-linecap="round"/>
+  <!-- Nostrils -->
+  <circle cx="84" cy="32" r="1.5" fill="#388e3c"/>
+  <circle cx="80" cy="30" r="1.2" fill="#388e3c"/>
 
-  <!-- Tiny arm -->
-  <path d="M62,36 Q64,40 62,44 L60,42 Q61,38 60,36 Z" fill="#4caf50"/>
+  <!-- Mouth/smile -->
+  <path d="M68,38 Q76,44 84,38" fill="none" stroke="#2e7d32" stroke-width="1.5" stroke-linecap="round"/>
 
-  <!-- Spots on body -->
-  <circle cx="38" cy="34" r="2" fill="rgba(56,142,60,0.3)"/>
-  <circle cx="46" cy="30" r="1.5" fill="rgba(56,142,60,0.3)"/>
-  <circle cx="54" cy="32" r="1.8" fill="rgba(56,142,60,0.3)"/>
+  <!-- Teeth (cute, small) -->
+  <rect x="72" y="38" width="3" height="3" rx="1" fill="white"/>
+  <rect x="77" y="39" width="3" height="2.5" rx="1" fill="white"/>
+
+  <!-- Body spots -->
+  <circle cx="46" cy="64" r="2.5" fill="rgba(56,142,60,0.25)"/>
+  <circle cx="56" cy="60" r="2" fill="rgba(56,142,60,0.25)"/>
+  <circle cx="64" cy="64" r="1.8" fill="rgba(56,142,60,0.25)"/>
 </svg>

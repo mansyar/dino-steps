@@ -1,64 +1,68 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 80">
-  <!-- Sera - Friendly Stegosaurus (red) -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120">
+  <!-- Sera - Cute Chibi Stegosaurus (red) -->
   <defs>
-    <radialGradient id="bodyGrad" cx="40%" cy="35%">
+    <linearGradient id="bodyGrad" x1="0" y1="0" x2="0" y2="1">
       <stop offset="0%" stop-color="#ef9a9a"/>
       <stop offset="100%" stop-color="#c62828"/>
-    </radialGradient>
+    </linearGradient>
+    <linearGradient id="headGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#ef9a9a"/>
+      <stop offset="100%" stop-color="#e53935"/>
+    </linearGradient>
   </defs>
 
   <!-- Tail (big, with spikes) -->
-  <path d="M18,40 Q8,36 4,34 Q1,33 2,36 Q3,40 6,44 Q10,48 18,46 Z" fill="#ef5350"/>
+  <path d="M72,72 Q88,68 98,60 Q104,54 102,48 Q100,44 94,46 Q88,50 80,58 Q76,64 72,68 Z" fill="#ef5350"/>
   <!-- Tail spikes (thagomizer) -->
-  <path d="M6,34 L2,28 L8,34" fill="#f5f5dc"/>
-  <path d="M4,36 L0,32 L6,37" fill="#f5f5dc"/>
-  <path d="M8,42 L4,46 L10,43" fill="#f5f5dc"/>
+  <path d="M96,50 L104,42 L98,52" fill="#f5f5dc"/>
+  <path d="M90,56 L96,48 L92,58" fill="#f5f5dc"/>
+  <path d="M84,62 L90,54 L86,64" fill="#f5f5dc"/>
 
-  <!-- Back leg -->
-  <path d="M34,50 L34,62 Q34,66 38,66 L44,66 Q48,66 48,62 L48,50" fill="#e53935"/>
-  <ellipse cx="41" cy="66" rx="7" ry="3" fill="#c62828"/>
+  <!-- Back legs -->
+  <path d="M46,78 L44,96 Q44,100 48,100 L54,100 Q58,100 58,96 L56,78" fill="#e53935"/>
+  <ellipse cx="51" cy="100" rx="8" ry="3" fill="#c62828"/>
 
-  <!-- Front leg -->
-  <path d="M60,48 L60,60 Q60,64 64,64 L70,64 Q74,64 74,60 L74,48" fill="#e53935"/>
-  <ellipse cx="67" cy="64" rx="7" ry="3" fill="#c62828"/>
+  <!-- Front legs -->
+  <path d="M64,76 L62,94 Q62,98 66,98 L72,98 Q76,98 76,94 L74,76" fill="#e53935"/>
+  <ellipse cx="69" cy="98" rx="8" ry="3" fill="#c62828"/>
 
-  <!-- Body (large, arched) -->
-  <ellipse cx="46" cy="38" rx="28" ry="18" fill="url(#bodyGrad)"/>
+  <!-- Body (large, arched back) -->
+  <ellipse cx="56" cy="66" rx="24" ry="18" fill="url(#bodyGrad)"/>
 
-  <!-- Belly highlight -->
-  <ellipse cx="48" cy="42" rx="20" ry="9" fill="rgba(255,255,255,0.12)"/>
+  <!-- Belly -->
+  <ellipse cx="58" cy="72" rx="16" ry="10" fill="rgba(255,255,255,0.12)"/>
 
-  <!-- Back plates (Stegosaurus-style) -->
-  <path d="M24,24 L28,8 L32,24" fill="#d32f2f"/>
-  <path d="M34,22 L38,4 L42,22" fill="#d32f2f"/>
-  <path d="M44,20 L48,2 L52,20" fill="#d32f2f"/>
-  <path d="M54,22 L58,8 L62,22" fill="#d32f2f"/>
-  <path d="M62,26 L66,14 L68,26" fill="#d32f2f"/>
+  <!-- Back plates (Stegosaurus-style, along the top) -->
+  <path d="M34,50 L38,28 L42,50" fill="#d32f2f"/>
+  <path d="M42,46 L46,22 L50,46" fill="#d32f2f"/>
+  <path d="M50,44 L54,18 L58,44" fill="#d32f2f"/>
+  <path d="M58,46 L62,24 L66,46" fill="#d32f2f"/>
+  <path d="M64,50 L68,32 L70,50" fill="#d32f2f"/>
 
   <!-- Neck -->
-  <path d="M70,30 Q74,22 76,18 L82,20 Q80,24 76,34 Z" fill="#ef5350"/>
+  <path d="M70,52 Q72,44 74,38 L82,38 Q80,44 78,52 Z" fill="#ef5350"/>
 
-  <!-- Head (small) -->
-  <ellipse cx="86" cy="18" rx="10" ry="8" fill="#ef5350"/>
+  <!-- Head (BIG, round) -->
+  <ellipse cx="82" cy="28" rx="18" ry="16" fill="url(#headGrad)"/>
 
   <!-- Snout -->
-  <ellipse cx="96" cy="20" rx="5" ry="4" fill="#ef5350"/>
+  <ellipse cx="98" cy="32" rx="8" ry="6" fill="#ef5350"/>
 
-  <!-- Eye white -->
-  <circle cx="86" cy="14" r="4" fill="white"/>
+  <!-- Eye socket -->
+  <circle cx="84" cy="22" r="8" fill="white"/>
   <!-- Pupil -->
-  <circle cx="87.5" cy="14" r="2" fill="#1a1a1a"/>
+  <circle cx="87" cy="22" r="4" fill="#1a1a1a"/>
   <!-- Eye shine -->
-  <circle cx="88.5" cy="12.5" r="0.8" fill="white"/>
+  <circle cx="89" cy="19" r="1.5" fill="white"/>
 
   <!-- Nostril -->
-  <circle cx="100" cy="18" r="1" fill="#c62828"/>
+  <circle cx="104" cy="30" r="1.2" fill="#c62828"/>
 
   <!-- Smile -->
-  <path d="M90,20 Q93,22 96,20" fill="none" stroke="#c62828" stroke-width="0.8" stroke-linecap="round"/>
+  <path d="M90,34 Q96,38 102,34" fill="none" stroke="#c62828" stroke-width="1" stroke-linecap="round"/>
 
-  <!-- Body pattern -->
-  <circle cx="36" cy="34" r="2.5" fill="rgba(198,40,40,0.2)"/>
-  <circle cx="48" cy="30" r="2" fill="rgba(198,40,40,0.2)"/>
-  <circle cx="58" cy="34" r="1.8" fill="rgba(198,40,40,0.2)"/>
+  <!-- Body spots -->
+  <circle cx="44" cy="62" r="2.5" fill="rgba(198,40,40,0.15)"/>
+  <circle cx="56" cy="58" r="2" fill="rgba(198,40,40,0.15)"/>
+  <circle cx="66" cy="62" r="1.8" fill="rgba(198,40,40,0.15)"/>
 </svg>
