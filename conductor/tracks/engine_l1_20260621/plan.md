@@ -47,6 +47,7 @@
     - [x] Commit initial scaffolding
 
 - [x] Task: Conductor - User Manual Verification 'Phase 1: Project Scaffolding & Tooling' (Protocol in workflow.md)
+    - Checkpoint SHA: `448b598` (retroactive)
 
 ---
 
@@ -90,6 +91,7 @@
     - [x] Attach git note with task summary
 
 - [x] Task: Conductor - User Manual Verification 'Phase 2: Core Types & Logic' (Protocol in workflow.md)
+    - Checkpoint SHA: `91e62df` (retroactive)
 
 ---
 
@@ -136,7 +138,8 @@
     - [x] Stage and commit all Phase 3 files
     - [x] Attach git note with task summary
 
-- [ ] Task: Conductor - User Manual Verification 'Phase 3: Command Execution Engine' (Protocol in workflow.md)
+- [x] Task: Conductor - User Manual Verification 'Phase 3: Command Execution Engine' (Protocol in workflow.md)
+    - Checkpoint SHA: `9f21519` (retroactive)
 
 ---
 
@@ -176,6 +179,7 @@
     - [x] Verify animations play in browser during Level 1 execution
 
 - [x] Task: Conductor - User Manual Verification 'Phase 4: Canvas2D Rendering' (Protocol in workflow.md)
+    - Checkpoint SHA: `4d97a4c` (retroactive)
 
 ---
 
@@ -226,7 +230,8 @@
     - [x] Wire tap → `saveMuted(!current)` + update audio system
     - [x] Verify mute persists across reloads in browser
 
-- [ ] Task: Conductor - User Manual Verification 'Phase 5: Input System & UI' (Protocol in workflow.md)
+- [x] Task: Conductor - User Manual Verification 'Phase 5: Input System & UI' (Protocol in workflow.md)
+    - Checkpoint SHA: `4d97a4c` (retroactive, combined with Phase 4)
 
 ---
 
