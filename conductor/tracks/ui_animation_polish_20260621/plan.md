@@ -120,7 +120,7 @@ Goal: Add GDD-specified movement and action visual effects.
 - [x] Task: Conductor - User Manual Verification 'Canvas Juice: Movement & Signature Moves' (Protocol in workflow.md)
 - [ ] Task: Conductor - User Manual Verification 'Canvas Juice: Movement & Signature Moves' (Protocol in workflow.md)
 
-## Phase 5 — Home & Level Select Screens
+## Phase 5 — Home & Level Select Screens [checkpoint: 012a4ff]
 
 Goal: Polish the pre-game screens with character art, metadata, and progression cues.
 
