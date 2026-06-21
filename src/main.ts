@@ -5,20 +5,16 @@ import { initCanvas } from "./render/canvas";
 import { startLoop } from "./render/loop";
 import { drawGrid } from "./render/grid";
 import { drawDino, createDinoAnimState } from "./render/dino";
-import { createMovementState, updateMovement, isIdle, startWalk, startTurn } from "./render/movement";
+import {
+  createMovementState,
+  updateMovement,
+  isIdle,
+  startWalk,
+  startTurn,
+} from "./render/movement";
 import { parseLevels } from "./engine/levelData";
-import {
-  createInitialState,
-  addCommand,
-  removeCommand,
-  resetToStart,
-} from "./engine/state";
-import {
-  processNextCommand,
-  applyCommand,
-  hardFail,
-  checkTerminalState,
-} from "./engine/executor";
+import { createInitialState, addCommand, removeCommand, resetToStart } from "./engine/state";
+import { processNextCommand, applyCommand, hardFail, checkTerminalState } from "./engine/executor";
 import { loadPersisted, saveCharacter, saveMuted, saveUnlockedLevel } from "./engine/persistence";
 import {
   renderActionMenu,
@@ -165,17 +161,12 @@ function refreshGameUI(): void {
     () => handleGo(),
   );
 
-  // Hint text
+  // Hint text — inserted into flow between track and game area
   hintEl = document.createElement("div");
-  hintEl.style.position = "fixed";
-  hintEl.style.top = "12px";
-  hintEl.style.left = "50%";
-  hintEl.style.transform = "translateX(-50%)";
-  hintEl.style.background = "rgba(0,0,0,0.6)";
-  hintEl.style.color = "white";
-  hintEl.style.padding = "8px 20px";
-  hintEl.style.borderRadius = "20px";
-  hintEl.style.fontSize = "18px";
+  hintEl.style.textAlign = "center";
+  hintEl.style.padding = "6px 0";
+  hintEl.style.color = "#555";
+  hintEl.style.fontSize = "16px";
   hintEl.style.fontWeight = "bold";
   hintEl.style.zIndex = "250";
   hintEl.style.pointerEvents = "none";
@@ -269,11 +260,7 @@ function processNextExecCommand(): void {
       const cmd = gameState.commandQueue[gameState.activeCommandIndex - 1];
       if (cmd === "F") {
         // Walk animation — from old pos to new pos
-        startWalk(
-          movement,
-          gameState.dinoPos.x,
-          gameState.dinoPos.y,
-        );
+        startWalk(movement, gameState.dinoPos.x, gameState.dinoPos.y);
       } else if (cmd === "L" || cmd === "R") {
         startTurn(movement);
       }
@@ -390,7 +377,10 @@ function init(): void {
         winTimer -= dt;
         if (winTimer <= 0) {
           showWin = false;
-          if (winEl) { winEl.remove(); winEl = null; }
+          if (winEl) {
+            winEl.remove();
+            winEl = null;
+          }
           const nextIndex = currentLevelIndex + 1;
           if (nextIndex < levels.length) {
             currentLevelIndex = nextIndex;
