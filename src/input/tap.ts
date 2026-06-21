@@ -141,6 +141,8 @@ export function renderTrack(
   commands: Command[],
   enabled: boolean,
   onSlotTap: (index: number) => void,
+  isDeleting?: boolean,
+  deletedIndex?: number,
 ): HTMLElement {
   const track = document.createElement('div');
   track.className = 'track';
@@ -156,6 +158,11 @@ export function renderTrack(
       slot.style.borderColor = 'var(--color-go)';
       slot.style.backgroundColor = 'var(--color-secondary)';
       slot.setAttribute('aria-label', `Step ${i + 1}: ${COMMAND_LABELS[commands[i]]}`);
+
+      // Delete animation: shrink + fade on the removed slot
+      if (isDeleting && deletedIndex !== undefined && i === deletedIndex) {
+        slot.classList.add('track-slot--delete');
+      }
     } else {
       slot.setAttribute('aria-label', `Step ${i + 1}: empty`);
     }
@@ -175,11 +182,24 @@ export function renderTrack(
   return track;
 }
 
+/**
+ * Animate the last filled track slot (scale-up + fade-in). Call AFTER the track is appended to the
+ * DOM.
+ */
+export function animateLastSlot(trackEl: HTMLElement, commandCount: number): void {
+  const slots = trackEl.querySelectorAll('.track-slot');
+  const lastFilled = slots[commandCount - 1];
+  if (lastFilled) {
+    lastFilled.classList.add('track-slot--add');
+  }
+}
+
 /** Render the GO button */
 export function renderGoButton(
   container: HTMLElement,
   enabled: boolean,
   onGo: () => void,
+  shouldPulse?: boolean,
 ): HTMLButtonElement {
   const btn = createButton('▶️', 'Go', 'btn btn-go', onGo);
   btn.style.fontSize = '28px';
@@ -190,6 +210,11 @@ export function renderGoButton(
   if (!enabled) {
     btn.disabled = true;
     btn.classList.add('btn--disabled');
+  }
+
+  // Pulse when commands are queued but execution hasn't started
+  if (shouldPulse && enabled) {
+    btn.classList.add('btn-go--pulse');
   }
 
   container.appendChild(btn);

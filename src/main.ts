@@ -34,6 +34,7 @@ import {
   renderHomeScreen,
   renderLevelSelect,
   renderCharacterCarousel,
+  animateLastSlot,
 } from './input/tap';
 import type { DinoCharacter, GameState, Command, Facing } from './engine/types';
 
@@ -104,6 +105,12 @@ let hintEl: HTMLElement | null = null;
 // Animation state
 const dinoAnim = createDinoAnimState();
 let movement = createMovementState(0, 1);
+
+// Track slot animation state
+let animateNewSlot = false;
+let animateDeleteSlot = false;
+let deletedSlotIndex = -1;
+let deleteAnimating = false;
 
 function clearUI(): void {
   if (topBarEl) {
@@ -194,6 +201,7 @@ function refreshGameUI(): void {
       onCommandTap: (cmd: Command) => {
         if (!gameState || gameState.isExecuting) return;
         gameState = addCommand(gameState, cmd);
+        animateNewSlot = true; // Trigger add animation for the new slot
         refreshGameUI();
       },
       onTrackTap: () => {},
@@ -214,20 +222,41 @@ function refreshGameUI(): void {
     gameState.commandQueue,
     !gameState.isExecuting,
     (index: number) => {
-      if (!gameState || gameState.isExecuting) return;
-      gameState = removeCommand(gameState, index);
+      if (!gameState || gameState.isExecuting || deleteAnimating) return;
+      // Animate delete, then refresh after short delay
+      deletedSlotIndex = index;
+      animateDeleteSlot = true;
       refreshGameUI();
+      deleteAnimating = true;
+      setTimeout(() => {
+        if (!gameState) return;
+        gameState = removeCommand(gameState, deletedSlotIndex);
+        animateDeleteSlot = false;
+        deletedSlotIndex = -1;
+        deleteAnimating = false;
+        refreshGameUI();
+      }, 130); // Slightly longer than 120ms animation
     },
+    animateDeleteSlot,
+    animateDeleteSlot ? deletedSlotIndex : undefined,
   );
 
+  const hasCommands = gameState.commandQueue.length > 0;
   goBtnEl = renderGoButton(
     trackRow,
-    !gameState.isExecuting && gameState.commandQueue.length > 0,
+    !gameState.isExecuting && hasCommands,
     () => handleGo(),
+    hasCommands && !gameState.isExecuting,
   );
 
   bottomPanelEl.appendChild(trackRow);
   uiContainer.appendChild(bottomPanelEl);
+
+  // Animate newly added slot (after DOM is ready)
+  if (animateNewSlot) {
+    animateNewSlot = false;
+    animateLastSlot(trackEl, gameState.commandQueue.length);
+  }
 }
 
 function handleGo(): void {
