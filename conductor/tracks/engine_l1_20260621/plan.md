@@ -330,4 +330,28 @@
     - User verified: confetti, backflip, success chime, win overlay, bump animation, dizzy rings, bonk sound, food wiggle, mute button (top-left), mute persistence, level persistence, character swap, all animations
     - Additional fix: Mute button now renders on game screen entry (was only created on toggle)
 
+---
+
+## Phase: Review Fixes
+
+- [x] Task: Apply review suggestions 2853657
+    - [x] Critical: Add missing `@vitest/coverage-v8` dependency
+    - [x] High: Convert all double quotes to single quotes across 28 TS files
+    - [x] Medium: Fix `executeQueue` latent bug (set `activeCommandIndex: 0`)
+    - [x] Medium: Fix unsafe `localStorage` cast in `persistence.ts` (add `isValidCharacter` type guard)
+    - [x] Medium: Fix dizzy ring speed 5Hz → 2.5Hz (under 3Hz accessibility cap)
+    - [x] Medium: Extract `GRID_WIDTH`/`GRID_HEIGHT` to `src/engine/constants.ts` (DRY — was duplicated in 4 files)
+    - [x] Medium: Add `test/` to `tsconfig.json` include and lint/format scripts
+    - [x] Low: Remove `console.log` debug statements (executor.test.ts, main.ts)
+    - [x] Low: Remove dead code `playClear`/`playSignature` from `sfx.ts` + corresponding tests
+    - [x] Low: Remove redundant if-check in `bfsValidator.ts`
+    - [x] Low: Lowercase `<!doctype>`/`charset` + alphabetize CSS in `index.html`
+    - [x] Low: Remove `_state` prefix from `leftCommand`/`rightCommand` in `executor.ts`
+    - [x] Low: Remove dead `setExecuting` helper in `executor.ts`
+    - [x] Low: Update confetti colors to match brand palette (`#f4b400`/`#db4437`/`#4285f4`/`#0f9d58`)
+    - [x] Low: Extract `CHARACTERS` constant in `tap.ts` (DRY — was duplicated in 2 functions)
+    - [x] Low: Replace inline `"Rexy"|"Trikey"|"Sera"` union with `DinoCharacter` type in `tap.ts`
+    - [x] Deferred: Inline styles separation of concerns (too large for review fix, future track)
+    - [x] Deferred: BFS validator interactable handling (out of scope for Level 1)
+
 </protect>
