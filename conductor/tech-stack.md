@@ -20,8 +20,9 @@
 - **localStorage** — 3 keys only: `dinosteps:unlockedLevel`, `dinosteps:chosenCharacter`, `dinosteps:muted`. No backend, no accounts, no cross-device sync.
 
 ### Assets
-- **Procedural Canvas2D vector drawing** — characters and dynamic animations drawn as parameterized path functions.
-- **Inline SVG strings** — static tiles (rock, mud, grass, turtle, food) embedded in the JS bundle. No external asset files.
+- **External SVG character files** — 3 SVG files (`rexy.svg`, `trikey.svg`, `sera.svg`) in `public/characters/`, loaded as `Image()` objects and drawn via `ctx.drawImage()`. Chibi art style with distinct silhouettes.
+- **Procedural Canvas2D vector drawing** — dynamic animations (dizzy rings, bump lean, confetti particles) drawn as parameterized path functions.
+- **Emoji overlays** — food (🍎) and obstacle (🪨) tiles rendered as emoji on grid.
 - **No raster spritesheets / Spine / Lottie** — vector-only (GDD §11.1).
 
 ### Tweening
