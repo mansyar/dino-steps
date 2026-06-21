@@ -1,11 +1,11 @@
 // SVG character loader — preloads character SVGs as Image objects for Canvas drawing
 
-import type { DinoCharacter } from "../engine/types";
+import type { DinoCharacter } from '../engine/types';
 
 const CHARACTER_FILES: Record<DinoCharacter, string> = {
-  Rexy: "/characters/rexy.svg",
-  Trikey: "/characters/trikey.svg",
-  Sera: "/characters/sera.svg",
+  Rexy: '/characters/rexy.svg',
+  Trikey: '/characters/trikey.svg',
+  Sera: '/characters/sera.svg',
 };
 
 const cache = new Map<DinoCharacter, HTMLImageElement>();

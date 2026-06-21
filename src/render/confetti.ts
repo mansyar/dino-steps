@@ -1,8 +1,8 @@
 // Confetti particle system for win celebration
 // Procedurally generated multi-colored falling particles
 
-import { getCanvasContext } from "./canvas";
-import { lerp } from "./smoothstep";
+import { getCanvasContext } from './canvas';
+import { lerp } from './smoothstep';
 
 interface Particle {
   x: number;
@@ -17,16 +17,12 @@ interface Particle {
   maxLife: number;
 }
 
-// Confetti theme colors — bright and cheerful for preschoolers
+// Confetti theme colors — brand palette (GDD §3.2)
 const CONFETTI_COLORS = [
-  "#FF6B6B", // coral
-  "#4ECDC4", // teal
-  "#FFE66D", // yellow
-  "#95E1D3", // mint
-  "#F38181", // salmon
-  "#AA96DA", // lavender
-  "#FCBAD3", // pink
-  "#A8E6CF", // light green
+  '#f4b400', // yellow
+  '#db4437', // red
+  '#4285f4', // blue
+  '#0f9d58', // green
 ];
 
 const GRAVITY = 180; // pixels per second²

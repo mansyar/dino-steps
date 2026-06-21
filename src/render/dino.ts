@@ -1,9 +1,9 @@
 // Dino rendering — draws preloaded SVG character images onto Canvas
 // Supports idle bob and walk/turn animations via position interpolation
 
-import { getCanvasContext } from "./canvas";
-import { getCharacterImage } from "./characters";
-import type { DinoCharacter, Facing } from "../engine/types";
+import { getCanvasContext } from './canvas';
+import { getCharacterImage } from './characters';
+import type { DinoCharacter, Facing } from '../engine/types';
 
 export interface DinoAnimState {
   idleTime: number;
@@ -22,7 +22,7 @@ export function drawDino(
   character: DinoCharacter,
   facing: Facing,
   anim?: DinoAnimState,
-  animType?: "idle" | "walking" | "turning" | "celebrating",
+  animType?: 'idle' | 'walking' | 'turning' | 'celebrating',
   backflipProgress?: number, // 0-1 for backflip rotation
 ): void {
   const { ctx } = getCanvasContext();
@@ -38,13 +38,13 @@ export function drawDino(
 
   // Idle bob
   let bobY = 0;
-  if (anim && animType === "idle") {
+  if (anim && animType === 'idle') {
     bobY = Math.sin(anim.idleTime * 2) * s * 0.02;
   }
   ctx.translate(0, bobY);
 
   // Walk bounce
-  if (anim && animType === "walking") {
+  if (anim && animType === 'walking') {
     const bounce = Math.abs(Math.sin(anim.walkCycle * 8)) * s * 0.02;
     ctx.translate(0, -bounce);
   }
@@ -70,13 +70,13 @@ export function drawDino(
 
 function angleFromFacing(facing: Facing): number {
   switch (facing) {
-    case "E":
+    case 'E':
       return 0;
-    case "S":
+    case 'S':
       return Math.PI / 2;
-    case "W":
+    case 'W':
       return Math.PI;
-    case "N":
+    case 'N':
       return -Math.PI / 2;
   }
 }
@@ -97,7 +97,7 @@ export function drawDizzyRings(
   const cx = px + tileSize / 2;
   const cy = py + tileSize * 0.15; // above dino head
 
-  const speed = reducedMotion ? 2 : 5; // Hz → rad/s (kept < 3Hz visual)
+  const speed = reducedMotion ? 1.5 : 2.5; // Hz — both under 3Hz accessibility cap
   const angle = progress * Math.PI * 2 * speed;
   const radius = tileSize * 0.2;
 
@@ -115,7 +115,7 @@ export function drawDizzyRings(
     ctx.rotate(a * 2);
 
     // Star shape
-    ctx.fillStyle = "#FFD700";
+    ctx.fillStyle = '#FFD700';
     ctx.beginPath();
     for (let j = 0; j < 5; j++) {
       const starAngle = (j * Math.PI * 2) / 5 - Math.PI / 2;
@@ -156,16 +156,16 @@ export function drawBump(
 
   const dir = { dx: 0, dy: 0 };
   switch (facing) {
-    case "E":
+    case 'E':
       dir.dx = 1;
       break;
-    case "W":
+    case 'W':
       dir.dx = -1;
       break;
-    case "S":
+    case 'S':
       dir.dy = 1;
       break;
-    case "N":
+    case 'N':
       dir.dy = -1;
       break;
   }

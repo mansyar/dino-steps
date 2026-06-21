@@ -1,6 +1,6 @@
 // Base synthesizer helpers for Web Audio API oscillators + gain envelopes
 
-import { getAudioContext } from "./context";
+import { getAudioContext } from './context';
 
 export interface SynthOptions {
   type: OscillatorType;
@@ -32,7 +32,7 @@ export function playTone(opts: SynthOptions): void {
   if (opts.vibrato) {
     const lfo = ac.createOscillator();
     const lfoGain = ac.createGain();
-    lfo.type = "sine";
+    lfo.type = 'sine';
     lfo.frequency.value = opts.vibrato.rate;
     lfoGain.gain.value = opts.vibrato.depth;
     lfo.connect(lfoGain);

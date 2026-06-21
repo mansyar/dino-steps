@@ -1,7 +1,7 @@
 // Direction Vector Module
 // Handles movement directions and rotations using integer vectors
 
-import type { Direction, Facing } from "./types";
+import type { Direction, Facing } from './types';
 
 // Direction vectors for each facing direction
 export const DIRECTIONS: Record<Facing, Direction> = {
@@ -25,8 +25,8 @@ export function forward(pos: { x: number; y: number }, dir: Direction): { x: num
 }
 
 // Turn left (counter-clockwise): (dx, dy) → (dy, -dx)
+// Explicit 0 guards prevent -0 (vitest toEqual treats -0 !== +0)
 export function turnLeft(dir: Direction): Direction {
-  // Use explicit checks to avoid -0 issues
   return {
     dx: dir.dy === 0 ? 0 : dir.dy,
     dy: dir.dx === 0 ? 0 : -dir.dx,
@@ -35,7 +35,6 @@ export function turnLeft(dir: Direction): Direction {
 
 // Turn right (clockwise): (dx, dy) → (-dy, dx)
 export function turnRight(dir: Direction): Direction {
-  // Use explicit checks to avoid -0 issues
   return {
     dx: dir.dy === 0 ? 0 : -dir.dy,
     dy: dir.dx === 0 ? 0 : dir.dx,

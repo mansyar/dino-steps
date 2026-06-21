@@ -1,27 +1,33 @@
-import type { PersistedState } from "./types";
+import type { PersistedState, DinoCharacter } from './types';
 
 export const STORAGE_KEYS = {
-  UNLOCKED_LEVEL: "dinosteps:unlockedLevel",
-  CHOSEN_CHARACTER: "dinosteps:chosenCharacter",
-  MUTED: "dinosteps:muted",
+  UNLOCKED_LEVEL: 'dinosteps:unlockedLevel',
+  CHOSEN_CHARACTER: 'dinosteps:chosenCharacter',
+  MUTED: 'dinosteps:muted',
 } as const;
 
 const DEFAULTS: PersistedState = {
   unlockedLevel: 1,
-  chosenCharacter: "Rexy",
+  chosenCharacter: 'Rexy',
   muted: false,
 };
 
+function isValidCharacter(value: string): value is DinoCharacter {
+  return value === 'Rexy' || value === 'Trikey' || value === 'Sera';
+}
+
 export function loadPersisted(): PersistedState {
+  const rawChar = localStorage.getItem(STORAGE_KEYS.CHOSEN_CHARACTER);
+  const chosenCharacter =
+    rawChar !== null && isValidCharacter(rawChar) ? rawChar : DEFAULTS.chosenCharacter;
+
   return {
     unlockedLevel: parseInt(
       localStorage.getItem(STORAGE_KEYS.UNLOCKED_LEVEL) ?? String(DEFAULTS.unlockedLevel),
       10,
     ),
-    chosenCharacter:
-      (localStorage.getItem(STORAGE_KEYS.CHOSEN_CHARACTER) as PersistedState["chosenCharacter"]) ??
-      DEFAULTS.chosenCharacter,
-    muted: localStorage.getItem(STORAGE_KEYS.MUTED) === "true",
+    chosenCharacter,
+    muted: localStorage.getItem(STORAGE_KEYS.MUTED) === 'true',
   };
 }
 
@@ -29,7 +35,7 @@ export function saveUnlockedLevel(n: number): void {
   localStorage.setItem(STORAGE_KEYS.UNLOCKED_LEVEL, String(n));
 }
 
-export function saveCharacter(c: PersistedState["chosenCharacter"]): void {
+export function saveCharacter(c: PersistedState['chosenCharacter']): void {
   localStorage.setItem(STORAGE_KEYS.CHOSEN_CHARACTER, c);
 }
 
