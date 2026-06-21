@@ -265,6 +265,7 @@
     - [x] Verify no audio plays when muted in browser
 
 - [x] Task: Conductor - User Manual Verification 'Phase 6: Audio System' (Protocol in workflow.md)
+    - Checkpoint SHA: `f74cbc3`
 
 ---
 
