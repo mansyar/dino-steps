@@ -6,7 +6,7 @@
 > - `[DISCUSSING]` — actively under discussion
 > - `[PENDING]` — not yet explored, awaiting deep-dive
 >
-> **Last updated:** Level 1 vertical slice implemented, reviewed, and archived. Track `engine_l1_20260621` complete. **See §14 for implementation status.**
+> **Last updated:** UI & Animation Polish track implemented, reviewed, fixes applied, and archived. Track `ui_animation_polish_20260621` complete. **See §14 for implementation status.**
 
 ---
 
@@ -627,12 +627,41 @@ For a preschool game, playtesting with actual children is the single most import
 - Medium: Fixed `executeQueue` latent bug (`activeCommandIndex: 0`), safe `localStorage` cast with type guard, dizzy ring 5Hz→2.5Hz (accessibility), extracted shared `GRID_WIDTH`/`GRID_HEIGHT` constants, added `test/` to tsconfig + lint scope
 - Low: Removed debug `console.log`, dead code (`playClear`/`playSignature`), redundant if-check, fixed `index.html` doctype/charset/CSS alphabetization, removed `_state` prefix, updated confetti to brand palette, extracted `CHARACTERS` constant
 
-### 14.2 Deferred Items (Future Tracks)
+### 14.2 Track: `ui_animation_polish_20260621` — UI & Animation Polish `[COMPLETE]`
+
+**Status:** Complete, code-reviewed, fixes applied, and archived to `conductor/archive/ui_animation_polish_20260621/`.
+
+**Systems implemented:**
+- **Stylesheet & theme tokens** (`src/styles.css`): Extracted GDD palette into CSS custom properties (`--color-background`, `--color-primary`, `--color-secondary`, `--color-go`, `--color-dizzy`, character accent colors), layout tokens (`--tap-target-min`, `--track-slot-size`, `--border-radius`, `--gap-*`), and typography utilities. Added `@media (prefers-reduced-motion)` reset.
+- **Game screen layout** (`src/input/tap.ts`, `src/styles.css`): Redesigned top bar (home, level title, swap/mute) and bottom control panel (command menu, action track, GO pill). All controls now use CSS classes instead of inline styles. Home/mute targets restored to 64×64 px.
+- **Button & track animations**: CSS `:active` scale feedback, track-slot add/delete keyframe animations, GO-button pulse when a valid sequence exists, bottom-panel dimming during execution.
+- **Canvas juice** (`src/render/juice.ts`, `src/main.ts`): Screen shake and dust puffs on forward steps, per-character signature moves (Rexy rings, Trikey dip + dust, Sera feather sparkles), soft-resist lean/bounce, and food-glance dino-head indicator when ending on food without `A`.
+- **Home & level-select screens**: SVG character previews with idle bob, staggered card entrances, track-budget band grouping in level select, completion stars, and keyboard-activation on all buttons.
+- **Accessibility**: Added `aria-label`/`aria-pressed`, minimum 64×64 px targets, `prefers-reduced-motion` support for UI and canvas effects, and keyboard (`Enter`/`Space`) activation for focusable controls.
+
+**Quality metrics (post-review):**
+| Metric | Result | Threshold |
+|--------|--------|-----------|
+| Tests | 133 passed (12 files) | — |
+| Coverage | 86.42% statements | 80% |
+| Typecheck | 0 errors | 0 |
+| Lint | 0 warnings / 0 errors | 0 |
+| Format | clean | 0 changes needed |
+| Build size | ~38 KB total / 12 KB gzip | <500 KB |
+
+**Review fixes applied (commits `d2f9d46`, `a48fbc5`):**
+- High: Removed remaining hard-coded sizes/colors from `src/input/tap.ts`; moved static values to `src/styles.css` classes.
+- High: Restored Home/Mute buttons to the 64×64 px minimum via `.btn-mute`.
+- High: Implemented missing `drawFoodGlance` and wired it into the render loop.
+- High: Replaced character hard-coded hex colors with CSS custom properties using `data-character` selectors.
+- Medium: Added keyboard (`Enter`/`Space`) activation to all tap-built buttons and filled track slots.
+- Low: Fixed `oxfmt` formatting drift in `src/styles.css`.
+
+### 14.3 Deferred Items (Future Tracks)
 
 | Priority | Item | Rationale |
 |----------|------|-----------|
 | High | Levels 2–10 | Core game content; level data + rendering + testing |
 | Medium | BFS validator interactable handling | Needed for L7 (turtle), L8 (grass), L10 (turtle) — currently only executor handles interactables |
 | Medium | Character signature SFX | `playSignature` was removed as dead code; GDD §3.4 specifies signature SFX on 🦕 action |
-| Low | CSS extraction | Inline styles in `tap.ts`/`main.ts` violate separation of concerns (Google HTML/CSS Style Guide); too large for review fix |
 | Low | Playtesting | Per §11.4: paper prototype → vertical slice → full progression with children ages 3–5 |
