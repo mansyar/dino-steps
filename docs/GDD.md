@@ -6,7 +6,7 @@
 > - `[DISCUSSING]` — actively under discussion
 > - `[PENDING]` — not yet explored, awaiting deep-dive
 >
-> **Last updated:** Level caveats resolved (L5 → 3-turn weave, L9 → verified co-optimal 2-route). **Document is fully development-ready — all tiers locked, no open caveats.**
+> **Last updated:** Level 1 vertical slice implemented, reviewed, and archived. Track `engine_l1_20260621` complete. **See §14 for implementation status.**
 
 ---
 
@@ -596,3 +596,43 @@ For a preschool game, playtesting with actual children is the single most import
 | Tier 4 | Playtesting: observation-based, no telemetry | Child privacy (no accounts/analytics); paper → vertical slice → full progression |
 | Caveat fix | L5 reworked: 3-turn weave through 3 rows (food (1,0), rocks (0,0)+(1,2), min 7) | Original was a single-detour L (2 turns); replaced with genuine multi-turn sequencing |
 | Caveat fix | L9 reworked: verified co-optimal 2-route config (start (2,2)E, rocks (3,0)+(4,2), min 8) | Original falsely claimed "alternatives" but had 1 unique shortest path; now 2 equal-length routes give a genuine binary choice |
+
+---
+
+## 14. Implementation Status
+
+### 14.1 Track: `engine_l1_20260621` — Level 1 Vertical Slice `[COMPLETE]`
+
+**Status:** Complete, code-reviewed, fixes applied, and archived.
+
+**Systems implemented:**
+- **Engine** (`src/engine/`): TypeScript types, integer direction vectors, level data parser with validation, BFS level validator, immutable state tree, command queue executor with two-tier failure model, localStorage persistence with type-safe loading
+- **Rendering** (`src/render/`): Canvas2D with DPI scaling, 5×3 grid renderer, procedural dino vector drawing (3 characters), smoothstep tweening utility, movement interpolation (walk/turn/idle), confetti particle system, dizzy ring + bump animations, food wiggle hint
+- **Audio** (`src/audio/`): Lazy-init AudioContext, oscillator + gain envelope synthesizer, 5 SFX functions (stomp, bonk, success, turn, action)
+- **Input** (`src/input/`): Tap-to-append/tap-to-delete, GO button, character swap carousel, home screen with character selection, level select, mute toggle — all with 64px tap targets and aria-labels
+- **Level 1** (`data/levels.json`): "Hungry Steps" — start (0,1)E, food (3,1), budget 6, verified solution `[F,F,F,A]`
+
+**Quality metrics (post-review):**
+| Metric | Result | Threshold |
+|--------|--------|-----------|
+| Tests | 105 passed (11 files) | — |
+| Coverage | 86.42% statements | 80% |
+| Typecheck | 0 errors (includes `test/`) | 0 |
+| Lint | 0 warnings (includes `src/` + `test/`) | 0 |
+| Build size | ~26.5 KB total | <500 KB |
+
+**Review fixes applied (commit `2853657`):**
+- Critical: Added missing `@vitest/coverage-v8` dependency (coverage gate was non-functional)
+- High: Converted all 28 TypeScript files to single-quote style (Google TS Style Guide compliance)
+- Medium: Fixed `executeQueue` latent bug (`activeCommandIndex: 0`), safe `localStorage` cast with type guard, dizzy ring 5Hz→2.5Hz (accessibility), extracted shared `GRID_WIDTH`/`GRID_HEIGHT` constants, added `test/` to tsconfig + lint scope
+- Low: Removed debug `console.log`, dead code (`playClear`/`playSignature`), redundant if-check, fixed `index.html` doctype/charset/CSS alphabetization, removed `_state` prefix, updated confetti to brand palette, extracted `CHARACTERS` constant
+
+### 14.2 Deferred Items (Future Tracks)
+
+| Priority | Item | Rationale |
+|----------|------|-----------|
+| High | Levels 2–10 | Core game content; level data + rendering + testing |
+| Medium | BFS validator interactable handling | Needed for L7 (turtle), L8 (grass), L10 (turtle) — currently only executor handles interactables |
+| Medium | Character signature SFX | `playSignature` was removed as dead code; GDD §3.4 specifies signature SFX on 🦕 action |
+| Low | CSS extraction | Inline styles in `tap.ts`/`main.ts` violate separation of concerns (Google HTML/CSS Style Guide); too large for review fix |
+| Low | Playtesting | Per §11.4: paper prototype → vertical slice → full progression with children ages 3–5 |
