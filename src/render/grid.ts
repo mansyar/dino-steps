@@ -75,11 +75,7 @@ export function drawGrid(level: LevelData): GridMetrics {
 /**
  * Draw a food tile with wiggle animation (for hint feedback)
  */
-export function drawFoodWiggle(
-  level: LevelData,
-  time: number,
-  reducedMotion?: boolean,
-): void {
+export function drawFoodWiggle(level: LevelData, time: number, reducedMotion?: boolean): void {
   const { ctx, width, height } = getCanvasContext();
   const { offsetX, offsetY, tileSize } = computeGridMetrics(width, height);
 

@@ -99,10 +99,7 @@ export function burstConfettiReduced(state: ConfettiState, cx: number, cy: numbe
  * Update and draw confetti particles
  * Returns true if any particles are still alive
  */
-export function updateConfetti(
-  state: ConfettiState,
-  dt: number,
-): boolean {
+export function updateConfetti(state: ConfettiState, dt: number): boolean {
   if (!state.active || state.particles.length === 0) return false;
 
   const { ctx } = getCanvasContext();

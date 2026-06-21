@@ -13,7 +13,12 @@ import {
   startWalk,
   startTurn,
 } from "./render/movement";
-import { createConfettiState, burstConfetti, burstConfettiReduced, updateConfetti } from "./render/confetti";
+import {
+  createConfettiState,
+  burstConfetti,
+  burstConfettiReduced,
+  updateConfetti,
+} from "./render/confetti";
 import { parseLevels } from "./engine/levelData";
 import { createInitialState, addCommand, removeCommand, resetToStart } from "./engine/state";
 import { processNextCommand, applyCommand, hardFail, checkTerminalState } from "./engine/executor";
@@ -521,11 +526,7 @@ async function init(): Promise<void> {
       }
 
       // Draw dino with appropriate animation
-      const animType = isIdle(movement)
-        ? showWin
-          ? "celebrating"
-          : "idle"
-        : movement.animState;
+      const animType = isIdle(movement) ? (showWin ? "celebrating" : "idle") : movement.animState;
 
       drawDino(
         dinoX,
@@ -540,13 +541,7 @@ async function init(): Promise<void> {
 
       // Draw dizzy rings during failure
       if (showFail && failTimer > 0.3) {
-        drawDizzyRings(
-          dinoX,
-          dinoY,
-          gridMetrics.tileSize,
-          failDizzyProgress,
-          prefersReducedMotion,
-        );
+        drawDizzyRings(dinoX, dinoY, gridMetrics.tileSize, failDizzyProgress, prefersReducedMotion);
       }
 
       // Draw food wiggle during hint
