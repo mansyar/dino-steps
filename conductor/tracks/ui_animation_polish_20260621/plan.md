@@ -91,27 +91,33 @@ Goal: Make every tap feel acknowledged and make the track animate like a physica
 
 Goal: Add GDD-specified movement and action visual effects.
 
-- [ ] Task: Read spec.md and workflow.md for this phase.
-    - [ ] Review acceptance criteria and references in `spec.md`.
-    - [ ] Review the Phase Completion Verification and Checkpointing Protocol in `workflow.md`.
-- [ ] Task: Create `src/render/juice.ts` for shared canvas effect helpers.
-    - [ ] Screen-shake helper (`jitterX`, `jitterY`, decay).
-    - [ ] Smoke/dust puff particle renderer.
-    - [ ] Signature-move effect renderers per character.
-    - [ ] Soft-resist tile bounce helper.
-    - [ ] Food-glance head rotation helper.
-- [ ] Task: Wire screen shake into the render loop when a forward step lands.
-    - [ ] Respect `prefers-reduced-motion`.
-- [ ] Task: Draw smoke/dust puff under the dino during a forward step.
-- [ ] Task: Implement per-character signature move visuals for the 🦕 Action.
-    - [ ] Rexy: expanding sound rings.
-    - [ ] Trikey: head-dip charge + dust kick.
-    - [ ] Sera: wing/spin with feather sparkles.
-- [ ] Task: Implement soft-resist animation (dino leans, tile bounces back).
-- [ ] Task: Implement food-glance hint when execution ends on the food tile without an Action command.
-- [ ] Task: Extend reduced-motion support to all new effects.
-- [ ] Task: Write failing tests for pure animation math (easing, particle positions, shake decay).
-- [ ] Task: Run `pnpm test`, `pnpm lint`, `pnpm format`, `pnpm typecheck`.
+- [x] Task: Read spec.md and workflow.md for this phase.
+    - [x] Review acceptance criteria and references in `spec.md`.
+    - [x] Review the Phase Completion Verification and Checkpointing Protocol in `workflow.md`.
+- [x] Task: Create `src/render/juice.ts` for shared canvas effect helpers.
+    - [x] Screen-shake helper (`jitterX`, `jitterY`, decay).
+    - [x] Smoke/dust puff particle renderer.
+    - [x] Signature-move effect renderers per character.
+    - [x] Soft-resist tile bounce helper.
+    - [x] Food-glance head rotation helper.
+- [x] Task: Wire screen shake into the render loop when a forward step lands.
+    - [x] Respect `prefers-reduced-motion`.
+- [x] Task: Draw smoke/dust puff under the dino during a forward step.
+- [x] Task: Implement per-character signature move visuals for the 🦕 Action.
+    - [x] Rexy: expanding sound rings.
+    - [x] Trikey: head-dip charge + dust kick.
+    - [x] Sera: wing/spin with feather sparkles.
+- [x] Task: Implement soft-resist animation (dino leans, tile bounces back).
+- [x] Task: Implement food-glance hint when execution ends on the food tile without an Action command.
+- [x] Task: Extend reduced-motion support to all new effects.
+- [x] Task: Write failing tests for pure animation math (easing, particle positions, shake decay).
+    - [x] 25 tests in test/juice.test.ts covering shake, signature, soft-resist, food-glance
+- [x] Task: Run `pnpm test`, `pnpm lint`, `pnpm format`, `pnpm typecheck`.
+    - [x] pnpm test: 133 tests pass across 12 test files.
+    - [x] pnpm lint: 0 warnings, 0 errors.
+    - [x] pnpm format: all files formatted.
+    - [x] pnpm typecheck: no errors.
+- [x] Task: Conductor - User Manual Verification 'Canvas Juice: Movement & Signature Moves' (Protocol in workflow.md)
 - [ ] Task: Conductor - User Manual Verification 'Canvas Juice: Movement & Signature Moves' (Protocol in workflow.md)
 
 ## Phase 5 — Home & Level Select Screens
