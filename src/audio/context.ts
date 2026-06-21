@@ -3,6 +3,11 @@
 
 let ctx: AudioContext | null = null;
 
+/**
+ * Get or create the AudioContext.
+ * Only creates on first call (must be triggered by user gesture).
+ * Resumes if suspended.
+ */
 export function getAudioContext(): AudioContext {
   if (!ctx) {
     ctx = new AudioContext();
@@ -14,7 +19,12 @@ export function getAudioContext(): AudioContext {
   return ctx;
 }
 
-export function isAudioMuted(): boolean {
-  // Checked at call site; this module doesn't hold mute state
-  return false;
+/**
+ * Resume the AudioContext if it exists and is suspended.
+ * Safe to call anytime — won't create a new context.
+ */
+export function resumeAudioContext(): void {
+  if (ctx && ctx.state === "suspended") {
+    ctx.resume().catch(() => {});
+  }
 }

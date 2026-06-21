@@ -18,7 +18,7 @@ import { createInitialState, addCommand, removeCommand, resetToStart } from "./e
 import { processNextCommand, applyCommand, hardFail, checkTerminalState } from "./engine/executor";
 import { loadPersisted, saveCharacter, saveMuted, saveUnlockedLevel } from "./engine/persistence";
 import { playStomp, playBonk, playSuccess, playTurn, playAction } from "./audio/sfx";
-import { getAudioContext } from "./audio/context";
+import { resumeAudioContext } from "./audio/context";
 import {
   renderActionMenu,
   renderTrack,
@@ -188,8 +188,8 @@ function handleGo(): void {
   if (!gameState || gameState.isExecuting) return;
   if (gameState.commandQueue.length === 0) return;
 
-  // Initialize audio context on first user gesture (mobile autoplay policy)
-  getAudioContext();
+  // Resume audio context if it exists (mobile autoplay policy)
+  resumeAudioContext();
 
   // Set activeCommandIndex to 0 to start execution
   gameState = {
@@ -350,7 +350,7 @@ function showHome(): void {
   showingHome = true;
   clearUI();
   homeEl = renderHomeScreen(uiContainer, (ch) => {
-    getAudioContext(); // Init audio on first user gesture
+    resumeAudioContext(); // Resume audio on first user gesture
     saveCharacter(ch);
     showingHome = false;
     showingLevelSelect = true;
