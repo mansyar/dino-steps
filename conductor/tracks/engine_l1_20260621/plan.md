@@ -325,7 +325,9 @@
     - [x] Stage and commit all remaining files
     - [x] Attach git note with task summary
 
-- [ ] Task: Conductor - User Manual Verification 'Phase 7: Level 1 Integration & Polish' (Protocol in workflow.md)
+- [x] Task: Conductor - User Manual Verification 'Phase 7: Level 1 Integration & Polish' (Protocol in workflow.md)
     - Checkpoint SHA: `6f05bb4`
+    - User verified: confetti, backflip, success chime, win overlay, bump animation, dizzy rings, bonk sound, food wiggle, mute button (top-left), mute persistence, level persistence, character swap, all animations
+    - Additional fix: Mute button now renders on game screen entry (was only created on toggle)
 
 </protect>
