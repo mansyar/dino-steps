@@ -381,3 +381,43 @@ export function updateFoodGlance(state: FoodGlanceState, dt: number): boolean {
   }
   return true;
 }
+
+/** Draw a small gaze indicator showing the dino turning toward the food tile */
+export function drawFoodGlance(
+  dinoX: number,
+  dinoY: number,
+  foodX: number,
+  foodY: number,
+  tileSize: number,
+  progress: number,
+  reducedMotion?: boolean,
+): void {
+  if (progress <= 0 || progress >= 1) return;
+
+  const { ctx } = getCanvasContext();
+  const cx = dinoX + tileSize / 2;
+  const cy = dinoY + tileSize / 2;
+  const fcx = foodX + tileSize / 2;
+  const fcy = foodY + tileSize / 2;
+
+  // Fade in then out
+  const alpha = progress < 0.5 ? progress * 2 : 2 - progress * 2;
+  const scale = reducedMotion ? 0.7 : 1;
+  const angle = Math.atan2(fcy - cy, fcx - cx);
+
+  ctx.save();
+  ctx.translate(cx, cy);
+  ctx.rotate(angle);
+  ctx.globalAlpha = alpha * 0.8;
+  ctx.fillStyle = '#0b57d0'; // GDD primary
+
+  // Draw a small triangular gaze indicator in front of the dino
+  ctx.beginPath();
+  ctx.moveTo(tileSize * 0.28 * scale, 0);
+  ctx.lineTo(tileSize * 0.45 * scale, -tileSize * 0.1 * scale);
+  ctx.lineTo(tileSize * 0.45 * scale, tileSize * 0.1 * scale);
+  ctx.closePath();
+  ctx.fill();
+
+  ctx.restore();
+}

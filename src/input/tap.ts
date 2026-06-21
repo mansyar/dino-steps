@@ -22,13 +22,12 @@ export const COMMAND_LABELS: Record<Command, string> = {
 // Shared character definitions (single source of truth)
 export const CHARACTERS: {
   name: DinoCharacter;
-  color: string;
   emoji: string;
   svg: string;
 }[] = [
-  { name: 'Rexy', color: '#4caf50', emoji: '🦖', svg: '/characters/rexy.svg' },
-  { name: 'Trikey', color: '#42a5f5', emoji: '🦕', svg: '/characters/trikey.svg' },
-  { name: 'Sera', color: '#ef5350', emoji: '🦕', svg: '/characters/sera.svg' },
+  { name: 'Rexy', emoji: '🦖', svg: '/characters/rexy.svg' },
+  { name: 'Trikey', emoji: '🦕', svg: '/characters/trikey.svg' },
+  { name: 'Sera', emoji: '🦕', svg: '/characters/sera.svg' },
 ];
 
 export interface TapHandler {
@@ -37,6 +36,23 @@ export interface TapHandler {
   onGoTap: () => void;
   onSwapTap: () => void;
   onMuteTap: () => void;
+}
+
+/**
+ * Attach pointer and keyboard activation to a focusable element. Pointer events give near-instant
+ * touch feedback; the keydown listener keeps the control usable with keyboard / screen readers.
+ */
+function makeTappable(el: HTMLElement, handler: () => void): void {
+  el.addEventListener('pointerdown', (e) => {
+    e.preventDefault();
+    handler();
+  });
+  el.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault();
+      handler();
+    }
+  });
 }
 
 /** Create a button element with proper touch target sizing */
@@ -50,12 +66,8 @@ function createButton(
   btn.textContent = label;
   btn.setAttribute('aria-label', ariaLabel);
   btn.className = `btn ${className}`;
-  btn.style.fontSize = '24px';
 
-  btn.addEventListener('pointerdown', (e) => {
-    e.preventDefault();
-    onClick();
-  });
+  makeTappable(btn, onClick);
 
   return btn;
 }
@@ -155,14 +167,13 @@ export function renderTrack(
   for (let i = 0; i < budget; i++) {
     const slot = document.createElement('div');
     slot.className = 'track-slot';
-    slot.style.fontSize = '24px';
 
     if (i < commands.length) {
       slot.textContent = COMMAND_EMOJI[commands[i]];
       slot.classList.add('track-slot--filled');
-      slot.style.borderColor = 'var(--color-go)';
-      slot.style.backgroundColor = 'var(--color-secondary)';
       slot.setAttribute('aria-label', `Step ${i + 1}: ${COMMAND_LABELS[commands[i]]}`);
+      slot.setAttribute('tabindex', '0');
+      slot.setAttribute('role', 'button');
 
       // Delete animation: shrink + fade on the removed slot
       if (isDeleting && deletedIndex !== undefined && i === deletedIndex) {
@@ -173,11 +184,7 @@ export function renderTrack(
     }
 
     if (enabled && i < commands.length) {
-      slot.style.cursor = 'pointer';
-      slot.addEventListener('pointerdown', (e) => {
-        e.preventDefault();
-        onSlotTap(i);
-      });
+      makeTappable(slot, () => onSlotTap(i));
     }
 
     track.appendChild(slot);
@@ -207,10 +214,6 @@ export function renderGoButton(
   shouldPulse?: boolean,
 ): HTMLButtonElement {
   const btn = createButton('▶️', 'Go', 'btn btn-go', onGo);
-  btn.style.fontSize = '28px';
-  btn.style.fontWeight = 'bold';
-  btn.style.borderRadius = '24px';
-  btn.style.padding = '8px 24px';
 
   if (!enabled) {
     btn.disabled = true;
@@ -287,7 +290,7 @@ export function renderHomeScreen(
     const ch = chars[i];
     const card = document.createElement('button');
     card.className = 'char-card char-card--enter';
-    card.style.borderColor = ch.color;
+    card.setAttribute('data-character', ch.name);
     card.style.animationDelay = `${i * 100}ms`;
 
     // SVG character image with idle bob
@@ -300,13 +303,10 @@ export function renderHomeScreen(
     const name = document.createElement('span');
     name.textContent = ch.name;
     name.className = 'char-card__name';
-    name.style.color = ch.color;
+    name.setAttribute('data-character', ch.name);
     card.appendChild(name);
 
-    card.addEventListener('pointerdown', (e) => {
-      e.preventDefault();
-      onSelect(ch.name);
-    });
+    makeTappable(card, () => onSelect(ch.name));
 
     cards.appendChild(card);
   }
@@ -366,10 +366,7 @@ export function renderLevelSelect(
         tile.disabled = true;
       } else {
         tile.classList.add('level-tile--unlocked');
-        tile.addEventListener('pointerdown', (e) => {
-          e.preventDefault();
-          onSelect(level.id);
-        });
+        makeTappable(tile, () => onSelect(level.id));
       }
 
       if (isCompleted) {
@@ -447,11 +444,10 @@ export function renderCharacterCarousel(
 
   for (const ch of chars) {
     const btn = document.createElement('button');
-    btn.className = 'character-carousel__btn';
-    btn.style.borderColor = ch.name === current ? ch.color : '#ddd';
-    if (ch.name === current) {
-      btn.style.backgroundColor = `${ch.color}22`;
-    }
+    const isCurrent = ch.name === current;
+    btn.className = `character-carousel__btn${isCurrent ? ' character-carousel__btn--active' : ''}`;
+    btn.setAttribute('data-character', ch.name);
+    btn.setAttribute('aria-pressed', String(isCurrent));
 
     // SVG character image
     const img = document.createElement('img');
@@ -462,11 +458,9 @@ export function renderCharacterCarousel(
 
     const label = document.createElement('span');
     label.textContent = ch.name;
-    label.style.color = ch.color;
     btn.appendChild(label);
 
-    btn.addEventListener('pointerdown', (e) => {
-      e.preventDefault();
+    makeTappable(btn, () => {
       onSelect(ch.name);
       onClose();
     });
@@ -477,10 +471,7 @@ export function renderCharacterCarousel(
   const closeBtn = document.createElement('button');
   closeBtn.textContent = 'Cancel';
   closeBtn.className = 'character-carousel__close';
-  closeBtn.addEventListener('pointerdown', (e) => {
-    e.preventDefault();
-    onClose();
-  });
+  makeTappable(closeBtn, onClose);
   panel.appendChild(closeBtn);
 
   overlay.appendChild(panel);

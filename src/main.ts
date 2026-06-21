@@ -24,6 +24,7 @@ import {
   createFoodGlanceState,
   triggerFoodGlance,
   updateFoodGlance,
+  drawFoodGlance,
 } from './render/juice';
 import { preloadCharacters } from './render/characters';
 import {
@@ -643,6 +644,21 @@ async function init(): Promise<void> {
         animType,
         showWin ? backflipProgress : undefined,
       );
+
+      // Draw food-glance hint (dino turns attention toward food)
+      if (foodGlanceState.active) {
+        const foodPx = gridMetrics.offsetX + gridMetrics.tileSize * foodGlanceState.foodX;
+        const foodPy = gridMetrics.offsetY + gridMetrics.tileSize * foodGlanceState.foodY;
+        drawFoodGlance(
+          dinoX,
+          dinoY,
+          foodPx,
+          foodPy,
+          gridMetrics.tileSize,
+          foodGlanceState.progress,
+          prefersReducedMotion,
+        );
+      }
 
       // Draw signature move effect (after dino)
       drawSignature(dinoX, dinoY, gridMetrics.tileSize, signatureState, prefersReducedMotion);

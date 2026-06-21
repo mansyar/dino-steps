@@ -22,6 +22,9 @@
   --color-rexy: #4caf50;
   --color-trikey: #42a5f5;
   --color-sera: #ef5350;
+  --color-rexy-soft: rgba(76, 175, 80, 0.13);
+  --color-trikey-soft: rgba(66, 165, 245, 0.13);
+  --color-sera-soft: rgba(239, 83, 80, 0.13);
 
   /* --- Layout Constants --- */
   --tap-target-min: 64px; /* Minimum tap target size */
@@ -107,6 +110,7 @@ body {
   border-radius: var(--border-radius);
   cursor: pointer;
   font-family: var(--font-family);
+  font-size: var(--font-size-xl);
   font-weight: var(--font-weight-semibold);
   transition:
     transform var(--transition-fast),
@@ -123,6 +127,10 @@ body {
 .btn-go {
   background-color: var(--color-go);
   color: #fff;
+  font-size: var(--font-size-xl);
+  font-weight: var(--font-weight-semibold);
+  border-radius: 24px;
+  padding: 8px 24px;
 }
 
 /* --- Swap Button Variant --- */
@@ -140,9 +148,10 @@ body {
 /* --- Mute Button Variant --- */
 .btn-mute {
   background-color: transparent;
-  min-width: 48px;
-  min-height: 48px;
+  min-width: var(--tap-target-min);
+  min-height: var(--tap-target-min);
   border-radius: 50%;
+  color: var(--color-primary);
 }
 
 /* --- Hint Text --- */
@@ -208,12 +217,15 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
+  font-size: var(--font-size-xl);
   background-color: rgba(11, 87, 208, 0.05);
 }
 
 .track-slot--filled {
   border-style: solid;
+  border-color: var(--color-go);
   background-color: var(--color-secondary);
+  cursor: pointer;
 }
 
 /* --- Track Slot Animations --- */
@@ -368,6 +380,31 @@ body {
   font-weight: var(--font-weight-semibold);
 }
 
+/* Character-specific colors */
+.char-card[data-character='Rexy'] {
+  border-color: var(--color-rexy);
+}
+
+.char-card[data-character='Trikey'] {
+  border-color: var(--color-trikey);
+}
+
+.char-card[data-character='Sera'] {
+  border-color: var(--color-sera);
+}
+
+.char-card__name[data-character='Rexy'] {
+  color: var(--color-rexy);
+}
+
+.char-card__name[data-character='Trikey'] {
+  color: var(--color-trikey);
+}
+
+.char-card__name[data-character='Sera'] {
+  color: var(--color-sera);
+}
+
 /* --- Level Select Screen --- */
 .level-select-screen {
   position: absolute;
@@ -419,7 +456,9 @@ body {
   font-weight: var(--font-weight-semibold);
   border: 2px solid transparent;
   touch-action: manipulation;
-  transition: transform var(--transition-fast), box-shadow var(--transition-fast);
+  transition:
+    transform var(--transition-fast),
+    box-shadow var(--transition-fast);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -575,6 +614,34 @@ body {
 .character-carousel__btn--active {
   background-color: rgba(11, 87, 208, 0.1);
   border-color: var(--color-primary);
+}
+
+/* Character-specific carousel accents */
+.character-carousel__btn[data-character='Rexy'] {
+  border-color: var(--color-rexy);
+  color: var(--color-rexy);
+}
+
+.character-carousel__btn[data-character='Rexy'].character-carousel__btn--active {
+  background-color: var(--color-rexy-soft);
+}
+
+.character-carousel__btn[data-character='Trikey'] {
+  border-color: var(--color-trikey);
+  color: var(--color-trikey);
+}
+
+.character-carousel__btn[data-character='Trikey'].character-carousel__btn--active {
+  background-color: var(--color-trikey-soft);
+}
+
+.character-carousel__btn[data-character='Sera'] {
+  border-color: var(--color-sera);
+  color: var(--color-sera);
+}
+
+.character-carousel__btn[data-character='Sera'].character-carousel__btn--active {
+  background-color: var(--color-sera-soft);
 }
 
 .character-carousel__close {
