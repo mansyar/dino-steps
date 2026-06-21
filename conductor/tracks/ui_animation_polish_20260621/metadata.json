@@ -1,0 +1,8 @@
+{
+  "track_id": "ui_animation_polish_20260621",
+  "type": "feature",
+  "status": "new",
+  "created_at": "2026-06-21T11:57:51Z",
+  "updated_at": "2026-06-21T11:57:51Z",
+  "description": "Address the UI and animation recommendations from the design audit: extract a GDD-aligned stylesheet, redesign the game screen layout, add button/track animations, and implement missing canvas juice such as stomp shake, smoke puffs, and character-specific signature moves."
+}
