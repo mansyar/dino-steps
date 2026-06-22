@@ -8,4 +8,4 @@ This file tracks all major tracks for the project. Each track has its own detail
 *Link: [./archive/ui_animation_polish_20260621/](./archive/ui_animation_polish_20260621/)*
 
 - [x] **Track: Levels 2-10 — Full game content: expand TileType to sub-types (rock/mud, turtle/grass, berry/leaf/cookie), fix BFS validator interactable handling, author levels 2-10, update renderer**
-*Link: [./tracks/levels_2_10_20260622/](./tracks/levels_2_10_20260622/)*
+*Link: [./archive/levels_2_10_20260622/](./archive/levels_2_10_20260622/)*
