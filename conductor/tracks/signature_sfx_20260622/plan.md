@@ -1,7 +1,7 @@
 <protect>
 # Implementation Plan: Character Signature SFX
 
-## Phase 1: Executor Enhancement — Action Context (TDD)
+## Phase 1: Executor Enhancement — Action Context (TDD) [checkpoint: 870a558]
 
 - [x] Task: Read `spec.md` and `workflow.md` to refresh context before starting Phase 1
 - [x] Task: Add `actionContext` field to `CommandResult` type and `actionCommand()` 2b78469
@@ -9,7 +9,7 @@
     - [ ] **Green:** Add `actionContext?: 'clear' | 'noop'` to the `continue` variant of `CommandResult` in `src/engine/executor.ts`; set it in `actionCommand()` — `'clear'` when `isUnclearedInteractable`, `'noop'` otherwise
     - [ ] **Refactor:** Ensure `forwardCommand`, `leftCommand`, `rightCommand` return `{ type: 'continue' }` without `actionContext` (no change needed — optional field absent)
     - [ ] **Verify:** Run `CI=true pnpm test` — all tests pass including new ones; run `CI=true pnpm coverage` — coverage >80%
-- [~] Task: Conductor - User Manual Verification 'Phase 1: Executor Enhancement' (Protocol in workflow.md)
+- [x] Task: Conductor - User Manual Verification 'Phase 1: Executor Enhancement' (Protocol in workflow.md)
 
 ## Phase 2: Signature SFX & Audio Gap Sounds (Audio Synthesis — NOT TDD)
 
