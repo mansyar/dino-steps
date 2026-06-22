@@ -19,6 +19,7 @@
 - [x] Verify auto-advance timer still fires after celebration duration (no regression)
 
 ### Task: Conductor - User Manual Verification 'Nom-Nom Sound & Win Overlay Removal' (Protocol in workflow.md)
+- [x] Phase 1 complete [checkpoint: f7073f6]
 
 ## Phase 2: Game Completion State After L10
 
