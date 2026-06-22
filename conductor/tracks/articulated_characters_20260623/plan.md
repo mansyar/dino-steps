@@ -3,14 +3,14 @@
 
 ## Phase 1: GDD & Tech-Stack Amendment (Docs — no code)
 
-- [ ] Task: Read `spec.md` and `workflow.md` to refresh context before starting Phase 1
-- [ ] Task: Amend GDD §11.1 (`docs/GDD.md`) to bless per-part external SVG approach
-    - [ ] Replace the "Characters + dynamic animations → Procedural Canvas2D vector drawing" row with "Articulated per-part SVG files, composited on Canvas2D with per-part transforms"
-    - [ ] Replace "No external asset files in the bundle (SVG strings are inlined)" with a note that character art is external per-part SVG vector files (still no raster spritesheets / Spine / Lottie)
-    - [ ] Verify: diff the GDD change reads cleanly; no other §11.1 constraints altered
-- [ ] Task: Add a dated Tier-4 entry to the GDD §13 decision log recording the amendment + rationale
-- [ ] Task: Update `conductor/tech-stack.md` Assets section to describe per-part SVG files in `public/characters/<character>/`
-    - [ ] Verify: `pnpm typecheck` — 0 errors (docs only, but confirm no breakage)
+- [x] Task: Read `spec.md` and `workflow.md` to refresh context before starting Phase 1
+- [x] Task: Amend GDD §11.1 (`docs/GDD.md`) to bless per-part external SVG approach [9e145f4]
+    - [x] Replace the "Characters + dynamic animations → Procedural Canvas2D vector drawing" row with "Articulated per-part SVG files, composited on Canvas2D with per-part transforms"
+    - [x] Replace "No external asset files in the bundle (SVG strings are inlined)" with a note that character art is external per-part SVG vector files (still no raster spritesheets / Spine / Lottie)
+    - [x] Verify: diff the GDD change reads cleanly; no other §11.1 constraints altered
+- [x] Task: Add a dated Tier-4 entry to the GDD §13 decision log recording the amendment + rationale [9e145f4]
+- [x] Task: Update `conductor/tech-stack.md` Assets section to describe per-part SVG files in `public/characters/<character>/` [9e145f4]
+    - [x] Verify: `pnpm typecheck` — 0 errors (docs only, but confirm no breakage)
 
 ## Phase 2: Part Rig Schema & Transform Logic (TDD — testable core)
 
