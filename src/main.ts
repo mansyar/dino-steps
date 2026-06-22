@@ -52,6 +52,7 @@ import {
   playSignature,
   playSoftResist,
   playHint,
+  playNomNom,
 } from './audio/sfx';
 import { resumeAudioContext } from './audio/context';
 import {
@@ -253,7 +254,6 @@ let goBtnEl: HTMLButtonElement | null = null;
 let homeEl: HTMLElement | null = null;
 let levelSelectEl: HTMLElement | null = null;
 let carouselEl: HTMLElement | null = null;
-let winEl: HTMLElement | null = null;
 let hintEl: HTMLElement | null = null;
 
 // Animation state
@@ -306,10 +306,6 @@ function clearUI(): void {
   if (carouselEl) {
     carouselEl.remove();
     carouselEl = null;
-  }
-  if (winEl) {
-    winEl.remove();
-    winEl = null;
   }
   if (hintEl) {
     hintEl.remove();
@@ -454,7 +450,10 @@ function processNextExecCommand(): void {
   switch (result.type) {
     case 'win': {
       gameState = { ...gameState, isExecuting: false };
-      if (!currentMuted) playSuccess();
+      if (!currentMuted) {
+        playNomNom();
+        playSuccess();
+      }
 
       // Start win animation
       showWin = true;
@@ -467,13 +466,6 @@ function processNextExecCommand(): void {
       } else {
         burstConfetti(confetti, 300, 300);
       }
-
-      // Show win overlay
-      winEl = document.createElement('div');
-      winEl.className = 'win-overlay';
-      winEl.innerHTML =
-        '<div style="font-size:64px;margin-bottom:16px">🎉</div>' + '<h2>Level Complete!</h2>';
-      uiContainer.appendChild(winEl);
       break;
     }
     case 'hardFail': {
@@ -694,10 +686,6 @@ async function init(): Promise<void> {
         if (winTimer <= 0) {
           showWin = false;
           backflipProgress = 0;
-          if (winEl) {
-            winEl.remove();
-            winEl = null;
-          }
           const nextIndex = currentLevelIndex + 1;
           if (nextIndex < levels.length) {
             currentLevelIndex = nextIndex;

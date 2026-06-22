@@ -2,6 +2,7 @@
 // All sounds are procedurally generated via Web Audio API
 
 import { playTone, playArpeggio } from './synth';
+import { getAudioContext } from './context';
 import type { DinoCharacter } from '../engine/types';
 
 // Note frequencies (Hz)
@@ -76,6 +77,41 @@ export function playSoftResist(): void {
  */
 export function playHint(): void {
   playArpeggio([C5, E5], 0.15, 'sine', 0.2);
+}
+
+/**
+ * Nom-nom eating sound — universal cartoon chomping/chewing sound. Character-agnostic, plays
+ * immediately before the success chime in the win sequence (per GDD §8.2). Synthesized as 3 rapid
+ * percussive bursts using sine waves.
+ */
+export function playNomNom(): void {
+  const ac = getAudioContext();
+  const now = ac.currentTime;
+
+  // 3 quick chomps with slight pitch variation
+  const chompFreqs = [180, 220, 200];
+  const chompDuration = 0.06;
+  const chompGap = 0.08;
+
+  chompFreqs.forEach((freq, i) => {
+    const startTime = now + i * (chompDuration + chompGap);
+
+    // Oscillator — quick downward sweep for chomp effect
+    const osc = ac.createOscillator();
+    osc.type = 'sine';
+    osc.frequency.setValueAtTime(freq, startTime);
+    osc.frequency.exponentialRampToValueAtTime(freq * 0.5, startTime + chompDuration);
+
+    // Gain envelope — sharp attack, fast decay
+    const gain = ac.createGain();
+    gain.gain.setValueAtTime(0.35, startTime);
+    gain.gain.exponentialRampToValueAtTime(0.001, startTime + chompDuration);
+
+    osc.connect(gain);
+    gain.connect(ac.destination);
+    osc.start(startTime);
+    osc.stop(startTime + chompDuration);
+  });
 }
 
 /**
