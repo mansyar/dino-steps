@@ -670,7 +670,7 @@ For a preschool game, playtesting with actual children is the single most import
 - **Executor** (`src/engine/executor.ts`): Updated to use tileUtils helpers for tile classification
 - **Input** (`src/input/tap.ts`): Level preview uses tileUtils helpers for classification
 
-**Quality metrics:**
+**Quality metrics (post-review):**
 | Metric | Result | Threshold |
 |--------|--------|-----------|
 | Tests | 178 passed (13 files) | — |
@@ -679,6 +679,12 @@ For a preschool game, playtesting with actual children is the single most import
 | Lint | 0 warnings / 0 errors | 0 |
 | Format | clean | 0 changes needed |
 | Build size | 30.20 KB total | <500 KB |
+
+**Review fixes applied (commit `ab4087a`):**
+- Medium: Fixed `berry` emoji from 🍎 to 🫐 per spec FR6 (also fixed `drawFoodWiggle` fallback)
+- Medium: Fixed `mud` emoji from 💩 to 🟤 per spec FR6 (inappropriate for preschool audience)
+- Low: Added type assertion justification comments in `executor.ts`, `bfsValidator.ts`, `tap.ts` (Google TS Style Guide §1 compliance)
+- Low: Extracted `makeStateKey()` helper in `bfsValidator.ts` to eliminate fragile inline key construction
 
 ### 14.4 Deferred Items (Future Tracks)
 
