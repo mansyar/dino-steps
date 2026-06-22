@@ -673,6 +673,10 @@ async function init(): Promise<void> {
   startLoop((dt) => {
     dinoAnim.idleTime += dt;
 
+    // Clear canvas each frame
+    const { ctx, width, height } = getCanvasContext();
+    ctx.clearRect(0, 0, width, height);
+
     if (gameState && !showingHome && !showingLevelSelect) {
       const level = levels[currentLevelIndex];
       const gridMetrics = drawGrid(level);
