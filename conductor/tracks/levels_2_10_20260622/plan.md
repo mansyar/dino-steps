@@ -146,7 +146,7 @@ Goal: Author levels 7-10 (which contain interactables) and add BFS validation te
     - [x] Typecheck passes.
 - [x] Task: Conductor - User Manual Verification 'Levels 7-10' (Protocol in workflow.md)
 
-## Phase 5 — Integration & Quality Gates
+## Phase 5 — Integration & Quality Gates [checkpoint: 28c8771]
 
 Goal: Verify the whole track meets acceptance criteria and project quality gates.
 
