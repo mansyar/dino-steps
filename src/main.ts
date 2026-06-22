@@ -713,6 +713,10 @@ async function init(): Promise<void> {
           showWin = false;
           backflipProgress = 0;
 
+          // Clear confetti when win celebration ends
+          confetti.active = false;
+          confetti.particles = [];
+
           if (gameState.gameComplete) {
             // Game complete — return to home screen with trophy
             showingHome = true;
