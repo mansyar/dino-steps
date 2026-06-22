@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120">
+  <!-- Rexy right arm part (Rexy pilot) -->
+  <!-- Right arm (tiny) -->
+  <path d="M64,62 Q68,66 70,70 L72,68 Q70,64 66,60 Z" fill="#4caf50"/>
+  <!-- Right hand fingers -->
+  <circle cx="71" cy="69" r="1.5" fill="#4caf50"/>
+</svg>

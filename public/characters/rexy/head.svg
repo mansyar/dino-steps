@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120">
+  <!-- Rexy head part (Rexy pilot) - excludes lower jaw which is its own part -->
+  <defs>
+    <linearGradient id="headGradRexy" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#81c784"/>
+      <stop offset="100%" stop-color="#4caf50"/>
+    </linearGradient>
+  </defs>
+  <!-- Neck -->
+  <path d="M50,56 Q48,48 50,42 L60,40 Q62,46 60,56 Z" fill="#4caf50"/>
+  <!-- Head (BIG - dominant feature) -->
+  <ellipse cx="54" cy="30" rx="26" ry="22" fill="url(#headGradRexy)"/>
+  <!-- Top of head -->
+  <ellipse cx="48" cy="12" rx="14" ry="8" fill="#66bb6a"/>
+  <!-- Cheek blush (cute touch) -->
+  <ellipse cx="74" cy="36" rx="5" ry="3" fill="rgba(255,150,170,0.35)"/>
+  <!-- Eye socket (white) -->
+  <circle cx="60" cy="22" r="10" fill="white"/>
+  <!-- Pupil -->
+  <circle cx="63" cy="22" r="5" fill="#1a1a1a"/>
+  <!-- Eye shine -->
+  <circle cx="65" cy="19" r="2" fill="white"/>
+  <!-- Brow ridge -->
+  <path d="M48,14 Q54,12 62,14" fill="none" stroke="#388e3c" stroke-width="2" stroke-linecap="round"/>
+  <!-- Nostrils -->
+  <circle cx="84" cy="32" r="1.5" fill="#388e3c"/>
+  <circle cx="80" cy="30" r="1.2" fill="#388e3c"/>
+  <!-- Upper snout (top half) -->
+  <path d="M64,34 A 12,9 0 0 1 88,34 Z" fill="#4caf50"/>
+</svg>

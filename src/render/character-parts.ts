@@ -173,18 +173,19 @@ function dizzyTransform(name: string, p: number, reduced: boolean): PartTransfor
 }
 
 // ─── REXY_RIG (pilot) ────────────────────────────────────────────────────────
-// Pivots are placeholders relative to a 0–120 viewBox; they are finalised
-// against the real part art in Phase 3.
+// Pivots are anchored at the joint a part rotates around (hip, shoulder, neck
+// base, snout hinge, etc.) and finalised against the real part art in
+// public/characters/rexy/*.svg.
 export const REXY_RIG: CharacterRig = {
   character: 'Rexy',
   parts: [
-    { name: 'tail', file: '/characters/rexy/tail.svg', pivotX: 60, pivotY: 78 },
-    { name: 'leg-back', file: '/characters/rexy/leg-back.svg', pivotX: 72, pivotY: 92 },
-    { name: 'arm-left', file: '/characters/rexy/arm-left.svg', pivotX: 32, pivotY: 60 },
-    { name: 'body', file: '/characters/rexy/body.svg', pivotX: 60, pivotY: 70 },
-    { name: 'leg-front', file: '/characters/rexy/leg-front.svg', pivotX: 48, pivotY: 92 },
-    { name: 'arm-right', file: '/characters/rexy/arm-right.svg', pivotX: 88, pivotY: 60 },
-    { name: 'head', file: '/characters/rexy/head.svg', pivotX: 60, pivotY: 38 },
-    { name: 'jaw', file: '/characters/rexy/jaw.svg', pivotX: 60, pivotY: 52 },
+    { name: 'tail', file: '/characters/rexy/tail.svg', pivotX: 72, pivotY: 72 },
+    { name: 'leg-back', file: '/characters/rexy/leg-back.svg', pivotX: 49, pivotY: 78 },
+    { name: 'arm-left', file: '/characters/rexy/arm-left.svg', pivotX: 42, pivotY: 64 },
+    { name: 'body', file: '/characters/rexy/body.svg', pivotX: 56, pivotY: 68 },
+    { name: 'leg-front', file: '/characters/rexy/leg-front.svg', pivotX: 67, pivotY: 78 },
+    { name: 'arm-right', file: '/characters/rexy/arm-right.svg', pivotX: 66, pivotY: 62 },
+    { name: 'head', file: '/characters/rexy/head.svg', pivotX: 54, pivotY: 50 },
+    { name: 'jaw', file: '/characters/rexy/jaw.svg', pivotX: 64, pivotY: 34 },
   ],
 };

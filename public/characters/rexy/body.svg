@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120">
+  <!-- Rexy body part (Rexy pilot) -->
+  <defs>
+    <linearGradient id="bodyGradRexy" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#66bb6a"/>
+      <stop offset="100%" stop-color="#388e3c"/>
+    </linearGradient>
+  </defs>
+  <!-- Body (small, round) -->
+  <ellipse cx="56" cy="68" rx="20" ry="14" fill="url(#bodyGradRexy)"/>
+  <!-- Belly highlight -->
+  <ellipse cx="58" cy="72" rx="12" ry="8" fill="rgba(255,255,255,0.15)"/>
+  <!-- Body spots -->
+  <circle cx="46" cy="64" r="2.5" fill="rgba(56,142,60,0.25)"/>
+  <circle cx="56" cy="60" r="2" fill="rgba(56,142,60,0.25)"/>
+  <circle cx="64" cy="64" r="1.8" fill="rgba(56,142,60,0.25)"/>
+</svg>

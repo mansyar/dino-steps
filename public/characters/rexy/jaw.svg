@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120">
+  <!-- Rexy jaw part (Rexy pilot) - lower jaw that articulates to open/close -->
+  <!-- Lower snout (bottom half) -->
+  <path d="M64,34 A 12,9 0 0 0 88,34 Z" fill="#4caf50"/>
+  <!-- Mouth (smile) -->
+  <path d="M68,38 Q76,44 84,38" fill="none" stroke="#2e7d32" stroke-width="1.5" stroke-linecap="round"/>
+  <!-- Lower teeth (cute, small) -->
+  <rect x="72" y="38" width="3" height="3" rx="1" fill="white"/>
+  <rect x="77" y="39" width="3" height="2.5" rx="1" fill="white"/>
+</svg>

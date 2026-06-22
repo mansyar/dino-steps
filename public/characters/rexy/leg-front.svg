@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120">
+  <!-- Rexy front leg part (Rexy pilot) -->
+  <!-- Front leg (right/near) -->
+  <path d="M62,76 L60,94 Q60,98 64,98 L70,98 Q74,98 74,94 L72,76" fill="#388e3c"/>
+  <ellipse cx="67" cy="98" rx="8" ry="3" fill="#2e7d32"/>
+</svg>
