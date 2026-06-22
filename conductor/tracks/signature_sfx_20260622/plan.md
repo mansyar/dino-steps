@@ -14,7 +14,7 @@
 ## Phase 2: Signature SFX & Audio Gap Sounds (Audio Synthesis — NOT TDD)
 
 - [x] Task: Read `spec.md` and `workflow.md` to refresh context before starting Phase 2
-- [x] Task: Implement `playSignature(character: DinoCharacter, isClearing: boolean)` in `src/audio/sfx.ts`
+- [x] Task: Implement `playSignature(character: DinoCharacter, isClearing: boolean)` in `src/audio/sfx.ts` f2f7840
     - [x] Implement Rexy action variant: sawtooth growl sweep 200→80Hz, vibrato {depth: 30, rate: 8}, 0.3s, gain 0.4
     - [x] Implement Rexy idle variant: same growl, 0.15s, gain 0.2
     - [x] Implement Trikey action variant: triangle 400Hz fixed (no sweep), 0.2s, gain 0.4, fast decay
