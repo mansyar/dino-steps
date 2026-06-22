@@ -22,64 +22,44 @@ export function createDinoAnimState(): DinoAnimState {
 }
 
 /**
- * Build an ArticulationState from the ad-hoc drawDino args. - animType drives the phase - progress
- * params default to -1 (not active)
+ * Build a default idle ArticulationState from a DinoAnimState. Used for the home-screen /
+ * level-select idle dino.
  */
-function buildArticulationState(
-  anim: DinoAnimState | undefined,
-  animType: 'idle' | 'walking' | 'turning' | 'celebrating' | undefined,
-  backflipProgress: number | undefined,
-  signatureProgress: number | undefined,
-  eatingProgress: number | undefined,
-  dizzyProgress: number | undefined,
-  reducedMotion: boolean,
-): ArticulationState {
-  const phase: ArticulationState['phase'] = animType ?? 'idle';
+export function buildIdleState(anim: DinoAnimState, reducedMotion: boolean): ArticulationState {
   return {
-    phase,
-    idleTime: anim?.idleTime ?? 0,
-    walkCycle: anim?.walkCycle ?? 0,
-    signatureProgress: signatureProgress ?? -1,
-    eatingProgress: eatingProgress ?? -1,
-    backflipProgress: backflipProgress ?? -1,
-    dizzyProgress: dizzyProgress ?? -1,
+    phase: 'idle',
+    idleTime: anim.idleTime,
+    walkCycle: 0,
+    signatureProgress: -1,
+    eatingProgress: -1,
+    backflipProgress: -1,
+    dizzyProgress: -1,
     reducedMotion,
   };
 }
 
+/**
+ * Draw a dino character. The caller supplies the full ArticulationState for this frame; drawDino
+ * composes whole-body transforms (facing, bob, walk bounce, backflip) and per-part transforms (idle
+ * tail/head sway, walking legs, signature jaw, eating jaw, dizzy head/tail) on top.
+ *
+ * @param state The articulation state for this frame. Use `buildIdleState` for a minimal idle dino,
+ *   or construct one in the game loop.
+ */
 export function drawDino(
   px: number,
   py: number,
   tileSize: number,
   character: DinoCharacter,
   facing: Facing,
-  anim?: DinoAnimState,
-  animType?: 'idle' | 'walking' | 'turning' | 'celebrating',
-  backflipProgress?: number, // 0-1 for backflip rotation
-  signatureProgress?: number, // 0-1 for signature jaw articulation
-  eatingProgress?: number, // 0-1 for eating jaw chomp
-  dizzyProgress?: number, // seconds elapsed in dizzy
-  reducedMotion?: boolean,
+  state: ArticulationState,
 ): void {
   const rig = getCharacterRig(character);
   if (rig) {
-    drawCompositeDino(
-      px,
-      py,
-      tileSize,
-      rig.parts,
-      facing,
-      anim,
-      animType,
-      backflipProgress,
-      signatureProgress,
-      eatingProgress,
-      dizzyProgress,
-      reducedMotion ?? false,
-    );
+    drawCompositeDino(px, py, tileSize, rig.parts, facing, state);
     return;
   }
-  drawSingleImageDino(px, py, tileSize, character, facing, anim, animType, backflipProgress);
+  drawSingleImageDino(px, py, tileSize, character, facing, state);
 }
 
 function drawSingleImageDino(
@@ -88,9 +68,7 @@ function drawSingleImageDino(
   tileSize: number,
   character: DinoCharacter,
   facing: Facing,
-  anim?: DinoAnimState,
-  animType?: 'idle' | 'walking' | 'turning' | 'celebrating',
-  backflipProgress?: number,
+  state: ArticulationState,
 ): void {
   const { ctx } = getCanvasContext();
   const img = getCharacterImage(character);
@@ -104,27 +82,23 @@ function drawSingleImageDino(
   ctx.translate(cx, cy);
 
   // Idle bob
-  let bobY = 0;
-  if (anim && animType === 'idle') {
-    bobY = Math.sin(anim.idleTime * 2) * s * 0.02;
+  if (state.phase === 'idle') {
+    const bobY = Math.sin(state.idleTime * 2) * s * 0.02;
+    ctx.translate(0, bobY);
   }
-  ctx.translate(0, bobY);
 
   // Walk bounce
-  if (anim && animType === 'walking') {
-    const bounce = Math.abs(Math.sin(anim.walkCycle * 8)) * s * 0.02;
+  if (state.phase === 'walking') {
+    const bounce = Math.abs(Math.sin(state.walkCycle * 8)) * s * 0.02;
     ctx.translate(0, -bounce);
   }
 
   ctx.rotate(angleFromFacing(facing));
 
   // Backflip rotation (during win celebration)
-  if (backflipProgress !== undefined && backflipProgress > 0) {
-    // Ease in-out: spin 360° with acceleration
-    const t = backflipProgress;
-    const rotation = t * Math.PI * 2;
-    ctx.rotate(rotation);
-    // Slight jump upward at peak
+  if (state.phase === 'celebrating' && state.backflipProgress > 0) {
+    const t = state.backflipProgress;
+    ctx.rotate(t * Math.PI * 2);
     const jump = Math.sin(t * Math.PI) * s * 0.3;
     ctx.translate(0, -jump);
   }
@@ -141,42 +115,24 @@ function drawCompositeDino(
   tileSize: number,
   parts: readonly CharacterPart[],
   facing: Facing,
-  anim: DinoAnimState | undefined,
-  animType: 'idle' | 'walking' | 'turning' | 'celebrating' | undefined,
-  backflipProgress: number | undefined,
-  signatureProgress: number | undefined,
-  eatingProgress: number | undefined,
-  dizzyProgress: number | undefined,
-  reducedMotion: boolean,
+  state: ArticulationState,
 ): void {
   const { ctx } = getCanvasContext();
   const s = tileSize * 0.85;
   const scale = s / 120; // 120×120 viewBox → s×s on screen
 
-  // Build the articulation state once for the whole composite
-  const state = buildArticulationState(
-    anim,
-    animType,
-    backflipProgress,
-    signatureProgress,
-    eatingProgress,
-    dizzyProgress,
-    reducedMotion,
-  );
-
   ctx.save();
   ctx.translate(px + tileSize / 2, py + tileSize / 2);
 
   // Idle bob
-  let bobY = 0;
-  if (anim && animType === 'idle') {
-    bobY = Math.sin(anim.idleTime * 2) * s * 0.02;
+  if (state.phase === 'idle') {
+    const bobY = Math.sin(state.idleTime * 2) * s * 0.02;
+    ctx.translate(0, bobY);
   }
-  ctx.translate(0, bobY);
 
   // Walk bounce
-  if (anim && animType === 'walking') {
-    const bounce = Math.abs(Math.sin(anim.walkCycle * 8)) * s * 0.02;
+  if (state.phase === 'walking') {
+    const bounce = Math.abs(Math.sin(state.walkCycle * 8)) * s * 0.02;
     ctx.translate(0, -bounce);
   }
 
@@ -184,10 +140,9 @@ function drawCompositeDino(
 
   // Backflip rotation (during win celebration) — applied as a wrapper so the
   // whole composite spins as a unit. Per-part transforms apply within this frame.
-  if (backflipProgress !== undefined && backflipProgress > 0) {
-    const t = backflipProgress;
-    const rotation = t * Math.PI * 2;
-    ctx.rotate(rotation);
+  if (state.phase === 'celebrating' && state.backflipProgress > 0) {
+    const t = state.backflipProgress;
+    ctx.rotate(t * Math.PI * 2);
     const jump = Math.sin(t * Math.PI) * s * 0.3;
     ctx.translate(0, -jump);
   }

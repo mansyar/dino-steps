@@ -5,7 +5,13 @@ import './styles.css';
 import { initCanvas, getCanvasContext } from './render/canvas';
 import { startLoop } from './render/loop';
 import { drawGrid, drawFoodWiggle } from './render/grid';
-import { drawDino, drawDizzyRings, drawBump, createDinoAnimState } from './render/dino';
+import {
+  drawDino,
+  drawDizzyRings,
+  drawBump,
+  createDinoAnimState,
+  buildIdleState,
+} from './render/dino';
 import {
   createShakeState,
   triggerShake,
@@ -25,8 +31,14 @@ import {
   triggerFoodGlance,
   updateFoodGlance,
   drawFoodGlance,
+  createEatingState,
+  triggerEating,
+  updateEating,
+  resetEating,
+  activeProgress,
 } from './render/juice';
-import { preloadCharacters } from './render/characters';
+import { preloadCharacters, preloadCharacterRigs } from './render/characters';
+import type { ArticulationState } from './render/character-parts';
 import {
   createMovementState,
   updateMovement,
@@ -240,6 +252,7 @@ let showingLevelSelect = false;
 let winTimer = 0;
 let showWin = false;
 let backflipProgress = 0;
+const eatingState = createEatingState();
 
 // Failure animation state
 let failTimer = 0;
@@ -470,10 +483,11 @@ function processNextExecCommand(): void {
       // Mark game complete if this is the last level
       gameState = markWinComplete(gameState, currentLevelIndex, levels.length);
 
-      // Start win animation
+      // Start win animation: chomp (~0.4s) → backflip (~0.6s) → idle
       showWin = true;
       winTimer = 2.0; // 2 seconds of celebration
       backflipProgress = 0;
+      triggerEating(eatingState);
 
       // Burst confetti
       if (prefersReducedMotion) {
@@ -666,6 +680,7 @@ async function init(): Promise<void> {
 
   // Preload character SVGs before rendering
   await preloadCharacters();
+  await preloadCharacterRigs();
   uiContainer = document.createElement('div');
   uiContainer.id = 'ui-overlay';
   uiContainer.className = 'ui-overlay';
@@ -711,7 +726,10 @@ async function init(): Promise<void> {
       // Win timer — advance after celebration
       if (showWin) {
         winTimer -= dt;
-        backflipProgress = Math.min(backflipProgress + dt * 1.5, 1); // backflip over ~0.67s
+        updateEating(eatingState, dt);
+        if (eatingState.progress >= 1) {
+          backflipProgress = Math.min(backflipProgress + dt * 1.5, 1); // backflip over ~0.67s
+        }
 
         // Update confetti
         updateConfetti(confetti, dt);
@@ -719,6 +737,7 @@ async function init(): Promise<void> {
         if (winTimer <= 0) {
           showWin = false;
           backflipProgress = 0;
+          resetEating(eatingState);
 
           // Clear confetti when win celebration ends
           confetti.active = false;
@@ -804,15 +823,26 @@ async function init(): Promise<void> {
       // Draw dino with appropriate animation
       const animType = isIdle(movement) ? (showWin ? 'celebrating' : 'idle') : movement.animState;
 
+      // Build articulation state: phase drives composite, progress params default to -1
+      // (inactive) so the matching per-part transforms are skipped.
+      const articulationState: ArticulationState = {
+        phase: animType ?? 'idle',
+        idleTime: dinoAnim.idleTime,
+        walkCycle: dinoAnim.walkCycle,
+        signatureProgress: activeProgress(signatureState),
+        eatingProgress: activeProgress(eatingState),
+        backflipProgress: showWin ? backflipProgress : -1,
+        dizzyProgress: -1,
+        reducedMotion: prefersReducedMotion,
+      };
+
       drawDino(
         dinoX,
         dinoY,
         gridMetrics.tileSize,
         gameState.character,
         gameState.dinoFacing,
-        dinoAnim,
-        animType,
-        showWin ? backflipProgress : undefined,
+        articulationState,
       );
 
       // Draw food-glance hint (dino turns attention toward food)
@@ -857,8 +887,7 @@ async function init(): Promise<void> {
         gridMetrics.tileSize,
         'Rexy',
         levels[0].startFacing,
-        dinoAnim,
-        'idle',
+        buildIdleState(dinoAnim, prefersReducedMotion),
       );
     }
   });

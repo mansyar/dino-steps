@@ -421,3 +421,53 @@ export function drawFoodGlance(
 
   ctx.restore();
 }
+
+// ─── Eating (win-phase chomp) ───────────────────────────────────────────────
+
+export interface EatingState {
+  progress: number; // 0..1 progress through the chomp
+  active: boolean;
+}
+
+const EATING_DURATION_S = 0.4; // jaw chomp 0→1 over 400ms (per spec/plan)
+
+export function createEatingState(): EatingState {
+  return { progress: 0, active: false };
+}
+
+/** Start a win-phase chomp animation. Idempotent: re-triggering resets progress. */
+export function triggerEating(state: EatingState): void {
+  state.progress = 0;
+  state.active = true;
+}
+
+/** Reset to initial inactive state. Call when the win sequence ends. */
+export function resetEating(state: EatingState): void {
+  state.progress = 0;
+  state.active = false;
+}
+
+/** Advance eating progress. Returns true while running. */
+export function updateEating(state: EatingState, dt: number): boolean {
+  if (!state.active) return false;
+  state.progress += dt / EATING_DURATION_S;
+  if (state.progress >= 1) {
+    state.progress = 1;
+    state.active = false;
+    return false;
+  }
+  return true;
+}
+
+// ─── Shared helpers ─────────────────────────────────────────────────────────
+
+/**
+ * Resolve the progress to feed to `drawDino` for a stateful effect. Returns -1 when the effect is
+ * inactive so the renderer treats it as a no-op.
+ *
+ * Used at the main.ts call sites to convert SignatureState / EatingState into the
+ * ArticulationState.signatureProgress / eatingProgress fields.
+ */
+export function activeProgress(state: { active: boolean; progress: number }): number {
+  return state.active ? state.progress : -1;
+}
