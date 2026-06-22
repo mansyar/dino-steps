@@ -1,9 +1,14 @@
 // Command Execution Engine
 // Processes command queue with two-tier failure model and win detection
 
-import type { GameState, LevelData, Facing } from './types';
+import type { GameState, LevelData, Facing, TileType } from './types';
 import { forward, turnLeft, turnRight, DIRECTIONS } from './direction';
 import { GRID_WIDTH, GRID_HEIGHT } from './constants';
+import {
+  isObstacle as isObstacleTile,
+  isFood as isFoodTile,
+  isInteractable as isInteractableTile,
+} from './tileUtils';
 
 // Execution result types
 export type CommandResult =
@@ -22,17 +27,17 @@ function isInBounds(x: number, y: number): boolean {
 
 /** Check if a tile is an obstacle */
 function isObstacle(grid: string[][], x: number, y: number): boolean {
-  return grid[y][x] === 'obstacle';
+  return isObstacleTile(grid[y][x] as TileType);
 }
 
 /** Check if a tile is food */
 function isFood(grid: string[][], x: number, y: number): boolean {
-  return grid[y][x] === 'food';
+  return isFoodTile(grid[y][x] as TileType);
 }
 
 /** Check if a tile is an interactable */
 function isInteractable(grid: string[][], x: number, y: number): boolean {
-  return grid[y][x] === 'interactable';
+  return isInteractableTile(grid[y][x] as TileType);
 }
 
 /** Check if an interactable tile has been cleared */

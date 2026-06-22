@@ -16,7 +16,7 @@ const level1: LevelData = {
   title: 'Hungry Steps',
   grid: [
     ['empty', 'empty', 'empty', 'empty', 'empty'],
-    ['empty', 'empty', 'empty', 'food', 'empty'],
+    ['empty', 'empty', 'empty', 'berry', 'empty'],
     ['empty', 'empty', 'empty', 'empty', 'empty'],
   ],
   start: { x: 0, y: 1 },
@@ -31,7 +31,7 @@ const levelObstacle: LevelData = {
   title: 'Rocky Path',
   grid: [
     ['empty', 'empty', 'empty', 'empty', 'empty'],
-    ['empty', 'empty', 'obstacle', 'food', 'empty'],
+    ['empty', 'empty', 'rock', 'berry', 'empty'],
     ['empty', 'empty', 'empty', 'empty', 'empty'],
   ],
   start: { x: 0, y: 1 },
@@ -46,7 +46,7 @@ const levelInteractable: LevelData = {
   title: 'Turtle Bridge',
   grid: [
     ['empty', 'empty', 'empty', 'empty', 'empty'],
-    ['empty', 'interactable', 'empty', 'food', 'empty'],
+    ['empty', 'turtle', 'empty', 'berry', 'empty'],
     ['empty', 'empty', 'empty', 'empty', 'empty'],
   ],
   start: { x: 0, y: 1 },

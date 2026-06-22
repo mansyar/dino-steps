@@ -1,7 +1,8 @@
 // Tap Input Module
 // Handles Pointer Events for command buttons and track interactions
 
-import type { Command, DinoCharacter } from '../engine/types';
+import type { Command, DinoCharacter, TileType } from '../engine/types';
+import { isFood, isObstacle, isInteractable } from '../engine/tileUtils';
 
 // Command to emoji mapping (render-time only)
 export const COMMAND_EMOJI: Record<Command, string> = {
@@ -395,11 +396,10 @@ export function renderLevelSelect(
         for (let c = 0; c < level.grid[r].length; c++) {
           const cell = document.createElement('div');
           cell.className = 'level-tile__cell';
-          const tileType = level.grid[r][c];
-          if (tileType === 'food') cell.classList.add('level-tile__cell--food');
-          else if (tileType === 'obstacle') cell.classList.add('level-tile__cell--obstacle');
-          else if (tileType === 'interactable')
-            cell.classList.add('level-tile__cell--interactable');
+          const tileType = level.grid[r][c] as TileType;
+          if (isFood(tileType)) cell.classList.add('level-tile__cell--food');
+          else if (isObstacle(tileType)) cell.classList.add('level-tile__cell--obstacle');
+          else if (isInteractable(tileType)) cell.classList.add('level-tile__cell--interactable');
           preview.appendChild(cell);
         }
       }

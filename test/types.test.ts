@@ -23,8 +23,17 @@ describe('Types', () => {
 
   describe('TileType type', () => {
     it('should accept valid tile type values', () => {
-      const tileTypes: TileType[] = ['empty', 'obstacle', 'food', 'interactable'];
-      expect(tileTypes).toHaveLength(4);
+      const tileTypes: TileType[] = [
+        'empty',
+        'rock',
+        'mud',
+        'berry',
+        'leaf',
+        'cookie',
+        'turtle',
+        'grass',
+      ];
+      expect(tileTypes).toHaveLength(8);
     });
   });
 

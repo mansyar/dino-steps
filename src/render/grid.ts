@@ -4,12 +4,29 @@ import { getCanvasContext } from './canvas';
 import type { LevelData } from '../engine/types';
 import { GRID_WIDTH, GRID_HEIGHT } from '../engine/constants';
 
-const COLORS = {
+const COLORS: Record<string, string> = {
   empty: '#c4eed0', // GDD secondary — mint grid tiles
-  obstacle: '#8b7355',
-  food: '#ff6b6b',
-  interactable: '#b2dfdb',
+  // Obstacles
+  rock: '#8b7355',
+  mud: '#5d4037',
+  // Food
+  berry: '#ff6b6b',
+  leaf: '#81c784',
+  cookie: '#ffb74d',
+  // Interactables
+  turtle: '#4db6ac',
+  grass: '#a5d6a7',
   border: '#a8d5ba', // Soft green border
+};
+
+const EMOJI: Record<string, string> = {
+  rock: '🪨',
+  mud: '💩',
+  berry: '🍎',
+  leaf: '🍃',
+  cookie: '🍪',
+  turtle: '🐢',
+  grass: '🌿',
 };
 
 export interface GridMetrics {
@@ -47,22 +64,14 @@ export function drawGrid(level: LevelData): GridMetrics {
       ctx.lineWidth = 2;
       ctx.strokeRect(px, py, tileSize, tileSize);
 
-      // Draw food emoji on food tiles
-      if (tileType === 'food') {
+      // Draw emoji on non-empty tiles
+      const emoji = EMOJI[tileType];
+      if (emoji) {
         const fontSize = Math.floor(tileSize * 0.5);
         ctx.font = `${fontSize}px serif`;
         ctx.textAlign = 'center';
         ctx.textBaseline = 'middle';
-        ctx.fillText('🍎', px + tileSize / 2, py + tileSize / 2);
-      }
-
-      // Draw rock emoji on obstacle tiles
-      if (tileType === 'obstacle') {
-        const fontSize = Math.floor(tileSize * 0.5);
-        ctx.font = `${fontSize}px serif`;
-        ctx.textAlign = 'center';
-        ctx.textBaseline = 'middle';
-        ctx.fillText('🪨', px + tileSize / 2, py + tileSize / 2);
+        ctx.fillText(emoji, px + tileSize / 2, py + tileSize / 2);
       }
     }
   }
@@ -88,12 +97,14 @@ export function drawFoodWiggle(level: LevelData, time: number, reducedMotion?: b
   ctx.save();
   ctx.translate(wiggleX, wiggleY);
 
-  // Draw food emoji 🍎
+  // Draw food emoji based on tile type
+  const foodTileType = level.grid[fy]?.[fx] ?? 'berry';
+  const emoji = EMOJI[foodTileType] ?? '🍎';
   const fontSize = Math.floor(tileSize * 0.5);
   ctx.font = `${fontSize}px serif`;
   ctx.textAlign = 'center';
   ctx.textBaseline = 'middle';
-  ctx.fillText('🍎', px + tileSize / 2, py + tileSize / 2);
+  ctx.fillText(emoji, px + tileSize / 2, py + tileSize / 2);
 
   ctx.restore();
 }

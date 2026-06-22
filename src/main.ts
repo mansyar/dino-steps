@@ -65,7 +65,7 @@ const levelsData = [
     title: 'Hungry Steps',
     grid: [
       ['empty', 'empty', 'empty', 'empty', 'empty'],
-      ['empty', 'empty', 'empty', 'food', 'empty'],
+      ['empty', 'empty', 'empty', 'berry', 'empty'],
       ['empty', 'empty', 'empty', 'empty', 'empty'],
     ],
     start: { x: 0, y: 1 },

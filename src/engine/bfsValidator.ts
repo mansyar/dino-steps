@@ -1,9 +1,10 @@
 // BFS Level Validator
 // Validates solutions and computes minimum solution lengths using BFS
 
-import type { LevelData, Command } from './types';
+import type { LevelData, Command, TileType } from './types';
 import { DIRECTIONS, forward, turnLeft, turnRight } from './direction';
 import { GRID_WIDTH, GRID_HEIGHT } from './constants';
+import { isObstacle as isObstacleTile, isFood as isFoodTile } from './tileUtils';
 
 // Result types for solution replay
 export type ReplayResult = 'win' | 'fail' | 'incomplete';
@@ -23,12 +24,12 @@ function isInBounds(x: number, y: number): boolean {
 
 /** Check if a tile is an obstacle */
 function isObstacle(grid: string[][], x: number, y: number): boolean {
-  return grid[y][x] === 'obstacle';
+  return isObstacleTile(grid[y][x] as TileType);
 }
 
 /** Check if a tile is food */
 function isFood(grid: string[][], x: number, y: number): boolean {
-  return grid[y][x] === 'food';
+  return isFoodTile(grid[y][x] as TileType);
 }
 
 /** Replay a solution and determine the result */

@@ -5,7 +5,16 @@ import type { LevelData, Command, Facing, TileType } from './types';
 import { GRID_WIDTH, GRID_HEIGHT } from './constants';
 
 // Valid tile types
-const VALID_TILE_TYPES: TileType[] = ['empty', 'obstacle', 'food', 'interactable'];
+const VALID_TILE_TYPES: TileType[] = [
+  'empty',
+  'rock',
+  'mud',
+  'berry',
+  'leaf',
+  'cookie',
+  'turtle',
+  'grass',
+];
 
 // Valid commands
 const VALID_COMMANDS: Command[] = ['F', 'L', 'R', 'A'];

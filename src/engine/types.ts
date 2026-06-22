@@ -14,7 +14,7 @@ export interface Direction {
 export type Facing = 'E' | 'S' | 'W' | 'N';
 
 // Tile types on the grid
-export type TileType = 'empty' | 'obstacle' | 'food' | 'interactable';
+export type TileType = 'empty' | 'rock' | 'mud' | 'berry' | 'leaf' | 'cookie' | 'turtle' | 'grass';
 
 // Dino character selection
 export type DinoCharacter = 'Rexy' | 'Trikey' | 'Sera';

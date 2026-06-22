@@ -5,53 +5,53 @@
 
 Goal: Expand `TileType` to include sub-types, update all classification helpers, parser, executor, validator, and renderer to work with the new types. Update Level 1 to use the new tile sub-types.
 
-- [ ] Task: Read spec.md and workflow.md for this phase.
-    - [ ] Review acceptance criteria and references in `spec.md`.
-    - [ ] Review the Phase Completion Verification and Checkpointing Protocol in `workflow.md`.
-- [ ] Task: Expand `TileType` in `src/engine/types.ts`.
-    - [ ] Change `TileType` from `'empty' | 'obstacle' | 'food' | 'interactable'` to `'empty' | 'rock' | 'mud' | 'berry' | 'leaf' | 'cookie' | 'turtle' | 'grass'`.
-- [ ] Task: Add classification helpers.
-    - [ ] Add `isObstacle(tile: TileType): boolean` → returns `true` for `'rock'` | `'mud'`.
-    - [ ] Add `isFood(tile: TileType): boolean` → returns `true` for `'berry'` | `'leaf'` | `'cookie'`.
-    - [ ] Add `isInteractable(tile: TileType): boolean` → returns `true` for `'turtle'` | `'grass'`.
-    - [ ] Place these in `src/engine/types.ts` or a new `src/engine/tileUtils.ts` (follow existing pattern).
-- [ ] Task: Write failing tests for classification helpers.
-    - [ ] Test each helper with all 8 tile types (true/false for each).
-    - [ ] Run tests and confirm they fail (Red phase).
-- [ ] Task: Implement classification helpers to pass tests (Green phase).
-- [ ] Task: Update `src/engine/levelData.ts` parser.
-    - [ ] Update `VALID_TILE_TYPES` array to include all 8 sub-types.
-    - [ ] Verify `parseLevel` validation still works with expanded types.
-- [ ] Task: Update `src/engine/executor.ts` helper functions.
-    - [ ] Update `isObstacle()` to check `tile === 'rock' || tile === 'mud'` (or use the new helper).
-    - [ ] Update `isFood()` to check `tile === 'berry' || tile === 'leaf' || tile === 'cookie'`.
-    - [ ] Update `isInteractable()` to check `tile === 'turtle' || tile === 'grass'`.
-    - [ ] Verify all executor tests still pass (update test data if needed).
-- [ ] Task: Update `src/engine/bfsValidator.ts` helper functions.
-    - [ ] Update `isObstacle()` to use sub-type checks.
-    - [ ] Update `isFood()` to use sub-type checks.
-    - [ ] Add `isInteractable()` function (currently absent in validator).
-    - [ ] Do NOT add interactable handling logic yet (that's Phase 3) — just fix the classification functions.
-    - [ ] Verify all validator tests still pass (update test data if needed).
-- [ ] Task: Update `src/render/grid.ts` renderer.
-    - [ ] Expand `COLORS` map with distinct background colors for all 8 tile types.
-    - [ ] Add emoji rendering for each sub-type: rock 🪨, mud 🟤, berry 🫐, leaf 🍃, cookie 🍪, turtle 🐢, grass 🌿.
-    - [ ] Update `drawFoodWiggle` to read the food tile type from the grid instead of hardcoding 🍎.
-    - [ ] Use `isFood()` helper to detect food tiles (instead of `=== 'food'`).
-- [ ] Task: Update Level 1 data in `data/levels.json` and `main.ts`.
-    - [ ] Change the food tile from `'food'` to `'berry'` in the grid.
-    - [ ] Verify Level 1 still renders and plays correctly.
-- [ ] Task: Update existing tests to use new tile sub-types.
-    - [ ] Replace `'obstacle'` with `'rock'` in test fixtures.
-    - [ ] Replace `'food'` with `'berry'` (or appropriate sub-type) in test fixtures.
-    - [ ] Replace `'interactable'` with `'turtle'` or `'grass'` in test fixtures.
-    - [ ] Run `pnpm test` and confirm all pass.
-- [ ] Task: Run `pnpm test`, `pnpm lint`, `pnpm format`, `pnpm typecheck`.
-    - [ ] All tests pass.
-    - [ ] 0 lint errors, 0 warnings.
-    - [ ] Format clean.
-    - [ ] Typecheck passes.
-- [ ] Task: Conductor - User Manual Verification 'Data Model Refactor' (Protocol in workflow.md)
+- [x] Task: Read spec.md and workflow.md for this phase.
+    - [x] Review acceptance criteria and references in `spec.md`.
+    - [x] Review the Phase Completion Verification and Checkpointing Protocol in `workflow.md`.
+- [x] Task: Expand `TileType` in `src/engine/types.ts`.
+    - [x] Change `TileType` from `'empty' | 'obstacle' | 'food' | 'interactable'` to `'empty' | 'rock' | 'mud' | 'berry' | 'leaf' | 'cookie' | 'turtle' | 'grass'`.
+- [x] Task: Add classification helpers.
+    - [x] Add `isObstacle(tile: TileType): boolean` → returns `true` for `'rock'` | `'mud'`.
+    - [x] Add `isFood(tile: TileType): boolean` → returns `true` for `'berry'` | `'leaf'` | `'cookie'`.
+    - [x] Add `isInteractable(tile: TileType): boolean` → returns `true` for `'turtle'` | `'grass'`.
+    - [x] Place these in `src/engine/tileUtils.ts` (follow existing pattern).
+- [x] Task: Write failing tests for classification helpers.
+    - [x] Test each helper with all 8 tile types (true/false for each).
+    - [x] Run tests and confirm they fail (Red phase).
+- [x] Task: Implement classification helpers to pass tests (Green phase).
+- [x] Task: Update `src/engine/levelData.ts` parser.
+    - [x] Update `VALID_TILE_TYPES` array to include all 8 sub-types.
+    - [x] Verify `parseLevel` validation still works with expanded types.
+- [x] Task: Update `src/engine/executor.ts` helper functions.
+    - [x] Update `isObstacle()` to check `tile === 'rock' || tile === 'mud'` (or use the new helper).
+    - [x] Update `isFood()` to check `tile === 'berry' || tile === 'leaf' || tile === 'cookie'`.
+    - [x] Update `isInteractable()` to check `tile === 'turtle' || tile === 'grass'`.
+    - [x] Verify all executor tests still pass (update test data if needed).
+- [x] Task: Update `src/engine/bfsValidator.ts` helper functions.
+    - [x] Update `isObstacle()` to use sub-type checks.
+    - [x] Update `isFood()` to use sub-type checks.
+    - [x] Add `isInteractable()` function (currently absent in validator).
+    - [x] Do NOT add interactable handling logic yet (that's Phase 3) — just fix the classification functions.
+    - [x] Verify all validator tests still pass (update test data if needed).
+- [x] Task: Update `src/render/grid.ts` renderer.
+    - [x] Expand `COLORS` map with distinct background colors for all 8 tile types.
+    - [x] Add emoji rendering for each sub-type: rock 🪨, mud 🟤, berry 🫐, leaf 🍃, cookie 🍪, turtle 🐢, grass 🌿.
+    - [x] Update `drawFoodWiggle` to read the food tile type from the grid instead of hardcoding 🍎.
+    - [x] Use `isFood()` helper to detect food tiles (instead of `=== 'food'`).
+- [x] Task: Update Level 1 data in `data/levels.json` and `main.ts`.
+    - [x] Change the food tile from `'food'` to `'berry'` in the grid.
+    - [x] Verify Level 1 still renders and plays correctly.
+- [x] Task: Update existing tests to use new tile sub-types.
+    - [x] Replace `'obstacle'` with `'rock'` in test fixtures.
+    - [x] Replace `'food'` with `'berry'` (or appropriate sub-type) in test fixtures.
+    - [x] Replace `'interactable'` with `'turtle'` or `'grass'` in test fixtures.
+    - [x] Run `pnpm test` and confirm all pass.
+- [x] Task: Run `pnpm test`, `pnpm lint`, `pnpm format`, `pnpm typecheck`.
+    - [x] All tests pass.
+    - [x] 0 lint errors, 0 warnings.
+    - [x] Format clean.
+    - [x] Typecheck passes.
+- [~] Task: Conductor - User Manual Verification 'Data Model Refactor' (Protocol in workflow.md)
 
 ## Phase 2 — Levels 2-6 (No Interactables)
 

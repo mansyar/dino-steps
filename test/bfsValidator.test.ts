@@ -8,7 +8,7 @@ const level1: LevelData = {
   title: 'Hungry Steps',
   grid: [
     ['empty', 'empty', 'empty', 'empty', 'empty'],
-    ['empty', 'empty', 'empty', 'food', 'empty'],
+    ['empty', 'empty', 'empty', 'berry', 'empty'],
     ['empty', 'empty', 'empty', 'empty', 'empty'],
   ],
   start: { x: 0, y: 1 },
@@ -36,7 +36,7 @@ describe('BFS Level Validator', () => {
         ...level1,
         grid: [
           ['empty', 'empty', 'empty', 'empty', 'empty'],
-          ['empty', 'obstacle', 'empty', 'food', 'empty'],
+          ['empty', 'rock', 'empty', 'berry', 'empty'],
           ['empty', 'empty', 'empty', 'empty', 'empty'],
         ],
       };
@@ -89,7 +89,7 @@ describe('BFS Level Validator', () => {
         ...level1,
         grid: [
           ['empty', 'empty', 'empty', 'empty', 'empty'],
-          ['empty', 'obstacle', 'empty', 'food', 'empty'],
+          ['empty', 'rock', 'empty', 'berry', 'empty'],
           ['empty', 'empty', 'empty', 'empty', 'empty'],
         ],
       };
