@@ -88,3 +88,15 @@ export function setExecuting(state: GameState, executing: boolean): GameState {
     isExecuting: executing,
   };
 }
+
+/** Mark game as complete if the won level is the last level */
+export function markWinComplete(
+  state: GameState,
+  levelIndex: number,
+  levelCount: number,
+): GameState {
+  if (levelIndex === levelCount - 1) {
+    return { ...state, gameComplete: true };
+  }
+  return state;
+}

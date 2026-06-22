@@ -41,7 +41,13 @@ import {
   updateConfetti,
 } from './render/confetti';
 import { parseLevels } from './engine/levelData';
-import { createInitialState, addCommand, removeCommand, resetToStart } from './engine/state';
+import {
+  createInitialState,
+  addCommand,
+  removeCommand,
+  resetToStart,
+  markWinComplete,
+} from './engine/state';
 import { processNextCommand, applyCommand, hardFail, checkTerminalState } from './engine/executor';
 import {
   loadPersisted,
@@ -461,11 +467,8 @@ function processNextExecCommand(): void {
         playSuccess();
       }
 
-      // Check if this is the last level
-      const isLastLevel = currentLevelIndex === levels.length - 1;
-      if (isLastLevel) {
-        gameState = { ...gameState, gameComplete: true };
-      }
+      // Mark game complete if this is the last level
+      gameState = markWinComplete(gameState, currentLevelIndex, levels.length);
 
       // Start win animation
       showWin = true;
@@ -673,7 +676,7 @@ async function init(): Promise<void> {
   startLoop((dt) => {
     dinoAnim.idleTime += dt;
 
-    // Clear canvas each frame
+    // Clear canvas each frame to prevent residual rendering (confetti/particles persisting across frames)
     const { ctx, width, height } = getCanvasContext();
     ctx.clearRect(0, 0, width, height);
 

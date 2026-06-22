@@ -7,6 +7,7 @@ import {
   clearInteractable,
   resetToStart,
   setExecuting,
+  markWinComplete,
 } from '../src/engine/state';
 import type { LevelData } from '../src/engine/types';
 
@@ -160,10 +161,18 @@ describe('State Module', () => {
       expect(state.gameComplete).toBe(false);
     });
 
-    it('should track gameComplete flag', () => {
+    it('should set gameComplete when winning the last level', () => {
       const state = createInitialState(level1, 'Rexy');
-      const newState = { ...state, gameComplete: true };
+      const newState = markWinComplete(state, 9, 10);
       expect(newState.gameComplete).toBe(true);
+    });
+
+    it('should not set gameComplete for levels 1–9', () => {
+      const state = createInitialState(level1, 'Rexy');
+      for (let i = 0; i < 9; i++) {
+        const newState = markWinComplete(state, i, 10);
+        expect(newState.gameComplete).toBe(false);
+      }
     });
   });
 });
