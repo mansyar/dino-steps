@@ -820,13 +820,23 @@ async function init(): Promise<void> {
       updateSoftResist(softResistState, dt);
       updateFoodGlance(foodGlanceState, dt);
 
-      // Draw dino with appropriate animation
-      const animType = isIdle(movement) ? (showWin ? 'celebrating' : 'idle') : movement.animState;
+      // Build articulation phase from active game states, not just movement.
+      // The phase drives per-part transform dispatch in computePartTransform:
+      // 'eating' → jaw chomp, 'signature' → jaw open, 'celebrating' → backflip.
+      const phase = showWin
+        ? eatingState.active
+          ? 'eating'
+          : 'celebrating'
+        : signatureState.active
+          ? 'signature'
+          : isIdle(movement)
+            ? 'idle'
+            : movement.animState;
 
-      // Build articulation state: phase drives composite, progress params default to -1
-      // (inactive) so the matching per-part transforms are skipped.
+      // Build articulation state: progress params default to -1 (inactive) so
+      // the matching per-part transforms are skipped when not active.
       const articulationState: ArticulationState = {
-        phase: animType ?? 'idle',
+        phase,
         idleTime: dinoAnim.idleTime,
         walkCycle: dinoAnim.walkCycle,
         signatureProgress: activeProgress(signatureState),

@@ -81,8 +81,9 @@ function drawSingleImageDino(
   ctx.save();
   ctx.translate(cx, cy);
 
-  // Idle bob
-  if (state.phase === 'idle') {
+  // Idle bob — also applies during signature so the body keeps its gentle
+  // vertical sway while per-part transforms handle the jaw/head articulation.
+  if (state.phase === 'idle' || state.phase === 'signature') {
     const bobY = Math.sin(state.idleTime * 2) * s * 0.02;
     ctx.translate(0, bobY);
   }
@@ -124,8 +125,9 @@ function drawCompositeDino(
   ctx.save();
   ctx.translate(px + tileSize / 2, py + tileSize / 2);
 
-  // Idle bob
-  if (state.phase === 'idle') {
+  // Idle bob — also applies during signature so the body keeps its gentle
+  // vertical sway while per-part transforms handle the jaw/head articulation.
+  if (state.phase === 'idle' || state.phase === 'signature') {
     const bobY = Math.sin(state.idleTime * 2) * s * 0.02;
     ctx.translate(0, bobY);
   }
@@ -155,11 +157,14 @@ function drawCompositeDino(
     const t = computePartTransform(part.name, state);
 
     ctx.save();
-    // Move to pivot (in part's 120×120 viewBox space, scaled to s×s)
-    ctx.translate(part.pivotX * scale, part.pivotY * scale);
+    // Move to pivot — account for the image being centered at the char center
+    // (drawImage at -s/2 means viewBox 0,0 maps to screen -s/2 from origin)
+    const pivotSX = part.pivotX * scale - s / 2;
+    const pivotSY = part.pivotY * scale - s / 2;
+    ctx.translate(pivotSX, pivotSY);
     ctx.rotate(t.rotate);
     ctx.scale(1, t.scaleY);
-    ctx.translate(-part.pivotX * scale, -part.pivotY * scale);
+    ctx.translate(-pivotSX, -pivotSY);
     ctx.translate(t.tx, t.ty);
     ctx.drawImage(img, -s / 2, -s / 2, s, s);
     ctx.restore();
