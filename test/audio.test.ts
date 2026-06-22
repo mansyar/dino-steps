@@ -93,6 +93,8 @@ describe('sfx', () => {
     expect(typeof mod.playBonk).toBe('function');
     expect(typeof mod.playSuccess).toBe('function');
     expect(typeof mod.playTurn).toBe('function');
-    expect(typeof mod.playAction).toBe('function');
+    expect(typeof mod.playSignature).toBe('function');
+    expect(typeof mod.playSoftResist).toBe('function');
+    expect(typeof mod.playHint).toBe('function');
   });
 });

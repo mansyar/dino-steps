@@ -55,18 +55,6 @@ export function playTurn(): void {
   });
 }
 
-/** Action/no-op sound — soft "boop". Played on Action command (clear/no-op). */
-export function playAction(): void {
-  playTone({
-    type: 'sine',
-    frequencyStart: 600,
-    frequencyEnd: 400,
-    duration: 0.1,
-    gainStart: 0.2,
-    gainEnd: 0.001,
-  });
-}
-
 /**
  * Character signature sound — unique per character with two variants: - action variant (clearing
  * interactable): stronger, longer - idle variant (no-op): softer, shorter

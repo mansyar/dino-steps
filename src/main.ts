@@ -44,7 +44,15 @@ import { parseLevels } from './engine/levelData';
 import { createInitialState, addCommand, removeCommand, resetToStart } from './engine/state';
 import { processNextCommand, applyCommand, hardFail, checkTerminalState } from './engine/executor';
 import { loadPersisted, saveCharacter, saveMuted, saveUnlockedLevel } from './engine/persistence';
-import { playStomp, playBonk, playSuccess, playTurn, playAction } from './audio/sfx';
+import {
+  playStomp,
+  playBonk,
+  playSuccess,
+  playTurn,
+  playSignature,
+  playSoftResist,
+  playHint,
+} from './audio/sfx';
 import { resumeAudioContext } from './audio/context';
 import {
   renderActionMenu,
@@ -343,7 +351,6 @@ function refreshGameUI(): void {
   // Hint pill — above the command menu
   hintEl = document.createElement('div');
   hintEl.className = 'hint-text';
-  hintEl.textContent = `🍎 Feed ${gameState.character}!`;
   hintEl.style.position = 'static';
   hintEl.style.transform = 'none';
   bottomPanelEl.appendChild(hintEl);
@@ -495,6 +502,7 @@ function processNextExecCommand(): void {
     case 'softResist': {
       // Trigger soft-resist animation (dino leans, tile bounces back)
       triggerSoftResist(softResistState);
+      if (!currentMuted) playSoftResist();
 
       // Advance index without moving
       gameState = {
@@ -507,6 +515,7 @@ function processNextExecCommand(): void {
         if (terminal.type === 'hint') {
           // On food without action — show hint + food glance
           triggerFoodGlance(foodGlanceState, level.food.x, level.food.y);
+          if (!currentMuted) playHint();
           showHint = true;
           hintTimer = 2.0;
           hintTime = 0;
@@ -531,7 +540,7 @@ function processNextExecCommand(): void {
         if (!currentMuted) playTurn();
         startTurn(movement);
       } else if (cmd === 'A') {
-        if (!currentMuted) playAction();
+        if (!currentMuted) playSignature(gameState.character, result.actionContext === 'clear');
         // Trigger signature move visual
         triggerSignature(signatureState, gameState.character);
       }
@@ -542,6 +551,7 @@ function processNextExecCommand(): void {
         if (terminal.type === 'hint') {
           // On food without action — show hint + food glance
           triggerFoodGlance(foodGlanceState, level.food.x, level.food.y);
+          if (!currentMuted) playHint();
           showHint = true;
           hintTimer = 2.0;
           hintTime = 0;
