@@ -6,7 +6,7 @@
 > - `[DISCUSSING]` — actively under discussion
 > - `[PENDING]` — not yet explored, awaiting deep-dive
 >
-> **Last updated:** UI & Animation Polish track implemented, reviewed, fixes applied, and archived. Track `ui_animation_polish_20260621` complete. **See §14 for implementation status.**
+> **Last updated:** Levels 2-10 track implemented, reviewed, fixes applied, and archived. Track `levels_2_10_20260622` complete. **See §14 for implementation status.**
 
 ---
 
@@ -657,11 +657,32 @@ For a preschool game, playtesting with actual children is the single most import
 - Medium: Added keyboard (`Enter`/`Space`) activation to all tap-built buttons and filled track slots.
 - Low: Fixed `oxfmt` formatting drift in `src/styles.css`.
 
-### 14.3 Deferred Items (Future Tracks)
+### 14.3 Track: `levels_2_10_20260622` — Levels 2-10 `[COMPLETE]`
+
+**Status:** Complete, code-reviewed, fixes applied, and archived to `conductor/archive/levels_2_10_20260622/`.
+
+**Systems implemented:**
+- **TileType expansion** (`src/engine/types.ts`): Expanded from generic `obstacle | food | interactable` to specific sub-types: `rock`, `mud`, `berry`, `leaf`, `cookie`, `turtle`, `grass`
+- **Classification helpers** (`src/engine/tileUtils.ts`): NEW — `isObstacle()`, `isFood()`, `isInteractable()` functions for type-safe tile classification
+- **Level data** (`data/levels.json`): 10 levels total — L1 (basic), L2-L6 (obstacles only), L7-L10 (with interactables)
+- **BFS validator** (`src/engine/bfsValidator.ts`): Updated to handle interactables — tracks cleared state, tries `A` as a clearing action, enforces soft-resist on exit from uncleared interactables
+- **Renderer** (`src/render/grid.ts`): Expanded COLORS and EMOJI maps for all 8 tile sub-types, updated food wiggle to use correct food emoji
+- **Executor** (`src/engine/executor.ts`): Updated to use tileUtils helpers for tile classification
+- **Input** (`src/input/tap.ts`): Level preview uses tileUtils helpers for classification
+
+**Quality metrics:**
+| Metric | Result | Threshold |
+|--------|--------|-----------|
+| Tests | 178 passed (13 files) | — |
+| Coverage | 88.79% statements | 80% |
+| Typecheck | 0 errors | 0 |
+| Lint | 0 warnings / 0 errors | 0 |
+| Format | clean | 0 changes needed |
+| Build size | 30.20 KB total | <500 KB |
+
+### 14.4 Deferred Items (Future Tracks)
 
 | Priority | Item | Rationale |
 |----------|------|-----------|
-| High | Levels 2–10 | Core game content; level data + rendering + testing |
-| Medium | BFS validator interactable handling | Needed for L7 (turtle), L8 (grass), L10 (turtle) — currently only executor handles interactables |
 | Medium | Character signature SFX | `playSignature` was removed as dead code; GDD §3.4 specifies signature SFX on 🦕 action |
 | Low | Playtesting | Per §11.4: paper prototype → vertical slice → full progression with children ages 3–5 |
