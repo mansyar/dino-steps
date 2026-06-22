@@ -80,14 +80,15 @@
 ## Phase 4: Text-Free Carousel Close
 
 ### Task: Read spec.md and workflow.md before starting this phase
-- [ ] Read `conductor/tracks/win_polish_completion_20260622/spec.md` to review the specification for this phase
-- [ ] Read `conductor/workflow.md` to review the TDD workflow and quality gates
+- [x] Read `conductor/tracks/win_polish_completion_20260622/spec.md` to review the specification for this phase
+- [x] Read `conductor/workflow.md` to review the TDD workflow and quality gates
 
 ### Task: Replace "Cancel" text with ✕ icon
-- [ ] In `tap.ts`, change `closeBtn.textContent = 'Cancel'` to use ✕ emoji/icon
-- [ ] Ensure 64px tap target is maintained
-- [ ] Retain `aria-label="Close character selection"` for accessibility
-- [ ] Verify visually that no text appears on the close button
+- [x] In `tap.ts`, change `closeBtn.textContent = 'Cancel'` to use ✕ emoji/icon
+- [x] Ensure 64px tap target is maintained
+- [x] Retain `aria-label="Close character selection"` for accessibility
+- [x] Verify visually that no text appears on the close button
 
 ### Task: Conductor - User Manual Verification 'Text-Free Carousel Close' (Protocol in workflow.md)
+- [x] Phase 4 complete
 </protect>

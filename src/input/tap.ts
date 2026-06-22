@@ -550,8 +550,9 @@ export function renderCharacterCarousel(
   }
 
   const closeBtn = document.createElement('button');
-  closeBtn.textContent = 'Cancel';
+  closeBtn.textContent = '✕';
   closeBtn.className = 'character-carousel__close';
+  closeBtn.setAttribute('aria-label', 'Close character selection');
   makeTappable(closeBtn, onClose);
   panel.appendChild(closeBtn);
 
