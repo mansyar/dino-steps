@@ -116,35 +116,35 @@ Goal: Fix the BFS validator to handle interactable tiles — track cleared state
     - [x] Typecheck passes.
 - [x] Task: Conductor - User Manual Verification 'BFS Validator Interactable Handling' (Protocol in workflow.md) `ae6dd0e`
 
-## Phase 4 — Levels 7-10 (With Interactables)
+## Phase 4 — Levels 7-10 (With Interactables) [checkpoint: c302951]
 
 Goal: Author levels 7-10 (which contain interactables) and add BFS validation tests now that the validator supports them.
 
-- [ ] Task: Read spec.md and workflow.md for this phase.
-- [ ] Task: Author levels 7-10 in `data/levels.json`.
-    - [ ] L7: Sleepy Turtle — start (0,1)E, food (4,1) leaf, turtle (2,1), budget 8, solution `F F A F F A`.
-    - [ ] L8: Tall Grass Chomp — start (0,2)E, food (4,1) cookie, rock (1,2), grass (0,1), budget 10, solution `L F R A F F F F A`.
-    - [ ] L9: Twin Paths — start (2,2)E, food (4,0) cookie, rock (3,0), rock (4,2), budget 10, solution `F L F R F L F A`.
-    - [ ] L10: Dino Master — start (0,1)E, food (4,2) cookie, rock (0,2), rock (2,1), turtle (1,1), budget 10, solution `F R A F L F F F A`.
-    - [ ] Verify each grid is 5×3 with correct tile placements.
-- [ ] Task: Write failing tests for level data parsing (levels 7-10).
-    - [ ] Test `parseLevels` with all 10 levels parses without error.
-    - [ ] Test each level's grid dimensions, start position, food position, track budget, verified solution.
-- [ ] Task: Write failing tests for BFS validation (levels 7-10).
-    - [ ] Test `replaySolution` returns `'win'` for each level's verified solution.
-    - [ ] Test `computeMinimum` returns the expected minimum for each level (L7: 6, L8: 9, L9: 8, L10: 9).
-    - [ ] Run tests and confirm they fail (Red phase — levels not yet in data file or main.ts).
-- [ ] Task: Sync `main.ts` hardcoded levels with `data/levels.json` (add levels 7-10).
-- [ ] Task: Write integration tests for all 10 levels.
-    - [ ] Test that replaying each level's verified solution through the executor produces a win state.
-    - [ ] Test that the dino position, facing, and cleared interactables match expected end state.
-- [ ] Task: Run `pnpm test` and confirm all new tests pass (Green phase).
-- [ ] Task: Run `pnpm test`, `pnpm lint`, `pnpm format`, `pnpm typecheck`.
-    - [ ] All tests pass.
-    - [ ] 0 lint errors, 0 warnings.
-    - [ ] Format clean.
-    - [ ] Typecheck passes.
-- [ ] Task: Conductor - User Manual Verification 'Levels 7-10' (Protocol in workflow.md)
+- [x] Task: Read spec.md and workflow.md for this phase.
+- [x] Task: Author levels 7-10 in `data/levels.json`.
+    - [x] L7: Sleepy Turtle — start (0,1)E, food (4,1) leaf, turtle (2,1), budget 8, solution `F F A F F A`.
+    - [x] L8: Tall Grass Chomp — start (0,2)E, food (4,1) cookie, rock (1,2), grass (0,1), budget 10, solution `L F R A F F F F A`.
+    - [x] L9: Twin Paths — start (2,2)E, food (4,0) cookie, rock (3,0), rock (4,2), budget 10, solution `F L F R F L F A`.
+    - [x] L10: Dino Master — start (0,1)E, food (4,2) cookie, rock (0,2), rock (2,1), turtle (1,1), budget 10, solution `F R A F L F F F A`.
+    - [x] Verify each grid is 5×3 with correct tile placements.
+- [x] Task: Write failing tests for level data parsing (levels 7-10).
+    - [x] Test `parseLevels` with all 10 levels parses without error.
+    - [x] Test each level's grid dimensions, start position, food position, track budget, verified solution.
+- [x] Task: Write failing tests for BFS validation (levels 7-10).
+    - [x] Test `replaySolution` returns `'win'` for each level's verified solution.
+    - [x] Test `computeMinimum` returns the expected minimum for each level (L7: 6, L8: 9, L9: 8, L10: 9).
+    - [x] Run tests and confirm they fail (Red phase — levels not yet in data file or main.ts).
+- [x] Task: Sync `main.ts` hardcoded levels with `data/levels.json` (add levels 7-10).
+- [x] Task: Write integration tests for all 10 levels.
+    - [x] Test that replaying each level's verified solution through the executor produces a win state.
+    - [x] Test that the dino position, facing, and cleared interactables match expected end state.
+- [x] Task: Run `pnpm test` and confirm all new tests pass (Green phase).
+- [x] Task: Run `pnpm test`, `pnpm lint`, `pnpm format`, `pnpm typecheck`.
+    - [x] All tests pass (178 tests across 13 files).
+    - [x] 0 lint errors, 0 warnings.
+    - [x] Format clean.
+    - [x] Typecheck passes.
+- [x] Task: Conductor - User Manual Verification 'Levels 7-10' (Protocol in workflow.md)
 
 ## Phase 5 — Integration & Quality Gates
 
