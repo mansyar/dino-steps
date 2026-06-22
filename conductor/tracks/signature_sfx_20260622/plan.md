@@ -52,9 +52,9 @@
     - [x] Remove or comment out `hintEl.textContent = ...` line in the hint terminal case
     - [x] Remove `hintEl` creation/show logic if it serves no other purpose; otherwise leave the element but empty its content
     - [x] Verify: Run `CI=true pnpm typecheck` and `CI=true pnpm lint` — no errors
-- [~] Task: Conductor - User Manual Verification 'Phase 3: Wiring & Text-Free Fix' (Protocol in workflow.md)
+- [x] Task: Conductor - User Manual Verification 'Phase 3: Wiring & Text-Free Fix' (Protocol in workflow.md)
 
-## Phase 4: Final Verification
+## Phase 4: Final Verification [checkpoint: d9be3c6]
 
 - [x] Task: Read `spec.md` and `workflow.md` to refresh context before starting Phase 4
 - [x] Task: Run full quality gate
@@ -64,5 +64,5 @@
     - [x] Run `pnpm lint` — 0 errors / 0 warnings
     - [x] Run `pnpm format` — clean
     - [x] Run `pnpm build` and check build size <500KB
-- [~] Task: Conductor - User Manual Verification 'Phase 4: Final Verification' (Protocol in workflow.md)
+- [x] Task: Conductor - User Manual Verification 'Phase 4: Final Verification' (Protocol in workflow.md)
 </protect>
