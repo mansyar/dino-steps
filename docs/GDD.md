@@ -6,7 +6,7 @@
 > - `[DISCUSSING]` — actively under discussion
 > - `[PENDING]` — not yet explored, awaiting deep-dive
 >
-> **Last updated:** Levels 2-10 track implemented, reviewed, fixes applied, and archived. Track `levels_2_10_20260622` complete. **See §14 for implementation status.**
+> **Last updated:** Character Signature SFX track implemented, reviewed, fixes applied, and archived. Track `signature_sfx_20260622` complete. **See §14 for implementation status.**
 
 ---
 
@@ -686,9 +686,33 @@ For a preschool game, playtesting with actual children is the single most import
 - Low: Added type assertion justification comments in `executor.ts`, `bfsValidator.ts`, `tap.ts` (Google TS Style Guide §1 compliance)
 - Low: Extracted `makeStateKey()` helper in `bfsValidator.ts` to eliminate fragile inline key construction
 
-### 14.4 Deferred Items (Future Tracks)
+### 14.4 Track: `signature_sfx_20260622` — Character Signature SFX `[COMPLETE]`
+
+**Status:** Complete, code-reviewed, fixes applied, and archived to `conductor/archive/signature_sfx_20260622/`.
+
+**Systems implemented:**
+- **Character signature SFX** (`src/audio/sfx.ts`): Replaced generic `playAction()` with `playSignature(character, isClearing)` — 6 variants across 3 characters (Rexy: sawtooth 200→80 Hz with vibrato; Trikey: triangle 400 Hz fixed; Sera: sine arpeggio 800→1000→1200 Hz), each with action (clearing) and idle (no-op) variants
+- **Soft-resist audio** (`src/audio/sfx.ts`): `playSoftResist()` — sine 150→100 Hz thud for forgotten dino on interactable exit, distinct from hard-failure `playBonk()`
+- **Hint audio** (`src/audio/sfx.ts`): `playHint()` — ascending C5→E5 two-note chime for food-wiggle hint, character-agnostic
+- **Text-free hint fix** (`src/main.ts`): Removed `hintEl.textContent` — hint is now purely audio + visual (food glance/wiggle), no on-screen text
+- **Executor enhancement** (`src/engine/executor.ts`): Added `actionContext: 'clear' | 'noop'` field to `CommandResult` continue variant, set by `actionCommand()` to distinguish clearing vs. no-op
+- **Wiring** (`src/main.ts`): `playSignature` wired into `A` command (action vs. idle by `actionContext`), `playSoftResist` into soft-resist terminal, `playHint` into hint terminal — all gated by mute check
+
+**Quality metrics (post-review):**
+| Metric | Result | Threshold |
+|--------|--------|-----------|
+| Tests | 185 passed (13 files) | — |
+| Coverage | 90.37% statements / 90.51% lines | 80% lines |
+| Typecheck | 0 errors | 0 |
+| Lint | 0 warnings / 0 errors | 0 |
+| Build size | ~43 KB total / 13 KB gzip | <500 KB |
+
+**Review fixes applied (commit `ae1dce7`):**
+- Medium: Removed orphaned/misplaced JSDoc block above `playSoftResist()` (copy-paste error documenting wrong function)
+- Low: Marked TDD subtask checkboxes in plan.md; noted vestigial empty `hintEl` element (plan-permitted) and inline comment nits (left as-is per surgical-change principle)
+
+### 14.5 Deferred Items (Future Tracks)
 
 | Priority | Item | Rationale |
 |----------|------|-----------|
-| Medium | Character signature SFX | `playSignature` was removed as dead code; GDD §3.4 specifies signature SFX on 🦕 action |
 | Low | Playtesting | Per §11.4: paper prototype → vertical slice → full progression with children ages 3–5 |
