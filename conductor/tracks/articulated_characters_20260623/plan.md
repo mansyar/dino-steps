@@ -55,6 +55,7 @@
     - [x] If `getCharacterRig(char)` returns null → render current single-image fallback path (unchanged) for unmigrated characters
     - [x] If rig exists → apply whole-body transforms (translate to center, `angleFromFacing`, idle bob, backflip), then iterate parts in draw order applying `computePartTransform` per part pivoted at its joint
     - [x] Verify: `CI=true pnpm typecheck` — 0 errors; `CI=true pnpm lint` — 0 errors; `pnpm test` — 219 tests pass; `pnpm build` — succeeded
+- [x] Task: Manual verification [242b85f] [checkpoint: 242b85f]
 - [ ] Task: Conductor — User Manual Verification 'Phase 4: Articulated Composite Renderer' (Protocol in workflow.md)
 
 ## Phase 5: main.ts Wiring & Eating State (Rendering — not TDD)
