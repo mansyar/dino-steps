@@ -5,10 +5,10 @@
 
 - [x] Task: Read `spec.md` and `workflow.md` to refresh context before starting Phase 1
 - [x] Task: Add `actionContext` field to `CommandResult` type and `actionCommand()` 2b78469
-    - [ ] **Red:** Write failing tests in `test/executor.test.ts` for `actionCommand` returning `actionContext: 'clear'` on uncleared interactable, `actionContext: 'noop'` on cleared/empty tile, and `type: 'win'` (unchanged) on food
-    - [ ] **Green:** Add `actionContext?: 'clear' | 'noop'` to the `continue` variant of `CommandResult` in `src/engine/executor.ts`; set it in `actionCommand()` — `'clear'` when `isUnclearedInteractable`, `'noop'` otherwise
-    - [ ] **Refactor:** Ensure `forwardCommand`, `leftCommand`, `rightCommand` return `{ type: 'continue' }` without `actionContext` (no change needed — optional field absent)
-    - [ ] **Verify:** Run `CI=true pnpm test` — all tests pass including new ones; run `CI=true pnpm coverage` — coverage >80%
+    - [x] **Red:** Write failing tests in `test/executor.test.ts` for `actionCommand` returning `actionContext: 'clear'` on uncleared interactable, `actionContext: 'noop'` on cleared/empty tile, and `type: 'win'` (unchanged) on food
+    - [x] **Green:** Add `actionContext?: 'clear' | 'noop'` to the `continue` variant of `CommandResult` in `src/engine/executor.ts`; set it in `actionCommand()` — `'clear'` when `isUnclearedInteractable`, `'noop'` otherwise
+    - [x] **Refactor:** Ensure `forwardCommand`, `leftCommand`, `rightCommand` return `{ type: 'continue' }` without `actionContext` (no change needed — optional field absent)
+    - [x] **Verify:** Run `CI=true pnpm test` — all tests pass including new ones; run `CI=true pnpm coverage` — coverage >80%
 - [x] Task: Conductor - User Manual Verification 'Phase 1: Executor Enhancement' (Protocol in workflow.md)
 
 ## Phase 2: Signature SFX & Audio Gap Sounds (Audio Synthesis — NOT TDD) [checkpoint: d8ba2d7]
@@ -65,4 +65,7 @@
     - [x] Run `pnpm format` — clean
     - [x] Run `pnpm build` and check build size <500KB
 - [x] Task: Conductor - User Manual Verification 'Phase 4: Final Verification' (Protocol in workflow.md)
+
+## Phase: Review Fixes
+- [x] Task: Apply review suggestions ae1dce7
 </protect>
