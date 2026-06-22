@@ -12,6 +12,8 @@
 - [x] Task: Update `conductor/tech-stack.md` Assets section to describe per-part SVG files in `public/characters/<character>/` [9e145f4]
     - [x] Verify: `pnpm typecheck` — 0 errors (docs only, but confirm no breakage)
 
+[checkpoint: 5fb6e49]
+
 ## Phase 2: Part Rig Schema & Transform Logic (TDD — testable core)
 
 - [ ] Task: Read `spec.md` and `workflow.md` to refresh context before starting Phase 2
