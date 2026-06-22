@@ -16,18 +16,17 @@
 
 ## Phase 2: Part Rig Schema & Transform Logic (TDD — testable core)
 
-- [ ] Task: Read `spec.md` and `workflow.md` to refresh context before starting Phase 2
-- [ ] Task: Define rig + articulation types and `computePartTransform` in `src/render/character-parts.ts`
-    - [ ] **Red:** Write failing tests in `test/character-parts.test.ts`:
-        - `computePartTransform('leg-front', walkingState)` returns a swing that is the negative of `('leg-back', walkingState)` (180° phase offset)
-        - `computePartTransform('jaw', signatureState@0.4)` returns `rotate` ≈ 0.5 rad (peak open); at 0.9 returns ≈ 0 (closed)
-        - `computePartTransform('jaw', eatingState)` chomps: opens then closes across progress
-        - `computePartTransform('tail', idleState)` sways ±0.06 rad; `reducedMotion` halves amplitude
-        - Rig-data integrity: `REXY_RIG.parts` has 8 entries, unique names, pivots within 0–120, draw order includes all expected parts
-    - [ ] **Green:** Implement `CharacterPart`, `CharacterRig`, `ArticulationPhase`, `ArticulationState`, `PartTransform`, `computePartTransform`, and `REXY_RIG` (with placeholder pivot coords to be finalized in Phase 3 against the real art)
-    - [ ] **Refactor:** Extract per-phase helper functions (`idleTransform`, `walkTransform`, `signatureTransform`, etc.) for clarity if the switch grows large
-    - [ ] **Verify:** Run `CI=true pnpm test` — new tests pass; run `CI=true pnpm coverage` — coverage >80% for the new module
-- [ ] Task: Conductor — User Manual Verification 'Phase 2: Rig Schema & Transform Logic' (Protocol in workflow.md)
+- [x] Task: Read `spec.md` and `workflow.md` to refresh context before starting Phase 2
+- [x] Task: Define rig + articulation types and `computePartTransform` in `src/render/character-parts.ts` [94cb84a]
+    - [x] **Red:** Write failing tests in `test/character-parts.test.ts`:
+        - [x] `computePartTransform('leg-front', walkingState)` returns a swing that is the negative of `('leg-back', walkingState)` (180° phase offset)
+        - [x] `computePartTransform('jaw', signatureState@0.4)` returns `rotate` ≈ 0.5 rad (peak open); at 0.9 returns ≈ 0 (closed)
+        - [x] `computePartTransform('jaw', eatingState)` chomps: opens then closes across progress
+        - [x] `computePartTransform('tail', idleState)` sways ±0.06 rad; `reducedMotion` halves amplitude
+        - [x] Rig-data integrity: `REXY_RIG.parts` has 8 entries, unique names, pivots within 0–120, draw order includes all expected parts
+    - [x] **Green:** Implement `CharacterPart`, `CharacterRig`, `ArticulationPhase`, `ArticulationState`, `PartTransform`, `computePartTransform`, and `REXY_RIG` (with placeholder pivot coords to be finalized in Phase 3 against the real art)
+    - [x] **Refactor:** Extracted per-phase helper functions (`idleTransform`, `walkingTransform`, `signatureTransform`, `eatingTransform`, `celebrateTransform`, `dizzyTransform`) for clarity per the switch dispatch
+    - [x] **Verify:** Run `CI=true pnpm test` — 219 tests pass; run `CI=true pnpm coverage` — line coverage 100% / statements 94.2% / branches 90.6% for `src/render/character-parts.ts` (well above 80% threshold)
 
 ## Phase 3: Rexy Part Art (SVG authoring — not TDD)
 
