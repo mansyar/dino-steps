@@ -1,6 +1,7 @@
 // Level Data Schema and Loader
 // Handles parsing and validation of level data
 
+import levelsData from '../../data/levels.json';
 import type { LevelData, Command, Facing, TileType } from './types';
 import { GRID_WIDTH, GRID_HEIGHT } from './constants';
 
@@ -138,4 +139,9 @@ export function parseLevels(data: unknown[]): LevelData[] {
       throw new Error(`Error parsing level at index ${index}: ${error}`);
     }
   });
+}
+
+/** Load and validate the bundled default level set. */
+export function loadLevels(): LevelData[] {
+  return parseLevels(levelsData);
 }
