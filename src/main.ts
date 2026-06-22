@@ -43,7 +43,13 @@ import {
 import { parseLevels } from './engine/levelData';
 import { createInitialState, addCommand, removeCommand, resetToStart } from './engine/state';
 import { processNextCommand, applyCommand, hardFail, checkTerminalState } from './engine/executor';
-import { loadPersisted, saveCharacter, saveMuted, saveUnlockedLevel } from './engine/persistence';
+import {
+  loadPersisted,
+  saveCharacter,
+  saveMuted,
+  saveUnlockedLevel,
+  resetProgress,
+} from './engine/persistence';
 import {
   playStomp,
   playBonk,
@@ -631,6 +637,16 @@ function showHome(): void {
       showLevelSelect();
     },
     gameState?.gameComplete ?? false,
+    () => {
+      // Reset progress callback
+      resetProgress();
+      const persisted = loadPersisted();
+      currentLevelIndex = Math.max(0, persisted.unlockedLevel - 1);
+      gameState = createInitialState(levels[currentLevelIndex], persisted.chosenCharacter);
+      movement = createMovementState(gameState.dinoPos.x, gameState.dinoPos.y);
+      refreshGameUI();
+      showHome();
+    },
   );
 }
 

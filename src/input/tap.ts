@@ -269,6 +269,7 @@ export function renderHomeScreen(
   container: HTMLElement,
   onSelect: (character: DinoCharacter) => void,
   gameComplete?: boolean,
+  onReset?: () => void,
 ): HTMLElement {
   const home = document.createElement('div');
   home.className = 'home-screen';
@@ -286,6 +287,75 @@ export function renderHomeScreen(
     trophy.setAttribute('aria-label', 'All levels completed!');
     home.appendChild(trophy);
   }
+
+  // Reset progress button (hidden by default, revealed on long-press title)
+  let resetContainer: HTMLDivElement | null = null;
+  let holdTimer: ReturnType<typeof setTimeout> | null = null;
+  let confirmTimer: ReturnType<typeof setTimeout> | null = null;
+
+  const hideReset = (): void => {
+    if (confirmTimer) {
+      clearTimeout(confirmTimer);
+      confirmTimer = null;
+    }
+    if (resetContainer) {
+      resetContainer.remove();
+      resetContainer = null;
+    }
+  };
+
+  const showResetConfirm = (): void => {
+    if (resetContainer) return;
+
+    resetContainer = document.createElement('div');
+    resetContainer.className = 'home-screen__reset-confirm';
+
+    const resetBtn = document.createElement('button');
+    resetBtn.textContent = 'Reset Progress';
+    resetBtn.className = 'btn btn-reset';
+    resetBtn.setAttribute('aria-label', 'Reset all progress');
+
+    makeTappable(resetBtn, () => {
+      if (confirmTimer) {
+        // Second tap — confirmed reset
+        clearTimeout(confirmTimer);
+        confirmTimer = null;
+        hideReset();
+        onReset?.();
+      } else {
+        // First tap — show confirmation state
+        resetBtn.textContent = 'Tap again to confirm';
+        resetBtn.classList.add('btn-reset--confirm');
+        confirmTimer = setTimeout(() => {
+          hideReset();
+        }, 3000);
+      }
+    });
+
+    resetContainer.appendChild(resetBtn);
+    home.insertBefore(resetContainer, home.firstChild?.nextSibling ?? null);
+  };
+
+  // Long-press detection on title
+  const startHold = (): void => {
+    holdTimer = setTimeout(() => {
+      showResetConfirm();
+    }, 2000); // 2-second hold threshold
+  };
+
+  const cancelHold = (): void => {
+    if (holdTimer) {
+      clearTimeout(holdTimer);
+      holdTimer = null;
+    }
+  };
+
+  title.addEventListener('touchstart', startHold, { passive: true });
+  title.addEventListener('touchend', cancelHold);
+  title.addEventListener('touchmove', cancelHold);
+  title.addEventListener('mousedown', startHold);
+  title.addEventListener('mouseup', cancelHold);
+  title.addEventListener('mouseleave', cancelHold);
 
   const subtitle = document.createElement('p');
   subtitle.textContent = 'Choose your dinosaur!';

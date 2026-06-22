@@ -51,30 +51,31 @@
 ## Phase 3: Reset Progress (Long-Press Title)
 
 ### Task: Read spec.md and workflow.md before starting this phase
-- [ ] Read `conductor/tracks/win_polish_completion_20260622/spec.md` to review the specification for this phase
-- [ ] Read `conductor/workflow.md` to review the TDD workflow and quality gates
+- [x] Read `conductor/tracks/win_polish_completion_20260622/spec.md` to review the specification for this phase
+- [x] Read `conductor/workflow.md` to review the TDD workflow and quality gates
 
 ### Task: Write failing tests for reset progress logic
-- [ ] Add test: `resetProgress()` clears `dinosteps:unlockedLevel` from localStorage
-- [ ] Add test: `resetProgress()` clears `dinosteps:chosenCharacter` from localStorage
-- [ ] Add test: `resetProgress()` clears `dinosteps:muted` from localStorage
-- [ ] Add test: `resetProgress()` restores default values (level 1, default character, unmuted)
-- [ ] Run tests and confirm they fail (Red phase)
+- [x] Add test: `resetProgress()` clears `dinosteps:unlockedLevel` from localStorage
+- [x] Add test: `resetProgress()` clears `dinosteps:chosenCharacter` from localStorage
+- [x] Add test: `resetProgress()` clears `dinosteps:muted` from localStorage
+- [x] Add test: `resetProgress()` restores default values (level 1, default character, unmuted)
+- [x] Run tests and confirm they fail (Red phase)
 
 ### Task: Implement resetProgress() in persistence.ts
-- [ ] Add `resetProgress()` function to `src/engine/persistence.ts`
-- [ ] Clear all 3 localStorage keys
-- [ ] Restore initial/default state values
-- [ ] Run tests and confirm they pass (Green phase)
+- [x] Add `resetProgress()` function to `src/engine/persistence.ts`
+- [x] Clear all 3 localStorage keys
+- [x] Restore initial/default state values
+- [x] Run tests and confirm they pass (Green phase)
 
 ### Task: Implement long-press title interaction in tap.ts
-- [ ] Add touchstart/mousedown hold detection on the home screen title element
-- [ ] 2-second hold threshold to reveal "Reset Progress" option
-- [ ] Add confirmation step (tap "Reset" again within 3 seconds, or auto-hide)
-- [ ] On confirmed reset, call `resetProgress()` and reload game state
-- [ ] Ensure 64px tap target for the reset button
+- [x] Add touchstart/mousedown hold detection on the home screen title element
+- [x] 2-second hold threshold to reveal "Reset Progress" option
+- [x] Add confirmation step (tap "Reset" again within 3 seconds, or auto-hide)
+- [x] On confirmed reset, call `resetProgress()` and reload game state
+- [x] Ensure 64px tap target for the reset button
 
 ### Task: Conductor - User Manual Verification 'Reset Progress' (Protocol in workflow.md)
+- [x] Phase 3 complete
 
 ## Phase 4: Text-Free Carousel Close
 
