@@ -90,5 +90,7 @@
     - [x] Run `pnpm lint` — 0 warnings / 0 errors
     - [x] Run `pnpm format` — clean
     - [x] Run `pnpm build` — 37.10 kB JS + 10.62 kB CSS = 47.72 kB raw (14.16 kB gzipped), well under 500 KB
-- [ ] Task: Conductor — User Manual Verification 'Phase 6: Final Verification' (Protocol in workflow.md)
+- [x] Task: Conductor — User Manual Verification 'Phase 6: Final Verification' (Protocol in workflow.md) [55813f7]
+
+[checkpoint: 55813f7]
 </protect>
