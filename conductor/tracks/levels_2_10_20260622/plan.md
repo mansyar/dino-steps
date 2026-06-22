@@ -79,42 +79,42 @@ Goal: Author levels 2-6 (which contain only obstacles, no interactables) and add
     - [x] 0 lint errors, 0 warnings.
     - [x] Format clean.
     - [x] Typecheck passes.
-- [~] Task: Conductor - User Manual Verification 'Levels 2-6' (Protocol in workflow.md) `6eec7a2`
+- [x] Task: Conductor - User Manual Verification 'Levels 2-6' (Protocol in workflow.md) `6eec7a2`
 
-## Phase 3 — BFS Validator Interactable Handling
+## Phase 3 — BFS Validator Interactable Handling [checkpoint: ae6dd0e]
 
 Goal: Fix the BFS validator to handle interactable tiles — track cleared state, try `A` as a clearing action, enforce soft-resist on exit from uncleared interactables.
 
-- [ ] Task: Read spec.md and workflow.md for this phase.
-- [ ] Task: Write failing tests for BFS interactable handling.
-    - [ ] Test `computeMinimum` on a simple level with one turtle interactable returns the correct minimum (including the `A` clear command).
-    - [ ] Test `replaySolution` with a solution that clears an interactable returns `'win'`.
-    - [ ] Test `replaySolution` with a solution that tries to `F` out of an uncleared interactable returns `'fail'` (soft-resist = invalid solution for replay).
-    - [ ] Test `computeMinimum` on L7 (Sleepy Turtle), L8 (Tall Grass Chomp), L10 (Dino Master) returns the expected minimums (6, 9, 9).
-    - [ ] Run tests and confirm they fail (Red phase — validator doesn't handle interactables yet).
-- [ ] Task: Update `BFSState` in `src/engine/bfsValidator.ts`.
-    - [ ] Add `cleared: string[]` (or `Set<string>`) to track cleared interactable coordinates.
-    - [ ] Update the visited-set key to include cleared state (so BFS explores paths with different clearing states).
-- [ ] Task: Update `computeMinimum` to handle interactables.
-    - [ ] Add `A` as a fourth command option in the BFS loop.
-    - [ ] On `A` at an interactable tile → add to cleared set, advance steps (no position change).
-    - [ ] On `A` at a food tile → return `steps + 1` (win).
-    - [ ] On `A` at empty/cleared tile → no-op, advance steps.
-    - [ ] On `F` from an uncleared interactable tile → skip (soft-resist, can't exit).
-    - [ ] Ensure the visited-set key includes cleared state to avoid infinite loops.
-- [ ] Task: Update `replaySolution` to handle interactables.
-    - [ ] Track `clearedInteractables` array during replay.
-    - [ ] On `A` at an interactable → mark cleared, advance.
-    - [ ] On `A` at food → return `'win'`.
-    - [ ] On `A` at empty/cleared → no-op, advance.
-    - [ ] On `F` from an uncleared interactable → return `'fail'` (solution is invalid if it tries to leave uncleared).
-- [ ] Task: Run `pnpm test` and confirm all BFS tests pass (Green phase).
-- [ ] Task: Run `pnpm test`, `pnpm lint`, `pnpm format`, `pnpm typecheck`.
-    - [ ] All tests pass.
-    - [ ] 0 lint errors, 0 warnings.
-    - [ ] Format clean.
-    - [ ] Typecheck passes.
-- [ ] Task: Conductor - User Manual Verification 'BFS Validator Interactable Handling' (Protocol in workflow.md)
+- [x] Task: Read spec.md and workflow.md for this phase.
+- [x] Task: Write failing tests for BFS interactable handling.
+    - [x] Test `computeMinimum` on a simple level with one turtle interactable returns the correct minimum (including the `A` clear command).
+    - [x] Test `replaySolution` with a solution that clears an interactable returns `'win'`.
+    - [x] Test `replaySolution` with a solution that tries to `F` out of an uncleared interactable returns `'fail'` (soft-resist = invalid solution for replay).
+    - [x] Test `computeMinimum` on L7 (Sleepy Turtle), L8 (Tall Grass Chomp), L10 (Dino Master) returns the expected minimums (6, 9, 9).
+    - [x] Run tests and confirm they fail (Red phase — validator doesn't handle interactables yet).
+- [x] Task: Update `BFSState` in `src/engine/bfsValidator.ts`.
+    - [x] Add `cleared: string[]` to track cleared interactable coordinates.
+    - [x] Update the visited-set key to include cleared state (so BFS explores paths with different clearing states).
+- [x] Task: Update `computeMinimum` to handle interactables.
+    - [x] Add `A` as a fourth command option in the BFS loop.
+    - [x] On `A` at an interactable tile → add to cleared set, advance steps (no position change).
+    - [x] On `A` at a food tile → return `steps + 1` (win).
+    - [x] On `A` at empty/cleared tile → no-op, advance steps.
+    - [x] On `F` from an uncleared interactable tile → skip (soft-resist, can't exit).
+    - [x] Ensure the visited-set key includes cleared state to avoid infinite loops.
+- [x] Task: Update `replaySolution` to handle interactables.
+    - [x] Track `clearedInteractables` array during replay.
+    - [x] On `A` at an interactable → mark cleared, advance.
+    - [x] On `A` at food → return `'win'`.
+    - [x] On `A` at empty/cleared → no-op, advance.
+    - [x] On `F` from an uncleared interactable → return `'fail'` (solution is invalid if it tries to leave uncleared).
+- [x] Task: Run `pnpm test` and confirm all BFS tests pass (Green phase).
+- [x] Task: Run `pnpm test`, `pnpm lint`, `pnpm format`, `pnpm typecheck`.
+    - [x] All tests pass (178 tests across 13 files).
+    - [x] 0 lint errors, 0 warnings.
+    - [x] Format clean.
+    - [x] Typecheck passes.
+- [x] Task: Conductor - User Manual Verification 'BFS Validator Interactable Handling' (Protocol in workflow.md) `ae6dd0e`
 
 ## Phase 4 — Levels 7-10 (With Interactables)
 
