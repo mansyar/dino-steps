@@ -21,8 +21,8 @@ const COLORS: Record<string, string> = {
 
 const EMOJI: Record<string, string> = {
   rock: '🪨',
-  mud: '💩',
-  berry: '🍎',
+  mud: '🟤',
+  berry: '🫐',
   leaf: '🍃',
   cookie: '🍪',
   turtle: '🐢',
@@ -99,7 +99,7 @@ export function drawFoodWiggle(level: LevelData, time: number, reducedMotion?: b
 
   // Draw food emoji based on tile type
   const foodTileType = level.grid[fy]?.[fx] ?? 'berry';
-  const emoji = EMOJI[foodTileType] ?? '🍎';
+  const emoji = EMOJI[foodTileType] ?? '🫐';
   const fontSize = Math.floor(tileSize * 0.5);
   ctx.font = `${fontSize}px serif`;
   ctx.textAlign = 'center';

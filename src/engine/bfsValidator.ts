@@ -27,6 +27,14 @@ function isInBounds(x: number, y: number): boolean {
   return x >= 0 && x < GRID_WIDTH && y >= 0 && y < GRID_HEIGHT;
 }
 
+/** Build a unique visited-set key from BFS state (includes cleared interactables) */
+function makeStateKey(state: BFSState): string {
+  const clearedKey = [...state.cleared].sort().join(';');
+  return `${state.x},${state.y},${state.dx},${state.dy},${clearedKey}`;
+}
+
+// Grid is typed as string[][] for JSON flexibility; assertions are safe because
+// parseLevel validates all tile values against VALID_TILE_TYPES before use.
 /** Check if a tile is an obstacle */
 function isObstacle(grid: string[][], x: number, y: number): boolean {
   return isObstacleTile(grid[y][x] as TileType);
@@ -126,9 +134,8 @@ export function computeMinimum(level: LevelData): number {
     cleared: [],
   };
 
-  const startKey = `${startState.x},${startState.y},${startState.dx},${startState.dy},`;
   queue.push({ state: startState, steps: 0 });
-  visited.add(startKey);
+  visited.add(makeStateKey(startState));
 
   while (queue.length > 0) {
     const current = queue.shift()!;
@@ -184,8 +191,7 @@ export function computeMinimum(level: LevelData): number {
       }
 
       // Include cleared state in visited key to avoid infinite loops
-      const clearedKey = [...newState.cleared].sort().join(';');
-      const key = `${newState.x},${newState.y},${newState.dx},${newState.dy},${clearedKey}`;
+      const key = makeStateKey(newState);
       if (!visited.has(key)) {
         visited.add(key);
         queue.push({ state: newState, steps: steps + 1 });

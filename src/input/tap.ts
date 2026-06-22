@@ -396,6 +396,7 @@ export function renderLevelSelect(
         for (let c = 0; c < level.grid[r].length; c++) {
           const cell = document.createElement('div');
           cell.className = 'level-tile__cell';
+          // Grid is string[][]; assertion safe — parseLevel validates tile values.
           const tileType = level.grid[r][c] as TileType;
           if (isFood(tileType)) cell.classList.add('level-tile__cell--food');
           else if (isObstacle(tileType)) cell.classList.add('level-tile__cell--obstacle');

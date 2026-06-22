@@ -25,6 +25,8 @@ function isInBounds(x: number, y: number): boolean {
   return x >= 0 && x < GRID_WIDTH && y >= 0 && y < GRID_HEIGHT;
 }
 
+// Grid is typed as string[][] for JSON flexibility; assertions are safe because
+// parseLevel validates all tile values against VALID_TILE_TYPES before use.
 /** Check if a tile is an obstacle */
 function isObstacle(grid: string[][], x: number, y: number): boolean {
   return isObstacleTile(grid[y][x] as TileType);
