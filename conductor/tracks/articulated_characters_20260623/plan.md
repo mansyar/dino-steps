@@ -93,4 +93,11 @@
 - [x] Task: Conductor — User Manual Verification 'Phase 6: Final Verification' (Protocol in workflow.md) [55813f7]
 
 [checkpoint: 55813f7]
+
+## Phase: Review Fixes
+- [x] Task: Apply review suggestions [860fa27]
+    - [x] Fix: Phase dispatch gap — `phase` now derives from eating/signature/win states, not just movement animState (Critical)
+    - [x] Fix: Pivot offset in `drawCompositeDino` — subtract `s/2` to align rotation pivot with anatomical joint (High)
+    - [x] Fix: Preserve idle bob during signature phase in both render paths (regression prevention)
+    - [x] Verify: `pnpm typecheck` — 0 errors; `pnpm lint` — 0 errors; `pnpm test` — 231/231 pass
 </protect>
