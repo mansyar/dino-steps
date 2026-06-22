@@ -28,6 +28,8 @@
     - [x] **Refactor:** Extracted per-phase helper functions (`idleTransform`, `walkingTransform`, `signatureTransform`, `eatingTransform`, `celebrateTransform`, `dizzyTransform`) for clarity per the switch dispatch
     - [x] **Verify:** Run `CI=true pnpm test` — 219 tests pass; run `CI=true pnpm coverage` — line coverage 100% / statements 94.2% / branches 90.6% for `src/render/character-parts.ts` (well above 80% threshold)
 
+[checkpoint: f63a4b1]
+
 ## Phase 3: Rexy Part Art (SVG authoring — not TDD)
 
 - [ ] Task: Read `spec.md` to refresh the visual + part requirements before authoring
