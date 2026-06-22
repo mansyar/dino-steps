@@ -4,7 +4,11 @@
 import type { LevelData, Command, TileType } from './types';
 import { DIRECTIONS, forward, turnLeft, turnRight } from './direction';
 import { GRID_WIDTH, GRID_HEIGHT } from './constants';
-import { isObstacle as isObstacleTile, isFood as isFoodTile } from './tileUtils';
+import {
+  isObstacle as isObstacleTile,
+  isFood as isFoodTile,
+  isInteractable as isInteractableTile,
+} from './tileUtils';
 
 // Result types for solution replay
 export type ReplayResult = 'win' | 'fail' | 'incomplete';
@@ -15,6 +19,7 @@ interface BFSState {
   y: number;
   dx: number;
   dy: number;
+  cleared: string[]; // Track cleared interactable coordinates
 }
 
 /** Check if a position is within grid bounds */
@@ -32,11 +37,32 @@ function isFood(grid: string[][], x: number, y: number): boolean {
   return isFoodTile(grid[y][x] as TileType);
 }
 
+/** Check if a tile is an interactable */
+function isInteractable(grid: string[][], x: number, y: number): boolean {
+  return isInteractableTile(grid[y][x] as TileType);
+}
+
+/** Check if an interactable tile has been cleared */
+function isCleared(clearedInteractables: string[], x: number, y: number): boolean {
+  return clearedInteractables.includes(`${x},${y}`);
+}
+
+/** Check if the current tile is an uncleared interactable */
+function isUnclearedInteractable(
+  grid: string[][],
+  clearedInteractables: string[],
+  x: number,
+  y: number,
+): boolean {
+  return isInteractable(grid, x, y) && !isCleared(clearedInteractables, x, y);
+}
+
 /** Replay a solution and determine the result */
 export function replaySolution(level: LevelData, commands: Command[]): ReplayResult {
   let x = level.start.x;
   let y = level.start.y;
   let dir = DIRECTIONS[level.startFacing];
+  const clearedInteractables: string[] = [];
 
   for (const cmd of commands) {
     switch (cmd) {
@@ -49,6 +75,10 @@ export function replaySolution(level: LevelData, commands: Command[]): ReplayRes
         // Check obstacle — soft-resist (stay in place, consume command)
         if (isObstacle(level.grid, next.x, next.y)) {
           break;
+        }
+        // Check uncleared interactable at CURRENT position (exiting) — fail (invalid solution)
+        if (isUnclearedInteractable(level.grid, clearedInteractables, x, y)) {
+          return 'fail';
         }
         // Move forward
         x = next.x;
@@ -64,11 +94,15 @@ export function replaySolution(level: LevelData, commands: Command[]): ReplayRes
         break;
       }
       case 'A': {
-        // Action: check if on food
+        // On food → win
         if (isFood(level.grid, x, y)) {
           return 'win';
         }
-        // Otherwise no-op
+        // On uncleared interactable → clear it
+        if (isUnclearedInteractable(level.grid, clearedInteractables, x, y)) {
+          clearedInteractables.push(`${x},${y}`);
+        }
+        // On cleared interactable or empty → no-op
         break;
       }
     }
@@ -89,10 +123,12 @@ export function computeMinimum(level: LevelData): number {
     y: level.start.y,
     dx: DIRECTIONS[level.startFacing].dx,
     dy: DIRECTIONS[level.startFacing].dy,
+    cleared: [],
   };
 
+  const startKey = `${startState.x},${startState.y},${startState.dx},${startState.dy},`;
   queue.push({ state: startState, steps: 0 });
-  visited.add(`${startState.x},${startState.y},${startState.dx},${startState.dy}`);
+  visited.add(startKey);
 
   while (queue.length > 0) {
     const current = queue.shift()!;
@@ -103,14 +139,18 @@ export function computeMinimum(level: LevelData): number {
       return steps + 1; // +1 for the action command
     }
 
-    // Try all possible commands
-    const commands: Command[] = ['F', 'L', 'R'];
+    // Try all possible commands: F, L, R, A
+    const commands: Command[] = ['F', 'L', 'R', 'A'];
 
     for (const cmd of commands) {
-      let newState = { ...state };
+      let newState = { ...state, cleared: [...state.cleared] };
 
       switch (cmd) {
         case 'F': {
+          // Can't move forward from uncleared interactable
+          if (isUnclearedInteractable(level.grid, newState.cleared, state.x, state.y)) {
+            continue; // Soft-resist: skip this move
+          }
           const next = forward({ x: state.x, y: state.y }, { dx: state.dx, dy: state.dy });
           if (isInBounds(next.x, next.y) && !isObstacle(level.grid, next.x, next.y)) {
             newState.x = next.x;
@@ -132,9 +172,20 @@ export function computeMinimum(level: LevelData): number {
           newState.dy = turned.dy;
           break;
         }
+        case 'A': {
+          // On food → win (handled by the check at the top of the loop)
+          // On uncleared interactable → clear it
+          if (isUnclearedInteractable(level.grid, newState.cleared, state.x, state.y)) {
+            newState.cleared.push(`${state.x},${state.y}`);
+          }
+          // On cleared interactable or empty → no-op (advance step)
+          break;
+        }
       }
 
-      const key = `${newState.x},${newState.y},${newState.dx},${newState.dy}`;
+      // Include cleared state in visited key to avoid infinite loops
+      const clearedKey = [...newState.cleared].sort().join(';');
+      const key = `${newState.x},${newState.y},${newState.dx},${newState.dy},${clearedKey}`;
       if (!visited.has(key)) {
         visited.add(key);
         queue.push({ state: newState, steps: steps + 1 });

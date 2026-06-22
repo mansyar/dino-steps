@@ -98,6 +98,70 @@ const level6: LevelData = {
   verifiedSolution: ['F', 'R', 'F', 'F', 'R', 'F', 'F', 'A'],
 };
 
+// Level 7 test data (with interactable)
+const level7: LevelData = {
+  id: 7,
+  title: 'Sleepy Turtle',
+  grid: [
+    ['empty', 'empty', 'empty', 'empty', 'empty'],
+    ['empty', 'empty', 'turtle', 'empty', 'leaf'],
+    ['empty', 'empty', 'empty', 'empty', 'empty'],
+  ],
+  start: { x: 0, y: 1 },
+  startFacing: 'E',
+  food: { x: 4, y: 1 },
+  trackBudget: 8,
+  verifiedSolution: ['F', 'F', 'A', 'F', 'F', 'A'],
+};
+
+// Level 8 test data (with interactable)
+const level8: LevelData = {
+  id: 8,
+  title: 'Tall Grass Chomp',
+  grid: [
+    ['empty', 'empty', 'empty', 'empty', 'empty'],
+    ['grass', 'empty', 'empty', 'empty', 'cookie'],
+    ['empty', 'rock', 'empty', 'empty', 'empty'],
+  ],
+  start: { x: 0, y: 2 },
+  startFacing: 'E',
+  food: { x: 4, y: 1 },
+  trackBudget: 10,
+  verifiedSolution: ['L', 'F', 'R', 'A', 'F', 'F', 'F', 'F', 'A'],
+};
+
+// Level 9 test data (no interactables)
+const level9: LevelData = {
+  id: 9,
+  title: 'Twin Paths',
+  grid: [
+    ['empty', 'empty', 'empty', 'rock', 'cookie'],
+    ['empty', 'empty', 'empty', 'empty', 'empty'],
+    ['empty', 'empty', 'empty', 'empty', 'rock'],
+  ],
+  start: { x: 2, y: 2 },
+  startFacing: 'E',
+  food: { x: 4, y: 0 },
+  trackBudget: 10,
+  verifiedSolution: ['F', 'L', 'F', 'R', 'F', 'L', 'F', 'A'],
+};
+
+// Level 10 test data (with interactable)
+const level10: LevelData = {
+  id: 10,
+  title: 'Dino Master',
+  grid: [
+    ['empty', 'empty', 'empty', 'empty', 'empty'],
+    ['empty', 'turtle', 'rock', 'empty', 'empty'],
+    ['rock', 'empty', 'empty', 'empty', 'cookie'],
+  ],
+  start: { x: 0, y: 1 },
+  startFacing: 'E',
+  food: { x: 4, y: 2 },
+  trackBudget: 10,
+  verifiedSolution: ['F', 'R', 'A', 'F', 'L', 'F', 'F', 'F', 'A'],
+};
+
 describe('BFS Level Validator', () => {
   describe('replaySolution', () => {
     it('should validate Level 1 solution [F,F,F,A] as winning', () => {
@@ -180,6 +244,38 @@ describe('BFS Level Validator', () => {
       const result = replaySolution(level6, ['F', 'R', 'F', 'F', 'R', 'F', 'F', 'A']);
       expect(result).toBe('win');
     });
+
+    it('should validate Level 7 solution [F,F,A,F,F,A] as winning (interactable)', () => {
+      const result = replaySolution(level7, ['F', 'F', 'A', 'F', 'F', 'A']);
+      expect(result).toBe('win');
+    });
+
+    it('should validate Level 8 solution [L,F,R,A,F,F,F,F,A] as winning (interactable)', () => {
+      const result = replaySolution(level8, ['L', 'F', 'R', 'A', 'F', 'F', 'F', 'F', 'A']);
+      expect(result).toBe('win');
+    });
+
+    it('should validate Level 9 solution [F,L,F,R,F,L,F,A] as winning', () => {
+      const result = replaySolution(level9, ['F', 'L', 'F', 'R', 'F', 'L', 'F', 'A']);
+      expect(result).toBe('win');
+    });
+
+    it('should validate Level 10 solution [F,R,A,F,L,F,F,F,A] as winning (interactable)', () => {
+      const result = replaySolution(level10, ['F', 'R', 'A', 'F', 'L', 'F', 'F', 'F', 'A']);
+      expect(result).toBe('win');
+    });
+
+    it('should return fail when trying to F out of uncleared interactable', () => {
+      // Start at (0,1)E, walk into turtle at (2,1), try to F without clearing
+      const result = replaySolution(level7, ['F', 'F', 'F']);
+      expect(result).toBe('fail');
+    });
+
+    it('should clear interactable with A command', () => {
+      // Walk to turtle, clear it with A, then continue
+      const result = replaySolution(level7, ['F', 'F', 'A', 'F']);
+      expect(result).toBe('incomplete');
+    });
   });
 
   describe('computeMinimum', () => {
@@ -227,6 +323,30 @@ describe('BFS Level Validator', () => {
       const min = computeMinimum(level6);
       // Optimal path: F R F F R F A = 7 steps (verified solution has 8 with wasteful boundary soft-resist)
       expect(min).toBe(7);
+    });
+
+    it('should compute minimum for Level 7 (Sleepy Turtle)', () => {
+      const min = computeMinimum(level7);
+      // Optimal: F F A F F A = 6 steps (clear turtle then reach food)
+      expect(min).toBe(6);
+    });
+
+    it('should compute minimum for Level 8 (Tall Grass Chomp)', () => {
+      const min = computeMinimum(level8);
+      // Optimal: L F R A F F F F A = 9 steps (clear grass then reach food)
+      expect(min).toBe(9);
+    });
+
+    it('should compute minimum for Level 9 (Twin Paths)', () => {
+      const min = computeMinimum(level9);
+      // Optimal: F L F R F L F A = 8 steps (no interactables)
+      expect(min).toBe(8);
+    });
+
+    it('should compute minimum for Level 10 (Dino Master)', () => {
+      const min = computeMinimum(level10);
+      // Optimal: F R A F L F F F A = 9 steps (clear turtle then reach food)
+      expect(min).toBe(9);
     });
   });
 });
