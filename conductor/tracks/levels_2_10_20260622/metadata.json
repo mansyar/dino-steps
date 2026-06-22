@@ -1,0 +1,8 @@
+{
+  "track_id": "levels_2_10_20260622",
+  "type": "feature",
+  "status": "new",
+  "created_at": "2026-06-22T01:45:00Z",
+  "updated_at": "2026-06-22T01:45:00Z",
+  "description": "Add Levels 2-10 (full game content), expand TileType to include sub-types (rock/mud, turtle/grass, berry/leaf/cookie) for visual variety, fix the BFS validator to handle interactables (clearing + soft-resist), and update the renderer with distinct emoji per sub-type."
+}
