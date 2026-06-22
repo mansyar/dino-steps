@@ -82,13 +82,13 @@
 
 ## Phase 6: Final Verification
 
-- [ ] Task: Read `spec.md` and `workflow.md` to refresh context before starting Phase 6
-- [ ] Task: Run full quality gate
-    - [ ] Run `CI=true pnpm test` — all tests pass (existing + new character-parts tests)
-    - [ ] Run `CI=true pnpm coverage` — coverage >80%
-    - [ ] Run `pnpm typecheck` — 0 errors
-    - [ ] Run `pnpm lint` — 0 errors / 0 warnings
-    - [ ] Run `pnpm format` — clean
-    - [ ] Run `pnpm build` and check build size <500KB
+- [x] Task: Read `spec.md` and `workflow.md` to refresh context before starting Phase 6
+- [x] Task: Run full quality gate
+    - [x] Run `CI=true pnpm test` — 231/231 pass across 15 files
+    - [x] Run `CI=true pnpm coverage` — 90.49% statements / 88.7% branches / 100% funcs / 90.63% lines (above 80% threshold)
+    - [x] Run `pnpm typecheck` — 0 errors
+    - [x] Run `pnpm lint` — 0 warnings / 0 errors
+    - [x] Run `pnpm format` — clean
+    - [x] Run `pnpm build` — 37.10 kB JS + 10.62 kB CSS = 47.72 kB raw (14.16 kB gzipped), well under 500 KB
 - [ ] Task: Conductor — User Manual Verification 'Phase 6: Final Verification' (Protocol in workflow.md)
 </protect>
