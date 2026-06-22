@@ -1,3 +1,4 @@
+<protect>
 # Track: Character Signature SFX
 
 ## Overview
@@ -98,3 +99,4 @@ export type CommandResult =
 - Playtesting with children (GDD §11.4 — requires human subjects, not a code track)
 - Changes to `synth.ts` infrastructure (existing `playTone`/`playArpeggio` sufficient)
 - Changes to visual signature animations (already implemented in `juice.ts`)
+</protect>

@@ -1,7 +1,9 @@
+<protect>
 # Implementation Plan: Character Signature SFX
 
 ## Phase 1: Executor Enhancement — Action Context (TDD)
 
+- [ ] Task: Read `spec.md` and `workflow.md` to refresh context before starting Phase 1
 - [ ] Task: Add `actionContext` field to `CommandResult` type and `actionCommand()`
     - [ ] **Red:** Write failing tests in `test/executor.test.ts` for `actionCommand` returning `actionContext: 'clear'` on uncleared interactable, `actionContext: 'noop'` on cleared/empty tile, and `type: 'win'` (unchanged) on food
     - [ ] **Green:** Add `actionContext?: 'clear' | 'noop'` to the `continue` variant of `CommandResult` in `src/engine/executor.ts`; set it in `actionCommand()` — `'clear'` when `isUnclearedInteractable`, `'noop'` otherwise
@@ -11,6 +13,7 @@
 
 ## Phase 2: Signature SFX & Audio Gap Sounds (Audio Synthesis — NOT TDD)
 
+- [ ] Task: Read `spec.md` and `workflow.md` to refresh context before starting Phase 2
 - [ ] Task: Implement `playSignature(character: DinoCharacter, isClearing: boolean)` in `src/audio/sfx.ts`
     - [ ] Implement Rexy action variant: sawtooth growl sweep 200→80Hz, vibrato {depth: 30, rate: 8}, 0.3s, gain 0.4
     - [ ] Implement Rexy idle variant: same growl, 0.15s, gain 0.2
@@ -32,6 +35,7 @@
 
 ## Phase 3: Wiring & Text-Free Fix (Input/Rendering — NOT TDD)
 
+- [ ] Task: Read `spec.md` and `workflow.md` to refresh context before starting Phase 3
 - [ ] Task: Wire `playSignature()` into `src/main.ts` 🦕 action handler
     - [ ] Update import: replace `playAction` with `playSignature` in the import from `./audio/sfx`
     - [ ] Replace `playAction()` call with `playSignature(gameState.character, result.actionContext === 'clear')` in the `continue` + `A` command case
@@ -52,6 +56,7 @@
 
 ## Phase 4: Final Verification
 
+- [ ] Task: Read `spec.md` and `workflow.md` to refresh context before starting Phase 4
 - [ ] Task: Run full quality gate
     - [ ] Run `CI=true pnpm test` — all tests pass (178+ existing + new executor tests)
     - [ ] Run `CI=true pnpm coverage` — coverage >80%
@@ -60,3 +65,4 @@
     - [ ] Run `pnpm format` — clean
     - [ ] Run `pnpm build` and check build size <500KB
 - [ ] Task: Conductor - User Manual Verification 'Phase 4: Final Verification' (Protocol in workflow.md)
+</protect>
