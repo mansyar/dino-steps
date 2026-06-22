@@ -13,23 +13,23 @@
 
 ## Phase 2: Signature SFX & Audio Gap Sounds (Audio Synthesis — NOT TDD)
 
-- [ ] Task: Read `spec.md` and `workflow.md` to refresh context before starting Phase 2
-- [ ] Task: Implement `playSignature(character: DinoCharacter, isClearing: boolean)` in `src/audio/sfx.ts`
-    - [ ] Implement Rexy action variant: sawtooth growl sweep 200→80Hz, vibrato {depth: 30, rate: 8}, 0.3s, gain 0.4
-    - [ ] Implement Rexy idle variant: same growl, 0.15s, gain 0.2
-    - [ ] Implement Trikey action variant: triangle 400Hz fixed (no sweep), 0.2s, gain 0.4, fast decay
-    - [ ] Implement Trikey idle variant: same, 0.1s, gain 0.2
-    - [ ] Implement Sera action variant: `playArpeggio([800, 1000, 1200], 0.1, 'sine', 0.3)`
-    - [ ] Implement Sera idle variant: `playArpeggio([800, 1000], 0.075, 'sine', 0.15)`
-    - [ ] Verify: Run `CI=true pnpm test` — existing tests still pass (no new tests for audio synthesis per workflow scope)
-- [ ] Task: Implement `playSoftResist()` in `src/audio/sfx.ts`
-    - [ ] Low muted thud: sine 150→100Hz, 0.2s, gain 0.3, soft attack (exponential decay)
-    - [ ] Verify: Run `CI=true pnpm test` — existing tests still pass
-- [ ] Task: Implement `playHint()` in `src/audio/sfx.ts`
-    - [ ] Ascending two-note chime: `playArpeggio([C5, E5], 0.15, 'sine', 0.2)` (C5=523.25Hz, E5=659.25Hz — constants already exist)
-    - [ ] Verify: Run `CI=true pnpm test` — existing tests still pass
-- [ ] Task: Remove dead `playAction()` from `src/audio/sfx.ts`
-    - [ ] Delete `playAction` function (will be replaced by `playSignature` in Phase 3)
+- [x] Task: Read `spec.md` and `workflow.md` to refresh context before starting Phase 2
+- [x] Task: Implement `playSignature(character: DinoCharacter, isClearing: boolean)` in `src/audio/sfx.ts`
+    - [x] Implement Rexy action variant: sawtooth growl sweep 200→80Hz, vibrato {depth: 30, rate: 8}, 0.3s, gain 0.4
+    - [x] Implement Rexy idle variant: same growl, 0.15s, gain 0.2
+    - [x] Implement Trikey action variant: triangle 400Hz fixed (no sweep), 0.2s, gain 0.4, fast decay
+    - [x] Implement Trikey idle variant: same, 0.1s, gain 0.2
+    - [x] Implement Sera action variant: `playArpeggio([800, 1000, 1200], 0.1, 'sine', 0.3)`
+    - [x] Implement Sera idle variant: `playArpeggio([800, 1000], 0.075, 'sine', 0.15)`
+    - [x] Verify: Run `CI=true pnpm test` — existing tests still pass (no new tests for audio synthesis per workflow scope)
+- [x] Task: Implement `playSoftResist()` in `src/audio/sfx.ts`
+    - [x] Low muted thud: sine 150→100Hz, 0.2s, gain 0.3, soft attack (exponential decay)
+    - [x] Verify: Run `CI=true pnpm test` — existing tests still pass
+- [x] Task: Implement `playHint()` in `src/audio/sfx.ts`
+    - [x] Ascending two-note chime: `playArpeggio([C5, E5], 0.15, 'sine', 0.2)` (C5=523.25Hz, E5=659.25Hz — constants already exist)
+    - [x] Verify: Run `CI=true pnpm test` — existing tests still pass
+- [ ] Task: Remove dead `playAction()` from `src/audio/sfx.ts` (deferred to Phase 3)
+    - [ ] Delete `playAction` function after wiring `playSignature` in Phase 3
     - [ ] Verify: Run `CI=true pnpm typecheck` — no type errors (ensure no remaining references)
 - [ ] Task: Conductor - User Manual Verification 'Phase 2: Signature SFX & Audio Gaps' (Protocol in workflow.md)
 

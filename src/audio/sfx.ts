@@ -2,6 +2,7 @@
 // All sounds are procedurally generated via Web Audio API
 
 import { playTone, playArpeggio } from './synth';
+import type { DinoCharacter } from '../engine/types';
 
 // Note frequencies (Hz)
 const C5 = 523.25;
@@ -64,4 +65,108 @@ export function playAction(): void {
     gainStart: 0.2,
     gainEnd: 0.001,
   });
+}
+
+/**
+ * Character signature sound — unique per character with two variants: - action variant (clearing
+ * interactable): stronger, longer - idle variant (no-op): softer, shorter
+ *
+ * @param character - The active dinosaur character
+ * @param isClearing - True when clearing an interactable, false for no-op
+ */
+/**
+ * Soft resist sound — low muted thud for forgotten 🦕 on interactable exit. Distinct from
+ * hard-failure playBonk().
+ */
+export function playSoftResist(): void {
+  playTone({
+    type: 'sine',
+    frequencyStart: 150,
+    frequencyEnd: 100,
+    duration: 0.2,
+    gainStart: 0.3,
+    gainEnd: 0.001,
+  });
+}
+
+/**
+ * Hint sound — ascending two-note chime C5→E5 for food-wiggle hint. Character-agnostic, plays when
+ * sequence ends on food without 🦕.
+ */
+export function playHint(): void {
+  playArpeggio([C5, E5], 0.15, 'sine', 0.2);
+}
+
+/**
+ * Character signature sound — unique per character with two variants: - action variant (clearing
+ * interactable): stronger, longer - idle variant (no-op): softer, shorter
+ *
+ * @param character - The active dinosaur character
+ * @param isClearing - True when clearing an interactable, false for no-op
+ */
+export function playSignature(character: DinoCharacter, isClearing: boolean): void {
+  switch (character) {
+    case 'Rexy':
+      // Rexy: squeaky growls — sawtooth sweep 200→80Hz with vibrato
+      if (isClearing) {
+        // Action variant: 0.3s, gain 0.4
+        playTone({
+          type: 'sawtooth',
+          frequencyStart: 200,
+          frequencyEnd: 80,
+          duration: 0.3,
+          gainStart: 0.4,
+          gainEnd: 0.001,
+          vibrato: { depth: 30, rate: 8 },
+        });
+      } else {
+        // Idle variant: 0.15s, gain 0.2
+        playTone({
+          type: 'sawtooth',
+          frequencyStart: 200,
+          frequencyEnd: 80,
+          duration: 0.15,
+          gainStart: 0.2,
+          gainEnd: 0.001,
+          vibrato: { depth: 30, rate: 8 },
+        });
+      }
+      break;
+
+    case 'Trikey':
+      // Trikey: horn-clicking sounds — triangle 400Hz fixed, fast decay
+      if (isClearing) {
+        // Action variant: 0.2s, gain 0.4
+        playTone({
+          type: 'triangle',
+          frequencyStart: 400,
+          frequencyEnd: 400, // Fixed frequency, no sweep
+          duration: 0.2,
+          gainStart: 0.4,
+          gainEnd: 0.001,
+        });
+      } else {
+        // Idle variant: 0.1s, gain 0.2
+        playTone({
+          type: 'triangle',
+          frequencyStart: 400,
+          frequencyEnd: 400, // Fixed frequency, no sweep
+          duration: 0.1,
+          gainStart: 0.2,
+          gainEnd: 0.001,
+        });
+      }
+      break;
+
+    case 'Sera':
+      // Sera: high-pitched cheerful chirps — ascending sine arpeggios
+      if (isClearing) {
+        // Action variant: 3-note ascending 800→1000→1200Hz, 0.1s per note, gain 0.3
+        playArpeggio([800, 1000, 1200], 0.1, 'sine', 0.3);
+      } else {
+        // Idle variant: 2-note ascending 800→1000Hz, 0.075s per note, gain 0.15
+        playArpeggio([800, 1000], 0.075, 'sine', 0.15);
+      }
+      break;
+  }
 }
