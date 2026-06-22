@@ -20,8 +20,8 @@
 - **localStorage** — 3 keys only: `dinosteps:unlockedLevel`, `dinosteps:chosenCharacter`, `dinosteps:muted`. No backend, no accounts, no cross-device sync.
 
 ### Assets
-- **External SVG character files** — 3 SVG files (`rexy.svg`, `trikey.svg`, `sera.svg`) in `public/characters/`, loaded as `Image()` objects and drawn via `ctx.drawImage()`. Chibi art style with distinct silhouettes.
-- **Procedural Canvas2D vector drawing** — dynamic animations (dizzy rings, bump lean, confetti particles) drawn as parameterized path functions.
+- **Articulated per-part character SVGs** — each character is split into named body parts (tail, legs, body, arms, head, jaw) under `public/characters/<character>/`, one SVG per part, all sharing a `viewBox="0 0 120 120"`. Parts are preloaded and composited on Canvas2D with independent transforms pivoted at each part's anatomical joint. Rexy is the pilot (8 parts); Trikey and Sera retain the single-image fallback path until a later track migrates them via the same pattern. See `conductor/tracks/articulated_characters_20260623/`.
+- **Procedural Canvas2D vector drawing** — dynamic animations (dizzy rings, bump lean, confetti particles, signature FX overlays) drawn as parameterized path functions.
 - **Emoji overlays** — food (🍎) and obstacle (🪨) tiles rendered as emoji on grid.
 - **No raster spritesheets / Spine / Lottie** — vector-only (GDD §11.1).
 

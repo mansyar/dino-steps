@@ -6,7 +6,7 @@
 > - `[DISCUSSING]` — actively under discussion
 > - `[PENDING]` — not yet explored, awaiting deep-dive
 >
-> **Last updated:** Win Polish & Game Completion track implemented, reviewed, fixes applied, and archived. Track `win_polish_completion_20260622` complete. **See §14 for implementation status.**
+> **Last updated:** Articulated Characters (Pilot: Rexy) track in progress. GDD §11.1 amended to bless per-part external SVG approach. **See §14 for implementation status.**
 
 ---
 
@@ -501,13 +501,13 @@ Matches the original GDD spec ("custom vector paths") and the Web Audio synthesi
 
 | Asset class | Approach | Rationale |
 |-------------|----------|-----------|
-| **Characters + dynamic animations** | Procedural Canvas2D vector drawing, parameterized | Body parts drawn as path functions of animation state; animations = tweening the parameters. Zero asset files, infinitely scalable, matches "vector paths" spec. |
+| **Characters + dynamic animations** | Articulated per-part SVG files, composited on Canvas2D with per-part transforms | Each character is split into named body parts (tail, legs, body, arms, head, jaw) loaded as individual SVG files and composited with independent transforms pivoted at each part's anatomical joint. Enables true per-part animation (stomping legs, swishing tail, bobbing head, articulated jaw). Vector art remains designer-editable, infinitely scalable, and self-contained. See `conductor/tracks/articulated_characters_20260623/` for the Rexy pilot. |
 | **Static tiles + food** (rock, mud, grass, turtle, berry, leaf, cookie) | Inline SVG strings, embedded in JS bundle | Authored in a vector editor (Figma/Illustrator); small, scalable, designer-friendly. Falls back to procedural Canvas2D if no designer is available. |
 | **Particles** (confetti, smoke, sound rings) | Procedural canvas particle system | Tiny, dynamic, no asset cost. |
 
-**No external asset files in the bundle** (SVG strings are inlined) — keeps payload tiny and load instant.
+**Character art is external per-part SVG files** under `public/characters/<character>/` (e.g. `public/characters/rexy/tail.svg`, `…/leg-front.svg`, `…/jaw.svg`) — still vector, still no raster spritesheets / Spine / Lottie, and total per-character payload stays well under budget (~1 KB per part × ~8 parts). Unmigrated characters (Trikey, Sera) retain the single-image SVG fallback path until a future track migrates them.
 
-**Animation state inventory per character (~10 states):** idle, walking (stomp), turning, signature (roar/charge/spin), backflip, dizzy, eating, resisting, food-wiggle-glance, cleared-tile. All parameterized vector drawings driven by the tween utility.
+**Animation state inventory per character (~10 states):** idle, walking (stomp), turning, signature (roar/charge/spin), backflip, dizzy, eating, resisting, food-wiggle-glance, cleared-tile. Per-part articulation (Rexy pilot) drives idle bob, leg-stomp walk cycle, tail counter-sway, head nod, signature jaw-open, and dizzy head wobble — driven by the tween utility and per-part pivots.
 
 ### 11.2 Accessibility `[LOCKED]`
 
@@ -596,6 +596,7 @@ For a preschool game, playtesting with actual children is the single most import
 | Tier 4 | Playtesting: observation-based, no telemetry | Child privacy (no accounts/analytics); paper → vertical slice → full progression |
 | Caveat fix | L5 reworked: 3-turn weave through 3 rows (food (1,0), rocks (0,0)+(1,2), min 7) | Original was a single-detour L (2 turns); replaced with genuine multi-turn sequencing |
 | Caveat fix | L9 reworked: verified co-optimal 2-route config (start (2,2)E, rocks (3,0)+(4,2), min 8) | Original falsely claimed "alternatives" but had 1 unique shortest path; now 2 equal-length routes give a genuine binary choice |
+| 2026-06-23 | §11.1 Asset pipeline amended: character art is now articulated per-part external SVGs (composited on Canvas2D), not procedural Canvas2D vector drawing | The original "no external asset files" line had already been deviated from in shipped code (Rexy/Trikey/Sera loaded as `Image()` SVGs). The amendment formally blesses the per-part SVG approach and enables true per-part animation (stomping legs, swishing tail, bobbing head, articulated jaw) that the single-image path could not deliver. Vector-only constraint (no raster spritesheets / Spine / Lottie) retained. Rexy pilot migrates first; Trikey/Sera migrate in a later track via the same pattern. |
 
 ---
 
