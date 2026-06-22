@@ -6,7 +6,7 @@
 > - `[DISCUSSING]` — actively under discussion
 > - `[PENDING]` — not yet explored, awaiting deep-dive
 >
-> **Last updated:** Articulated Characters (Pilot: Rexy) track in progress. GDD §11.1 amended to bless per-part external SVG approach. **See §14 for implementation status.**
+> **Last updated:** Articulated Characters (Pilot: Rexy) track complete with review fixes. GDD §11.1 amended to bless per-part external SVG approach. **See §14.6 for implementation status.**
 
 ---
 
@@ -739,8 +739,36 @@ For a preschool game, playtesting with actual children is the single most import
 - Low: Removed dead `.win-overlay` CSS rules left behind after win overlay removal
 - Low: Updated "what" comment to "why" for canvas-clearing rationale
 
-### 14.6 Deferred Items (Future Tracks)
+### 14.6 Track: `articulated_characters_20260623` — Articulated Characters (Pilot: Rexy) `[COMPLETE]`
+
+**Status:** Complete, code-reviewed, fixes applied.
+
+**Systems implemented:**
+- **Character parts system** (`src/render/character-parts.ts`): `CharacterPart` interface with `pivotX`/`pivotY` (anatomical joint in viewBox space), `REXY_RIG` with 7 parts (tail, leg-back, leg-front, body, head, jaw), `ArticulationState`/`ArticulationPhase` types, `computePartTransform` dispatch function, per-phase transform functions (idle tail-sway/head-nod, walking leg-stomp/tail-counter-sway, signature jaw-open, eating jaw-chomp, celebrating backflip, dizzy head-wobble)
+- **Composite renderer** (`src/render/dino.ts`): `drawCompositeDino` composites per-part SVGs on Canvas2D with independent per-part transforms (rotate, scale, translate) pivoted at each part's anatomical joint; `drawSingleImageDino` fallback for unmigrated characters (Trikey, Sera)
+- **Character rig loader** (`src/render/characters.ts`): `preloadCharacterRigs` async loader, `getCharacterRig`/`getPartImage` cache accessors
+- **Rexy SVG assets** (`public/characters/rexy/`): 7 hand-authored SVG files (tail, leg-back, leg-front, body, head, jaw, head-jaw fallback) — each in a 120×120 viewBox with anatomically positioned art
+- **Eating animation helpers** (`src/render/eating.ts`): `triggerEating`/`updateEating`/`resetEating`/`activeProgress` — 400ms jaw-chomp sequence during win
+- **Main loop wiring** (`src/main.ts`): `ArticulationState` construction from movement, signature, eating, and win states; phase dispatch drives per-part transform selection
+
+**Quality metrics (post-review):**
+| Metric | Result | Threshold |
+|--------|--------|-----------|
+| Tests | 231 passed (15 files) | — |
+| Coverage | 90.63% lines | 80% lines |
+| Typecheck | 0 errors | 0 |
+| Lint | 0 warnings / 0 errors | 0 |
+| Build size | ~47.7 KB total / 14.2 KB gzip | <500 KB |
+
+**Review fixes applied (commit `860fa27`):**
+- Critical: Phase dispatch gap — `phase` now derives from `eatingState.active`/`signatureState.active`/`showWin` instead of only `movement.animState`. Previously the `'signature'`, `'eating'`, and `'dizzy'` phases were never set in the game loop, making the track's core jaw articulation features dead code (tested in isolation but never dispatched at runtime)
+- High: Pivot offset in `drawCompositeDino` — subtracted `s/2` from the pivot translate to account for centered `drawImage`. Parts were rotating around a point offset by half a tile from their anatomical joints
+- Low: Preserved idle bob during signature phase in both render paths (regression prevention for non-rigged character rendering)
+
+### 14.7 Deferred Items (Future Tracks)
 
 | Priority | Item | Rationale |
 |----------|------|-----------|
+| Medium | Trikey & Sera articulated character migration | Follow the Rexy pilot pattern: split into per-part SVGs with `CharacterPart` rigs, migrate from `drawSingleImageDino` to `drawCompositeDino` |
+| Low | Thread `dizzyProgress` into `ArticulationState` | Intentionally deferred in pilot — `dizzyTransform` exists but `dizzyProgress` is hardcoded to `-1`. Existing `drawDizzyRings` overlay covers failure VFX for now |
 | Low | Playtesting | Per §11.4: paper prototype → vertical slice → full progression with children ages 3–5 |
