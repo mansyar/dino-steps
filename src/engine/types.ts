@@ -42,6 +42,7 @@ export interface GameState {
   trackBudget: number;
   clearedInteractables: { x: number; y: number }[];
   isExecuting: boolean;
+  gameComplete: boolean;
 }
 
 // Persisted state (cross-session, mirrors localStorage)

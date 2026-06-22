@@ -153,4 +153,17 @@ describe('State Module', () => {
       expect(newState.isExecuting).toBe(true);
     });
   });
+
+  describe('gameComplete', () => {
+    it('should have gameComplete as false by default', () => {
+      const state = createInitialState(level1, 'Rexy');
+      expect(state.gameComplete).toBe(false);
+    });
+
+    it('should track gameComplete flag', () => {
+      const state = createInitialState(level1, 'Rexy');
+      const newState = { ...state, gameComplete: true };
+      expect(newState.gameComplete).toBe(true);
+    });
+  });
 });

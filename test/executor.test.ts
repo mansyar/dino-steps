@@ -67,6 +67,7 @@ function gs(overrides: Partial<GameState> = {}): GameState {
     trackBudget: 6,
     clearedInteractables: [],
     isExecuting: false,
+    gameComplete: false,
     ...overrides,
   };
 }

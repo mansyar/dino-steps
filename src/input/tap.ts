@@ -268,6 +268,7 @@ export function renderMuteButton(
 export function renderHomeScreen(
   container: HTMLElement,
   onSelect: (character: DinoCharacter) => void,
+  gameComplete?: boolean,
 ): HTMLElement {
   const home = document.createElement('div');
   home.className = 'home-screen';
@@ -276,6 +277,15 @@ export function renderHomeScreen(
   title.textContent = 'DinoSteps';
   title.className = 'home-screen__title';
   home.appendChild(title);
+
+  // Trophy indicator when all levels are complete
+  if (gameComplete) {
+    const trophy = document.createElement('div');
+    trophy.className = 'home-screen__trophy';
+    trophy.textContent = '🏆';
+    trophy.setAttribute('aria-label', 'All levels completed!');
+    home.appendChild(trophy);
+  }
 
   const subtitle = document.createElement('p');
   subtitle.textContent = 'Choose your dinosaur!';

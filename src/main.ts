@@ -455,6 +455,12 @@ function processNextExecCommand(): void {
         playSuccess();
       }
 
+      // Check if this is the last level
+      const isLastLevel = currentLevelIndex === levels.length - 1;
+      if (isLastLevel) {
+        gameState = { ...gameState, gameComplete: true };
+      }
+
       // Start win animation
       showWin = true;
       winTimer = 2.0; // 2 seconds of celebration
@@ -614,14 +620,18 @@ function enterGame(levelIndex: number): void {
 function showHome(): void {
   showingHome = true;
   clearUI();
-  homeEl = renderHomeScreen(uiContainer, (ch) => {
-    resumeAudioContext(); // Resume audio on first user gesture
-    saveCharacter(ch);
-    showingHome = false;
-    showingLevelSelect = true;
-    clearUI();
-    showLevelSelect();
-  });
+  homeEl = renderHomeScreen(
+    uiContainer,
+    (ch) => {
+      resumeAudioContext(); // Resume audio on first user gesture
+      saveCharacter(ch);
+      showingHome = false;
+      showingLevelSelect = true;
+      clearUI();
+      showLevelSelect();
+    },
+    gameState?.gameComplete ?? false,
+  );
 }
 
 function showLevelSelect(): void {
@@ -686,14 +696,23 @@ async function init(): Promise<void> {
         if (winTimer <= 0) {
           showWin = false;
           backflipProgress = 0;
-          const nextIndex = currentLevelIndex + 1;
-          if (nextIndex < levels.length) {
-            currentLevelIndex = nextIndex;
-            saveUnlockedLevel(nextIndex + 1);
-            gameState = createInitialState(levels[nextIndex], gameState.character);
-            movement = createMovementState(gameState.dinoPos.x, gameState.dinoPos.y);
+
+          if (gameState.gameComplete) {
+            // Game complete — return to home screen with trophy
+            showingHome = true;
+            clearUI();
+            showHome();
+          } else {
+            // Normal win — advance to next level
+            const nextIndex = currentLevelIndex + 1;
+            if (nextIndex < levels.length) {
+              currentLevelIndex = nextIndex;
+              saveUnlockedLevel(nextIndex + 1);
+              gameState = createInitialState(levels[nextIndex], gameState.character);
+              movement = createMovementState(gameState.dinoPos.x, gameState.dinoPos.y);
+            }
+            refreshGameUI();
           }
-          refreshGameUI();
         }
       }
 

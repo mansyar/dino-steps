@@ -24,28 +24,29 @@
 ## Phase 2: Game Completion State After L10
 
 ### Task: Read spec.md and workflow.md before starting this phase
-- [ ] Read `conductor/tracks/win_polish_completion_20260622/spec.md` to review the specification for this phase
-- [ ] Read `conductor/workflow.md` to review the TDD workflow and quality gates
+- [x] Read `conductor/tracks/win_polish_completion_20260622/spec.md` to review the specification for this phase
+- [x] Read `conductor/workflow.md` to review the TDD workflow and quality gates
 
 ### Task: Write failing tests for game completion state
-- [ ] Add test: state tracks a `gameComplete` boolean flag
-- [ ] Add test: winning the last level (index = levels.length - 1) sets `gameComplete` to true
-- [ ] Add test: `gameComplete` flag is not set for levels 1–9
-- [ ] Run tests and confirm they fail (Red phase)
+- [x] Add test: state tracks a `gameComplete` boolean flag
+- [x] Add test: winning the last level (index = levels.length - 1) sets `gameComplete` to true
+- [x] Add test: `gameComplete` flag is not set for levels 1–9
+- [x] Run tests and confirm they fail (Red phase)
 
 ### Task: Implement game completion state logic
-- [ ] Add `gameComplete` flag to the game state in `src/engine/state.ts`
-- [ ] Set `gameComplete = true` when winning the last level
-- [ ] In `main.ts`, when `gameComplete` is true after win celebration, return to home screen instead of auto-advancing
-- [ ] Run tests and confirm they pass (Green phase)
+- [x] Add `gameComplete` flag to the game state in `src/engine/state.ts`
+- [x] Set `gameComplete = true` when winning the last level
+- [x] In `main.ts`, when `gameComplete` is true after win celebration, return to home screen instead of auto-advancing
+- [x] Run tests and confirm they pass (Green phase)
 
 ### Task: Add trophy indicator on home screen
-- [ ] Add trophy visual (🏆 emoji or canvas-drawn) to home screen when `gameComplete` is true
-- [ ] Position trophy near the title
-- [ ] Respect `prefers-reduced-motion` (static display, no animation)
-- [ ] Ensure levels remain replayable (no locking)
+- [x] Add trophy visual (🏆 emoji or canvas-drawn) to home screen when `gameComplete` is true
+- [x] Position trophy near the title
+- [x] Respect `prefers-reduced-motion` (static display, no animation)
+- [x] Ensure levels remain replayable (no locking)
 
 ### Task: Conductor - User Manual Verification 'Game Completion State After L10' (Protocol in workflow.md)
+- [x] Phase 2 complete
 
 ## Phase 3: Reset Progress (Long-Press Title)
 

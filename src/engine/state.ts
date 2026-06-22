@@ -15,6 +15,7 @@ export function createInitialState(level: LevelData, character: DinoCharacter): 
     trackBudget: level.trackBudget,
     clearedInteractables: [],
     isExecuting: false,
+    gameComplete: false,
   };
 }
 
