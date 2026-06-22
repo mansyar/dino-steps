@@ -11,7 +11,7 @@
     - [ ] **Verify:** Run `CI=true pnpm test` — all tests pass including new ones; run `CI=true pnpm coverage` — coverage >80%
 - [x] Task: Conductor - User Manual Verification 'Phase 1: Executor Enhancement' (Protocol in workflow.md)
 
-## Phase 2: Signature SFX & Audio Gap Sounds (Audio Synthesis — NOT TDD)
+## Phase 2: Signature SFX & Audio Gap Sounds (Audio Synthesis — NOT TDD) [checkpoint: d8ba2d7]
 
 - [x] Task: Read `spec.md` and `workflow.md` to refresh context before starting Phase 2
 - [x] Task: Implement `playSignature(character: DinoCharacter, isClearing: boolean)` in `src/audio/sfx.ts` f2f7840
@@ -31,7 +31,7 @@
 - [ ] Task: Remove dead `playAction()` from `src/audio/sfx.ts` (deferred to Phase 3)
     - [ ] Delete `playAction` function after wiring `playSignature` in Phase 3
     - [ ] Verify: Run `CI=true pnpm typecheck` — no type errors (ensure no remaining references)
-- [~] Task: Conductor - User Manual Verification 'Phase 2: Signature SFX & Audio Gaps' (Protocol in workflow.md)
+- [x] Task: Conductor - User Manual Verification 'Phase 2: Signature SFX & Audio Gaps' (Protocol in workflow.md)
 
 ## Phase 3: Wiring & Text-Free Fix (Input/Rendering — NOT TDD)
 
