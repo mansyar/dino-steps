@@ -144,6 +144,62 @@ const levelsData = [
     trackBudget: 8,
     verifiedSolution: ['F', 'R', 'F', 'F', 'R', 'F', 'F', 'A'],
   },
+  {
+    id: 7,
+    title: 'Sleepy Turtle',
+    grid: [
+      ['empty', 'empty', 'empty', 'empty', 'empty'],
+      ['empty', 'empty', 'turtle', 'empty', 'leaf'],
+      ['empty', 'empty', 'empty', 'empty', 'empty'],
+    ],
+    start: { x: 0, y: 1 },
+    startFacing: 'E',
+    food: { x: 4, y: 1 },
+    trackBudget: 8,
+    verifiedSolution: ['F', 'F', 'A', 'F', 'F', 'A'],
+  },
+  {
+    id: 8,
+    title: 'Tall Grass Chomp',
+    grid: [
+      ['empty', 'empty', 'empty', 'empty', 'empty'],
+      ['grass', 'empty', 'empty', 'empty', 'cookie'],
+      ['empty', 'rock', 'empty', 'empty', 'empty'],
+    ],
+    start: { x: 0, y: 2 },
+    startFacing: 'E',
+    food: { x: 4, y: 1 },
+    trackBudget: 10,
+    verifiedSolution: ['L', 'F', 'R', 'A', 'F', 'F', 'F', 'F', 'A'],
+  },
+  {
+    id: 9,
+    title: 'Twin Paths',
+    grid: [
+      ['empty', 'empty', 'empty', 'rock', 'cookie'],
+      ['empty', 'empty', 'empty', 'empty', 'empty'],
+      ['empty', 'empty', 'empty', 'empty', 'rock'],
+    ],
+    start: { x: 2, y: 2 },
+    startFacing: 'E',
+    food: { x: 4, y: 0 },
+    trackBudget: 10,
+    verifiedSolution: ['F', 'L', 'F', 'R', 'F', 'L', 'F', 'A'],
+  },
+  {
+    id: 10,
+    title: 'Dino Master',
+    grid: [
+      ['empty', 'empty', 'empty', 'empty', 'empty'],
+      ['empty', 'turtle', 'rock', 'empty', 'empty'],
+      ['rock', 'empty', 'empty', 'empty', 'cookie'],
+    ],
+    start: { x: 0, y: 1 },
+    startFacing: 'E',
+    food: { x: 4, y: 2 },
+    trackBudget: 10,
+    verifiedSolution: ['F', 'R', 'A', 'F', 'L', 'F', 'F', 'F', 'A'],
+  },
 ];
 
 const levels = parseLevels(levelsData);

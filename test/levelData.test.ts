@@ -141,7 +141,7 @@ describe('Level Data', () => {
       expect(() => parseLevels([])).toThrow();
     });
 
-    it('should parse all 6 levels (L1-L6) without error', () => {
+    it('should parse all 10 levels (L1-L10) without error', () => {
       const allLevels = [
         {
           id: 1,
@@ -227,10 +227,66 @@ describe('Level Data', () => {
           trackBudget: 8,
           verifiedSolution: ['F', 'R', 'F', 'F', 'R', 'F', 'F', 'A'],
         },
+        {
+          id: 7,
+          title: 'Sleepy Turtle',
+          grid: [
+            ['empty', 'empty', 'empty', 'empty', 'empty'],
+            ['empty', 'empty', 'turtle', 'empty', 'leaf'],
+            ['empty', 'empty', 'empty', 'empty', 'empty'],
+          ],
+          start: { x: 0, y: 1 },
+          startFacing: 'E',
+          food: { x: 4, y: 1 },
+          trackBudget: 8,
+          verifiedSolution: ['F', 'F', 'A', 'F', 'F', 'A'],
+        },
+        {
+          id: 8,
+          title: 'Tall Grass Chomp',
+          grid: [
+            ['empty', 'empty', 'empty', 'empty', 'empty'],
+            ['grass', 'empty', 'empty', 'empty', 'cookie'],
+            ['empty', 'rock', 'empty', 'empty', 'empty'],
+          ],
+          start: { x: 0, y: 2 },
+          startFacing: 'E',
+          food: { x: 4, y: 1 },
+          trackBudget: 10,
+          verifiedSolution: ['L', 'F', 'R', 'A', 'F', 'F', 'F', 'F', 'A'],
+        },
+        {
+          id: 9,
+          title: 'Twin Paths',
+          grid: [
+            ['empty', 'empty', 'empty', 'rock', 'cookie'],
+            ['empty', 'empty', 'empty', 'empty', 'empty'],
+            ['empty', 'empty', 'empty', 'empty', 'rock'],
+          ],
+          start: { x: 2, y: 2 },
+          startFacing: 'E',
+          food: { x: 4, y: 0 },
+          trackBudget: 10,
+          verifiedSolution: ['F', 'L', 'F', 'R', 'F', 'L', 'F', 'A'],
+        },
+        {
+          id: 10,
+          title: 'Dino Master',
+          grid: [
+            ['empty', 'empty', 'empty', 'empty', 'empty'],
+            ['empty', 'turtle', 'rock', 'empty', 'empty'],
+            ['rock', 'empty', 'empty', 'empty', 'cookie'],
+          ],
+          start: { x: 0, y: 1 },
+          startFacing: 'E',
+          food: { x: 4, y: 2 },
+          trackBudget: 10,
+          verifiedSolution: ['F', 'R', 'A', 'F', 'L', 'F', 'F', 'F', 'A'],
+        },
       ];
 
       const parsed = parseLevels(allLevels);
-      expect(parsed).toHaveLength(6);
+      expect(parsed).toHaveLength(10);
 
       // Verify grid dimensions
       for (const level of parsed) {
@@ -240,7 +296,7 @@ describe('Level Data', () => {
         }
       }
 
-      // Verify specific level properties
+      // Verify specific level properties (L1-L6)
       expect(parsed[0].title).toBe('Hungry Steps');
       expect(parsed[0].start).toEqual({ x: 0, y: 1 });
       expect(parsed[0].food).toEqual({ x: 3, y: 1 });
@@ -267,6 +323,31 @@ describe('Level Data', () => {
       expect(parsed[5].grid[2][2]).toBe('mud');
       expect(parsed[5].grid[2][3]).toBe('leaf');
       expect(parsed[5].startFacing).toBe('N');
+
+      // Verify L7-L10 (interactable levels)
+      expect(parsed[6].title).toBe('Sleepy Turtle');
+      expect(parsed[6].grid[1][2]).toBe('turtle');
+      expect(parsed[6].grid[1][4]).toBe('leaf');
+      expect(parsed[6].trackBudget).toBe(8);
+
+      expect(parsed[7].title).toBe('Tall Grass Chomp');
+      expect(parsed[7].grid[1][0]).toBe('grass');
+      expect(parsed[7].grid[1][4]).toBe('cookie');
+      expect(parsed[7].grid[2][1]).toBe('rock');
+      expect(parsed[7].trackBudget).toBe(10);
+
+      expect(parsed[8].title).toBe('Twin Paths');
+      expect(parsed[8].grid[0][3]).toBe('rock');
+      expect(parsed[8].grid[0][4]).toBe('cookie');
+      expect(parsed[8].grid[2][4]).toBe('rock');
+      expect(parsed[8].trackBudget).toBe(10);
+
+      expect(parsed[9].title).toBe('Dino Master');
+      expect(parsed[9].grid[1][1]).toBe('turtle');
+      expect(parsed[9].grid[1][2]).toBe('rock');
+      expect(parsed[9].grid[2][0]).toBe('rock');
+      expect(parsed[9].grid[2][4]).toBe('cookie');
+      expect(parsed[9].trackBudget).toBe(10);
     });
   });
 });
