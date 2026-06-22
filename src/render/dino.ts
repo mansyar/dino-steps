@@ -1,9 +1,15 @@
 // Dino rendering — draws preloaded SVG character images onto Canvas
 // Supports idle bob and walk/turn animations via position interpolation
+// Articulated characters (Rexy pilot) composite 8 parts with per-part transforms
 
 import { getCanvasContext } from './canvas';
-import { getCharacterImage } from './characters';
+import { getCharacterImage, getCharacterRig, getPartImage } from './characters';
 import type { DinoCharacter, Facing } from '../engine/types';
+import {
+  type ArticulationState,
+  type CharacterPart,
+  computePartTransform,
+} from './character-parts';
 
 export interface DinoAnimState {
   idleTime: number;
@@ -15,6 +21,32 @@ export function createDinoAnimState(): DinoAnimState {
   return { idleTime: 0, walkCycle: 0, turnProgress: 0 };
 }
 
+/**
+ * Build an ArticulationState from the ad-hoc drawDino args. - animType drives the phase - progress
+ * params default to -1 (not active)
+ */
+function buildArticulationState(
+  anim: DinoAnimState | undefined,
+  animType: 'idle' | 'walking' | 'turning' | 'celebrating' | undefined,
+  backflipProgress: number | undefined,
+  signatureProgress: number | undefined,
+  eatingProgress: number | undefined,
+  dizzyProgress: number | undefined,
+  reducedMotion: boolean,
+): ArticulationState {
+  const phase: ArticulationState['phase'] = animType ?? 'idle';
+  return {
+    phase,
+    idleTime: anim?.idleTime ?? 0,
+    walkCycle: anim?.walkCycle ?? 0,
+    signatureProgress: signatureProgress ?? -1,
+    eatingProgress: eatingProgress ?? -1,
+    backflipProgress: backflipProgress ?? -1,
+    dizzyProgress: dizzyProgress ?? -1,
+    reducedMotion,
+  };
+}
+
 export function drawDino(
   px: number,
   py: number,
@@ -24,6 +56,41 @@ export function drawDino(
   anim?: DinoAnimState,
   animType?: 'idle' | 'walking' | 'turning' | 'celebrating',
   backflipProgress?: number, // 0-1 for backflip rotation
+  signatureProgress?: number, // 0-1 for signature jaw articulation
+  eatingProgress?: number, // 0-1 for eating jaw chomp
+  dizzyProgress?: number, // seconds elapsed in dizzy
+  reducedMotion?: boolean,
+): void {
+  const rig = getCharacterRig(character);
+  if (rig) {
+    drawCompositeDino(
+      px,
+      py,
+      tileSize,
+      rig.parts,
+      facing,
+      anim,
+      animType,
+      backflipProgress,
+      signatureProgress,
+      eatingProgress,
+      dizzyProgress,
+      reducedMotion ?? false,
+    );
+    return;
+  }
+  drawSingleImageDino(px, py, tileSize, character, facing, anim, animType, backflipProgress);
+}
+
+function drawSingleImageDino(
+  px: number,
+  py: number,
+  tileSize: number,
+  character: DinoCharacter,
+  facing: Facing,
+  anim?: DinoAnimState,
+  animType?: 'idle' | 'walking' | 'turning' | 'celebrating',
+  backflipProgress?: number,
 ): void {
   const { ctx } = getCanvasContext();
   const img = getCharacterImage(character);
@@ -64,6 +131,84 @@ export function drawDino(
 
   // Draw the SVG centered at origin
   ctx.drawImage(img, -s / 2, -s / 2, s, s);
+
+  ctx.restore();
+}
+
+function drawCompositeDino(
+  px: number,
+  py: number,
+  tileSize: number,
+  parts: readonly CharacterPart[],
+  facing: Facing,
+  anim: DinoAnimState | undefined,
+  animType: 'idle' | 'walking' | 'turning' | 'celebrating' | undefined,
+  backflipProgress: number | undefined,
+  signatureProgress: number | undefined,
+  eatingProgress: number | undefined,
+  dizzyProgress: number | undefined,
+  reducedMotion: boolean,
+): void {
+  const { ctx } = getCanvasContext();
+  const s = tileSize * 0.85;
+  const scale = s / 120; // 120×120 viewBox → s×s on screen
+
+  // Build the articulation state once for the whole composite
+  const state = buildArticulationState(
+    anim,
+    animType,
+    backflipProgress,
+    signatureProgress,
+    eatingProgress,
+    dizzyProgress,
+    reducedMotion,
+  );
+
+  ctx.save();
+  ctx.translate(px + tileSize / 2, py + tileSize / 2);
+
+  // Idle bob
+  let bobY = 0;
+  if (anim && animType === 'idle') {
+    bobY = Math.sin(anim.idleTime * 2) * s * 0.02;
+  }
+  ctx.translate(0, bobY);
+
+  // Walk bounce
+  if (anim && animType === 'walking') {
+    const bounce = Math.abs(Math.sin(anim.walkCycle * 8)) * s * 0.02;
+    ctx.translate(0, -bounce);
+  }
+
+  ctx.rotate(angleFromFacing(facing));
+
+  // Backflip rotation (during win celebration) — applied as a wrapper so the
+  // whole composite spins as a unit. Per-part transforms apply within this frame.
+  if (backflipProgress !== undefined && backflipProgress > 0) {
+    const t = backflipProgress;
+    const rotation = t * Math.PI * 2;
+    ctx.rotate(rotation);
+    const jump = Math.sin(t * Math.PI) * s * 0.3;
+    ctx.translate(0, -jump);
+  }
+
+  // Composite parts in back-to-front draw order
+  for (const part of parts) {
+    const img = getPartImage(part.file);
+    if (!img) continue;
+
+    const t = computePartTransform(part.name, state);
+
+    ctx.save();
+    // Move to pivot (in part's 120×120 viewBox space, scaled to s×s)
+    ctx.translate(part.pivotX * scale, part.pivotY * scale);
+    ctx.rotate(t.rotate);
+    ctx.scale(1, t.scaleY);
+    ctx.translate(-part.pivotX * scale, -part.pivotY * scale);
+    ctx.translate(t.tx, t.ty);
+    ctx.drawImage(img, -s / 2, -s / 2, s, s);
+    ctx.restore();
+  }
 
   ctx.restore();
 }

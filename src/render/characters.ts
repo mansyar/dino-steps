@@ -1,6 +1,8 @@
 // SVG character loader — preloads character SVGs as Image objects for Canvas drawing
+// Supports both single-image fallback (Trikey/Sera) and per-part rigs (Rexy)
 
 import type { DinoCharacter } from '../engine/types';
+import { type CharacterRig, REXY_RIG } from './character-parts';
 
 const CHARACTER_FILES: Record<DinoCharacter, string> = {
   Rexy: '/characters/rexy.svg',
@@ -8,25 +10,30 @@ const CHARACTER_FILES: Record<DinoCharacter, string> = {
   Sera: '/characters/sera.svg',
 };
 
-const cache = new Map<DinoCharacter, HTMLImageElement>();
-let loading = false;
-let loaded = false;
+const singleImageCache = new Map<DinoCharacter, HTMLImageElement>();
+const partImageCache = new Map<string, HTMLImageElement>();
+const rigCache = new Map<DinoCharacter, CharacterRig>();
+
+let singleLoaded = false;
+let singleLoading = false;
+let partsLoaded = false;
+let partsLoading = false;
 
 /**
- * Preload all character SVGs. Call once at startup. Returns a promise that resolves when all images
- * are ready.
+ * Preload all single-image character SVGs (fallback for non-rigged characters). Call once at
+ * startup. Returns a promise that resolves when all images are ready.
  */
 export function preloadCharacters(): Promise<void> {
-  if (loaded) return Promise.resolve();
-  if (loading) return Promise.resolve();
+  if (singleLoaded) return Promise.resolve();
+  if (singleLoading) return Promise.resolve();
 
-  loading = true;
+  singleLoading = true;
 
   const promises = (Object.keys(CHARACTER_FILES) as DinoCharacter[]).map((char) => {
     return new Promise<void>((resolve) => {
       const img = new Image();
       img.onload = () => {
-        cache.set(char, img);
+        singleImageCache.set(char, img);
         resolve();
       };
       img.onerror = () => {
@@ -38,12 +45,55 @@ export function preloadCharacters(): Promise<void> {
   });
 
   return Promise.all(promises).then(() => {
-    loaded = true;
-    loading = false;
+    singleLoaded = true;
+    singleLoading = false;
+  });
+}
+
+/**
+ * Preload all per-part images for known rigs. Call once at startup. Returns a promise that resolves
+ * when all part images are ready.
+ */
+export function preloadCharacterRigs(): Promise<void> {
+  if (partsLoaded) return Promise.resolve();
+  if (partsLoading) return Promise.resolve();
+
+  partsLoading = true;
+  rigCache.set('Rexy', REXY_RIG);
+
+  const rig = REXY_RIG;
+  const promises = rig.parts.map((part) => {
+    return new Promise<void>((resolve) => {
+      const img = new Image();
+      img.onload = () => {
+        partImageCache.set(part.file, img);
+        resolve();
+      };
+      img.onerror = () => {
+        console.warn(`Failed to load part SVG: ${part.file}`);
+        resolve();
+      };
+      img.src = part.file;
+    });
+  });
+
+  return Promise.all(promises).then(() => {
+    partsLoaded = true;
+    partsLoading = false;
   });
 }
 
 /** Get the preloaded Image for a character. Returns null if not yet loaded. */
 export function getCharacterImage(char: DinoCharacter): HTMLImageElement | null {
-  return cache.get(char) ?? null;
+  return singleImageCache.get(char) ?? null;
+}
+
+/** Get the rig for a character (currently only Rexy). Returns null if no rig. */
+export function getCharacterRig(char: DinoCharacter): CharacterRig | null {
+  return rigCache.get(char) ?? null;
+}
+
+/** Get the preloaded Image for a part file path. Returns null if not yet loaded. */
+export function getPartImage(file: string): HTMLImageElement | null {
+  return partImageCache.get(file) ?? null;
 }
