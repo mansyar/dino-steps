@@ -31,7 +31,7 @@
 - [ ] Task: Remove dead `playAction()` from `src/audio/sfx.ts` (deferred to Phase 3)
     - [ ] Delete `playAction` function after wiring `playSignature` in Phase 3
     - [ ] Verify: Run `CI=true pnpm typecheck` — no type errors (ensure no remaining references)
-- [ ] Task: Conductor - User Manual Verification 'Phase 2: Signature SFX & Audio Gaps' (Protocol in workflow.md)
+- [~] Task: Conductor - User Manual Verification 'Phase 2: Signature SFX & Audio Gaps' (Protocol in workflow.md)
 
 ## Phase 3: Wiring & Text-Free Fix (Input/Rendering — NOT TDD)
 
