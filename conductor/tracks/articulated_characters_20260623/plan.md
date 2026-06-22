@@ -74,7 +74,11 @@
     - [x] `playSuccess()` still plays (unchanged); sequence: eat chomp (0.4s) → backflip (~0.67s) → idle for the rest of `winTimer` (2.0s total)
     - [x] Eating helpers + `activeProgress` exported from `src/render/juice.ts`; 12 unit tests in `test/eating.test.ts` cover 0→1 progression, clamp, idempotent trigger, no-op when inactive, and the -1 fallback
     - [x] Verify: `CI=true pnpm typecheck` — 0 errors; `CI=true pnpm lint` — 0/0; `CI=true pnpm test` — 231 pass; `pnpm build` — succeeded
-- [ ] Task: Conductor — User Manual Verification 'Phase 5: main.ts Wiring & Eating State' (Protocol in workflow.md)
+- [x] Task: Conductor — User Manual Verification 'Phase 5: main.ts Wiring & Eating State' (Protocol in workflow.md) [1593a8b]
+
+[checkpoint: 1593a8b]
+
+## Phase 6: Final Verification
 
 ## Phase 6: Final Verification
 
