@@ -60,16 +60,20 @@
 
 ## Phase 5: main.ts Wiring & Eating State (Rendering — not TDD)
 
-- [ ] Task: Read `spec.md` and `workflow.md` to refresh context before starting Phase 5
-- [ ] Task: Build `ArticulationState` each frame in `src/main.ts` render callback (~lines 804–816)
-    - [ ] Replace the `animType` + `dinoAnim` + `backflipProgress` ad-hoc args to `drawDino` with a single `ArticulationState` built from `movement`, `showWin`, `signatureState`, `failDizzyProgress`, `prefersReducedMotion`
-    - [ ] Pass `signatureState.progress` into `ArticulationState.signatureProgress` so the jaw articulates during roar (FX overlay `drawSignature` called after, unchanged)
-    - [ ] Update the home-screen / level-select idle `drawDino` call (~line 854) to use the new signature
-    - [ ] Verify: `CI=true pnpm typecheck` — 0 errors
-- [ ] Task: Wire the `eating` phase on `🦕`-on-food (win)
-    - [ ] On win, drive `eatingProgress` 0→1 (~0.4s jaw chomp) before entering the celebrating backflip
-    - [ ] Ensure `playSuccess()` still plays (unchanged); sequence: eat chomp → success chime → backflip
-    - [ ] Verify: `CI=true pnpm typecheck` — 0 errors; `CI=true pnpm lint` — 0 errors
+- [x] Task: Read `spec.md` and `workflow.md` to refresh context before starting Phase 5
+- [x] Task: Build `ArticulationState` each frame in `src/main.ts` render callback (~lines 804–816) [7b1dddb]
+    - [x] Replace the `animType` + `dinoAnim` + `backflipProgress` ad-hoc args to `drawDino` with a single `ArticulationState` built from `movement`, `showWin`, `signatureState`, `prefersReducedMotion` (`failDizzyProgress` not threaded in pilot — the existing `drawDizzyRings` overlay covers failure VFX for now)
+    - [x] Pass `signatureState.progress` into `ArticulationState.signatureProgress` via `activeProgress(signatureState)` so the jaw articulates during roar (FX overlay `drawSignature` called after, unchanged)
+    - [x] Update the home-screen / level-select idle `drawDino` call (~line 854) to use the new `buildIdleState` export
+    - [x] Consolidate `drawDino` API to take a single `ArticulationState` parameter (was 7 ad-hoc optional args) so the new state construction is uniform
+    - [x] Verify: `CI=true pnpm typecheck` — 0 errors; `CI=true pnpm lint` — 0/0; `CI=true pnpm test` — 231 pass
+- [x] Task: Wire the `eating` phase on `🦕`-on-food (win) [7b1dddb]
+    - [x] On win, `triggerEating(eatingState)` resets progress to 0 and activates; `updateEating(eatingState, dt)` advances progress over 400ms in the win loop
+    - [x] `backflipProgress` only advances once `eatingState.progress >= 1` — sequence is chomp → backflip → idle
+    - [x] `resetEating(eatingState)` on win end so the next level starts clean
+    - [x] `playSuccess()` still plays (unchanged); sequence: eat chomp (0.4s) → backflip (~0.67s) → idle for the rest of `winTimer` (2.0s total)
+    - [x] Eating helpers + `activeProgress` exported from `src/render/juice.ts`; 12 unit tests in `test/eating.test.ts` cover 0→1 progression, clamp, idempotent trigger, no-op when inactive, and the -1 fallback
+    - [x] Verify: `CI=true pnpm typecheck` — 0 errors; `CI=true pnpm lint` — 0/0; `CI=true pnpm test` — 231 pass; `pnpm build` — succeeded
 - [ ] Task: Conductor — User Manual Verification 'Phase 5: main.ts Wiring & Eating State' (Protocol in workflow.md)
 
 ## Phase 6: Final Verification
