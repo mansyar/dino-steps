@@ -4,7 +4,7 @@
 ## Phase 1: Executor Enhancement — Action Context (TDD)
 
 - [x] Task: Read `spec.md` and `workflow.md` to refresh context before starting Phase 1
-- [~] Task: Add `actionContext` field to `CommandResult` type and `actionCommand()`
+- [x] Task: Add `actionContext` field to `CommandResult` type and `actionCommand()` 2b78469
     - [ ] **Red:** Write failing tests in `test/executor.test.ts` for `actionCommand` returning `actionContext: 'clear'` on uncleared interactable, `actionContext: 'noop'` on cleared/empty tile, and `type: 'win'` (unchanged) on food
     - [ ] **Green:** Add `actionContext?: 'clear' | 'noop'` to the `continue` variant of `CommandResult` in `src/engine/executor.ts`; set it in `actionCommand()` — `'clear'` when `isUnclearedInteractable`, `'noop'` otherwise
     - [ ] **Refactor:** Ensure `forwardCommand`, `leftCommand`, `rightCommand` return `{ type: 'continue' }` without `actionContext` (no change needed — optional field absent)
