@@ -12,7 +12,7 @@ import {
 
 // Execution result types
 export type CommandResult =
-  | { type: 'continue' }
+  | { type: 'continue'; actionContext?: 'clear' | 'noop' }
   | { type: 'win' }
   | { type: 'hardFail' }
   | { type: 'softResist' };
@@ -144,11 +144,11 @@ export function actionCommand(state: GameState, level: LevelData): CommandResult
 
   // On uncleared interactable → clear (continue)
   if (isUnclearedInteractable(level.grid, state.clearedInteractables, x, y)) {
-    return { type: 'continue' };
+    return { type: 'continue', actionContext: 'clear' };
   }
 
   // On cleared interactable or empty → no-op (continue)
-  return { type: 'continue' };
+  return { type: 'continue', actionContext: 'noop' };
 }
 
 /** Apply Action command to state (after validation) */

@@ -135,7 +135,10 @@ describe('Action', () => {
 
   it('clears uncleared interactable', () => {
     const s = gs({ dinoPos: { x: 1, y: 1 }, commandQueue: ['A'], activeCommandIndex: 0 });
-    expect(processNextCommand(s, levelInteractable)).toEqual({ type: 'continue' });
+    expect(processNextCommand(s, levelInteractable)).toEqual({
+      type: 'continue',
+      actionContext: 'clear',
+    });
     const ns = applyAction(s, levelInteractable);
     expect(ns.clearedInteractables).toEqual([{ x: 1, y: 1 }]);
   });
@@ -147,13 +150,68 @@ describe('Action', () => {
       commandQueue: ['A'],
       activeCommandIndex: 0,
     });
-    expect(processNextCommand(s, levelInteractable)).toEqual({ type: 'continue' });
+    expect(processNextCommand(s, levelInteractable)).toEqual({
+      type: 'continue',
+      actionContext: 'noop',
+    });
     expect(applyAction(s, levelInteractable).clearedInteractables).toEqual([{ x: 1, y: 1 }]);
   });
 
   it('no-op on empty tile', () => {
     const s = gs({ commandQueue: ['A'], activeCommandIndex: 0 });
-    expect(processNextCommand(s, level1)).toEqual({ type: 'continue' });
+    expect(processNextCommand(s, level1)).toEqual({ type: 'continue', actionContext: 'noop' });
+  });
+});
+
+describe('Action actionContext', () => {
+  it('returns actionContext: clear on uncleared interactable', () => {
+    const s = gs({ dinoPos: { x: 1, y: 1 }, commandQueue: ['A'], activeCommandIndex: 0 });
+    const result = processNextCommand(s, levelInteractable);
+    expect(result).toEqual({ type: 'continue', actionContext: 'clear' });
+  });
+
+  it('returns actionContext: noop on cleared interactable', () => {
+    const s = gs({
+      dinoPos: { x: 1, y: 1 },
+      clearedInteractables: [{ x: 1, y: 1 }],
+      commandQueue: ['A'],
+      activeCommandIndex: 0,
+    });
+    const result = processNextCommand(s, levelInteractable);
+    expect(result).toEqual({ type: 'continue', actionContext: 'noop' });
+  });
+
+  it('returns actionContext: noop on empty tile', () => {
+    const s = gs({ commandQueue: ['A'], activeCommandIndex: 0 });
+    const result = processNextCommand(s, level1);
+    expect(result).toEqual({ type: 'continue', actionContext: 'noop' });
+  });
+
+  it('returns type: win on food (no actionContext)', () => {
+    const s = gs({ dinoPos: { x: 3, y: 1 }, commandQueue: ['A'], activeCommandIndex: 0 });
+    const result = processNextCommand(s, level1);
+    expect(result).toEqual({ type: 'win' });
+  });
+
+  it('forwardCommand returns continue without actionContext', () => {
+    const s = gs({ commandQueue: ['F'], activeCommandIndex: 0 });
+    const result = processNextCommand(s, level1);
+    expect(result).toEqual({ type: 'continue' });
+    expect(result).not.toHaveProperty('actionContext');
+  });
+
+  it('leftCommand returns continue without actionContext', () => {
+    const s = gs({ commandQueue: ['L'], activeCommandIndex: 0 });
+    const result = processNextCommand(s, level1);
+    expect(result).toEqual({ type: 'continue' });
+    expect(result).not.toHaveProperty('actionContext');
+  });
+
+  it('rightCommand returns continue without actionContext', () => {
+    const s = gs({ commandQueue: ['R'], activeCommandIndex: 0 });
+    const result = processNextCommand(s, level1);
+    expect(result).toEqual({ type: 'continue' });
+    expect(result).not.toHaveProperty('actionContext');
   });
 });
 
