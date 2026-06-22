@@ -41,6 +41,8 @@
 - [x] Task: Finalize `REXY_RIG` pivot coordinates in `src/render/character-parts.ts` against the real art (hip for legs, neck for head, jaw hinge for jaw, tail base, shoulders for arms) [bd70401]
     - [x] Verify: `CI=true pnpm test` — rig-data integrity tests still pass with finalized pivots (219 tests)
 
+[checkpoint: dd4b7b1]
+
 ## Phase 4: Articulated Composite Renderer (Rendering — not TDD)
 
 - [ ] Task: Read `spec.md` and `workflow.md` to refresh context before starting Phase 4
