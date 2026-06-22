@@ -8,6 +8,6 @@ This file tracks all major tracks for the project. Each track has its own detail
 
 ### articulated_characters_20260623 — Articulated Characters (Pilot: Rexy)
 - **Type:** feature
-- **Status:** new
+- **Status:** in_progress
 - **Summary:** Replace single-flat-SVG character rendering with an articulated per-part SVG rig (per-body-part animation), redraw Rexy, add eating state + signature jaw articulation, amend GDD §11.1 to bless external per-part SVGs. Rexy pilot; Trikey/Sera migrate later via the same pattern.
 - **Track folder:** [./tracks/articulated_characters_20260623/](./tracks/articulated_characters_20260623/)
