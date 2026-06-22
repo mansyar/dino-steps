@@ -1,3 +1,4 @@
+<protect>
 # Track: win_polish_completion_20260622
 
 ## Overview
@@ -69,3 +70,4 @@ This track closes the most visible gaps between the GDD and the current implemen
 - Playtesting (GDD §14.5) — deferred to a separate track
 - Changing level data format or loading mechanism
 - Adding new levels beyond the existing 10
+</protect>

@@ -1,6 +1,11 @@
+<protect>
 # Implementation Plan: win_polish_completion_20260622
 
 ## Phase 1: Nom-Nom Eating Sound & Win Overlay Removal
+
+### Task: Read spec.md and workflow.md before starting this phase
+- [ ] Read `conductor/tracks/win_polish_completion_20260622/spec.md` to review the specification for this phase
+- [ ] Read `conductor/workflow.md` to review the TDD workflow and quality gates
 
 ### Task: Implement playNomNom() in sfx.ts
 - [ ] Add `playNomNom()` function to `src/audio/sfx.ts`
@@ -16,6 +21,10 @@
 ### Task: Conductor - User Manual Verification 'Nom-Nom Sound & Win Overlay Removal' (Protocol in workflow.md)
 
 ## Phase 2: Game Completion State After L10
+
+### Task: Read spec.md and workflow.md before starting this phase
+- [ ] Read `conductor/tracks/win_polish_completion_20260622/spec.md` to review the specification for this phase
+- [ ] Read `conductor/workflow.md` to review the TDD workflow and quality gates
 
 ### Task: Write failing tests for game completion state
 - [ ] Add test: state tracks a `gameComplete` boolean flag
@@ -38,6 +47,10 @@
 ### Task: Conductor - User Manual Verification 'Game Completion State After L10' (Protocol in workflow.md)
 
 ## Phase 3: Reset Progress (Long-Press Title)
+
+### Task: Read spec.md and workflow.md before starting this phase
+- [ ] Read `conductor/tracks/win_polish_completion_20260622/spec.md` to review the specification for this phase
+- [ ] Read `conductor/workflow.md` to review the TDD workflow and quality gates
 
 ### Task: Write failing tests for reset progress logic
 - [ ] Add test: `resetProgress()` clears `dinosteps:unlockedLevel` from localStorage
@@ -63,6 +76,10 @@
 
 ## Phase 4: Text-Free Carousel Close
 
+### Task: Read spec.md and workflow.md before starting this phase
+- [ ] Read `conductor/tracks/win_polish_completion_20260622/spec.md` to review the specification for this phase
+- [ ] Read `conductor/workflow.md` to review the TDD workflow and quality gates
+
 ### Task: Replace "Cancel" text with ✕ icon
 - [ ] In `tap.ts`, change `closeBtn.textContent = 'Cancel'` to use ✕ emoji/icon
 - [ ] Ensure 64px tap target is maintained
@@ -70,3 +87,4 @@
 - [ ] Verify visually that no text appears on the close button
 
 ### Task: Conductor - User Manual Verification 'Text-Free Carousel Close' (Protocol in workflow.md)
+</protect>
