@@ -28,30 +28,30 @@
 - [x] Task: Implement `playHint()` in `src/audio/sfx.ts`
     - [x] Ascending two-note chime: `playArpeggio([C5, E5], 0.15, 'sine', 0.2)` (C5=523.25Hz, E5=659.25Hz — constants already exist)
     - [x] Verify: Run `CI=true pnpm test` — existing tests still pass
-- [ ] Task: Remove dead `playAction()` from `src/audio/sfx.ts` (deferred to Phase 3)
-    - [ ] Delete `playAction` function after wiring `playSignature` in Phase 3
-    - [ ] Verify: Run `CI=true pnpm typecheck` — no type errors (ensure no remaining references)
+- [x] Task: Remove dead `playAction()` from `src/audio/sfx.ts` (deferred to Phase 3)
+    - [x] Delete `playAction` function after wiring `playSignature` in Phase 3
+    - [x] Verify: Run `CI=true pnpm typecheck` — no type errors (ensure no remaining references)
 - [x] Task: Conductor - User Manual Verification 'Phase 2: Signature SFX & Audio Gaps' (Protocol in workflow.md)
 
-## Phase 3: Wiring & Text-Free Fix (Input/Rendering — NOT TDD)
+## Phase 3: Wiring & Text-Free Fix (Input/Rendering — NOT TDD) 350891e
 
-- [ ] Task: Read `spec.md` and `workflow.md` to refresh context before starting Phase 3
-- [ ] Task: Wire `playSignature()` into `src/main.ts` 🦕 action handler
-    - [ ] Update import: replace `playAction` with `playSignature` in the import from `./audio/sfx`
-    - [ ] Replace `playAction()` call with `playSignature(gameState.character, result.actionContext === 'clear')` in the `continue` + `A` command case
-    - [ ] Verify: Run `CI=true pnpm typecheck` — no type errors
-- [ ] Task: Wire `playSoftResist()` into `src/main.ts` soft-resist case
-    - [ ] Add `playSoftResist` to the import from `./audio/sfx`
-    - [ ] Add `if (!currentMuted) playSoftResist();` in the `softResist` case (alongside existing `triggerSoftResist` visual call)
-    - [ ] Verify: Run `CI=true pnpm typecheck` — no type errors
-- [ ] Task: Wire `playHint()` into `src/main.ts` hint terminal case
-    - [ ] Add `playHint` to the import from `./audio/sfx`
-    - [ ] Add `if (!currentMuted) playHint();` in the `hint` terminal case (alongside existing food-wiggle visual)
-    - [ ] Verify: Run `CI=true pnpm typecheck` — no type errors
-- [ ] Task: Remove text hint element (text-free fix, GDD §1)
-    - [ ] Remove or comment out `hintEl.textContent = ...` line in the hint terminal case
-    - [ ] Remove `hintEl` creation/show logic if it serves no other purpose; otherwise leave the element but empty its content
-    - [ ] Verify: Run `CI=true pnpm typecheck` and `CI=true pnpm lint` — no errors
+- [x] Task: Read `spec.md` and `workflow.md` to refresh context before starting Phase 3
+- [x] Task: Wire `playSignature()` into `src/main.ts` 🦕 action handler
+    - [x] Update import: replace `playAction` with `playSignature` in the import from `./audio/sfx`
+    - [x] Replace `playAction()` call with `playSignature(gameState.character, result.actionContext === 'clear')` in the `continue` + `A` command case
+    - [x] Verify: Run `CI=true pnpm typecheck` — no type errors
+- [x] Task: Wire `playSoftResist()` into `src/main.ts` soft-resist case
+    - [x] Add `playSoftResist` to the import from `./audio/sfx`
+    - [x] Add `if (!currentMuted) playSoftResist();` in the `softResist` case (alongside existing `triggerSoftResist` visual call)
+    - [x] Verify: Run `CI=true pnpm typecheck` — no type errors
+- [x] Task: Wire `playHint()` into `src/main.ts` hint terminal case
+    - [x] Add `playHint` to the import from `./audio/sfx`
+    - [x] Add `if (!currentMuted) playHint();` in the `hint` terminal case (alongside existing food-wiggle visual)
+    - [x] Verify: Run `CI=true pnpm typecheck` — no type errors
+- [x] Task: Remove text hint element (text-free fix, GDD §1)
+    - [x] Remove or comment out `hintEl.textContent = ...` line in the hint terminal case
+    - [x] Remove `hintEl` creation/show logic if it serves no other purpose; otherwise leave the element but empty its content
+    - [x] Verify: Run `CI=true pnpm typecheck` and `CI=true pnpm lint` — no errors
 - [ ] Task: Conductor - User Manual Verification 'Phase 3: Wiring & Text-Free Fix' (Protocol in workflow.md)
 
 ## Phase 4: Final Verification
