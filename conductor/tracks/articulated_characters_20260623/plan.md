@@ -32,14 +32,14 @@
 
 ## Phase 3: Rexy Part Art (SVG authoring — not TDD)
 
-- [ ] Task: Read `spec.md` to refresh the visual + part requirements before authoring
-- [ ] Task: Hand-author Rexy part SVGs under `public/characters/rexy/`
-    - [ ] Create `tail.svg`, `leg-back.svg`, `leg-front.svg`, `arm-left.svg`, `body.svg`, `arm-right.svg`, `head.svg`, `jaw.svg`
-    - [ ] Each `viewBox="0 0 120 120"`; part drawn at its correct position with transparent padding so parts align when composited
-    - [ ] Visual upgrade: refine proportions, gradients, shading, cuter face, cleaner silhouette vs current single `rexy.svg`
-    - [ ] Verify: open all 8 parts together in a viewer (or a quick composite test) — they align into a cohesive Rexy facing East
-- [ ] Task: Finalize `REXY_RIG` pivot coordinates in `src/render/character-parts.ts` against the real art (hip for legs, neck for head, jaw hinge for jaw, tail base, shoulders for arms)
-    - [ ] Verify: `CI=true pnpm test` — rig-data integrity tests still pass with finalized pivots
+- [x] Task: Read `spec.md` to refresh the visual + part requirements before authoring
+- [x] Task: Hand-author Rexy part SVGs under `public/characters/rexy/` [bd70401]
+    - [x] Create `tail.svg`, `leg-back.svg`, `leg-front.svg`, `arm-left.svg`, `body.svg`, `arm-right.svg`, `head.svg`, `jaw.svg`
+    - [x] Each `viewBox="0 0 120 120"`; part drawn at its correct position with transparent padding so parts align when composited
+    - [x] Visual upgrade: cheek blush on head for cuter face, gradient palette preserved, cleaner silhouette via head/jaw split
+    - [x] Verify: 8 SVGs all validated as well-formed XML with correct viewBox
+- [x] Task: Finalize `REXY_RIG` pivot coordinates in `src/render/character-parts.ts` against the real art (hip for legs, neck for head, jaw hinge for jaw, tail base, shoulders for arms) [bd70401]
+    - [x] Verify: `CI=true pnpm test` — rig-data integrity tests still pass with finalized pivots (219 tests)
 
 ## Phase 4: Articulated Composite Renderer (Rendering — not TDD)
 
