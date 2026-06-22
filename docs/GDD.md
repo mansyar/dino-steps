@@ -6,7 +6,7 @@
 > - `[DISCUSSING]` — actively under discussion
 > - `[PENDING]` — not yet explored, awaiting deep-dive
 >
-> **Last updated:** Character Signature SFX track implemented, reviewed, fixes applied, and archived. Track `signature_sfx_20260622` complete. **See §14 for implementation status.**
+> **Last updated:** Win Polish & Game Completion track implemented, reviewed, fixes applied, and archived. Track `win_polish_completion_20260622` complete. **See §14 for implementation status.**
 
 ---
 
@@ -711,7 +711,34 @@ For a preschool game, playtesting with actual children is the single most import
 - Medium: Removed orphaned/misplaced JSDoc block above `playSoftResist()` (copy-paste error documenting wrong function)
 - Low: Marked TDD subtask checkboxes in plan.md; noted vestigial empty `hintEl` element (plan-permitted) and inline comment nits (left as-is per surgical-change principle)
 
-### 14.5 Deferred Items (Future Tracks)
+### 14.5 Track: `win_polish_completion_20260622` — Win Polish & Game Completion `[COMPLETE]`
+
+**Status:** Complete, code-reviewed, fixes applied, and archived to `conductor/archive/win_polish_completion_20260622/`.
+
+**Systems implemented:**
+- **Win overlay removal** (`src/main.ts`): Removed text-based win overlay (🎉 + "Level Complete!" heading); win celebration is now purely audio + visual (confetti + backflip), auto-advancing after a timer
+- **Nom-nom eating sound** (`src/audio/sfx.ts`): `playNomNom()` — 3-chomp synthesized eating sound (sine oscillators at 180/220/200 Hz with frequency ramps and gain envelopes), plays before `playSuccess()` on win, gated by mute check
+- **Game completion state** (`src/engine/types.ts`, `src/engine/state.ts`, `src/main.ts`): Added `gameComplete` flag to `GameState`; `markWinComplete()` pure function sets it when winning the last level; returns to home screen with trophy indicator (🏆) on game completion
+- **Reset progress** (`src/input/tap.ts`, `src/main.ts`): Long-press title (2-second hold) reveals "Reset Progress" button; two-tap confirmation within 3 seconds; calls `resetProgress()` to clear all 3 localStorage keys and return to initial state
+- **Text-free carousel close** (`src/input/tap.ts`): Replaced "Cancel" text with ✕ icon, retained `aria-label="Close character selection"` for accessibility
+- **Canvas clearing fix** (`src/main.ts`): Clear canvas each frame to prevent residual rendering (confetti/particles persisting across frames)
+
+**Quality metrics (post-review):**
+| Metric | Result | Threshold |
+|--------|--------|-----------|
+| Tests | 188 passed (13 files) | — |
+| Coverage | 90.49% statements / 90.63% lines | 80% lines |
+| Typecheck | 0 errors | 0 |
+| Lint | 0 warnings / 0 errors | 0 |
+| Build size | ~44.8 KB total / 13.6 KB gzip | <500 KB |
+
+**Review fixes applied (commit `e7361d2`):**
+- Medium: Added missing CSS styling for new UI elements (trophy, reset button, reset-confirm) using product palette tokens (`--color-button`, `--color-dizzy`)
+- Medium: Extracted `markWinComplete()` pure function into `state.ts`; replaced trivial `gameComplete` test with proper transition tests (winning last level sets true, levels 1–9 do not)
+- Low: Removed dead `.win-overlay` CSS rules left behind after win overlay removal
+- Low: Updated "what" comment to "why" for canvas-clearing rationale
+
+### 14.6 Deferred Items (Future Tracks)
 
 | Priority | Item | Rationale |
 |----------|------|-----------|
