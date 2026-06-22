@@ -42,13 +42,13 @@ export function replaySolution(level: LevelData, commands: Command[]): ReplayRes
     switch (cmd) {
       case 'F': {
         const next = forward({ x, y }, dir);
-        // Check bounds
+        // Check bounds — soft-resist (stay in place, consume command)
         if (!isInBounds(next.x, next.y)) {
-          return 'fail';
+          break;
         }
-        // Check obstacle
+        // Check obstacle — soft-resist (stay in place, consume command)
         if (isObstacle(level.grid, next.x, next.y)) {
-          return 'fail';
+          break;
         }
         // Move forward
         x = next.x;

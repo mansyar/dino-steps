@@ -140,5 +140,133 @@ describe('Level Data', () => {
     it('should throw on empty array', () => {
       expect(() => parseLevels([])).toThrow();
     });
+
+    it('should parse all 6 levels (L1-L6) without error', () => {
+      const allLevels = [
+        {
+          id: 1,
+          title: 'Hungry Steps',
+          grid: [
+            ['empty', 'empty', 'empty', 'empty', 'empty'],
+            ['empty', 'empty', 'empty', 'berry', 'empty'],
+            ['empty', 'empty', 'empty', 'empty', 'empty'],
+          ],
+          start: { x: 0, y: 1 },
+          startFacing: 'E',
+          food: { x: 3, y: 1 },
+          trackBudget: 6,
+          verifiedSolution: ['F', 'F', 'F', 'A'],
+        },
+        {
+          id: 2,
+          title: 'Double Hop',
+          grid: [
+            ['empty', 'empty', 'empty', 'empty', 'empty'],
+            ['empty', 'empty', 'empty', 'empty', 'empty'],
+            ['empty', 'empty', 'empty', 'empty', 'berry'],
+          ],
+          start: { x: 0, y: 2 },
+          startFacing: 'E',
+          food: { x: 4, y: 2 },
+          trackBudget: 6,
+          verifiedSolution: ['F', 'F', 'F', 'F', 'A'],
+        },
+        {
+          id: 3,
+          title: 'The Great Rock',
+          grid: [
+            ['empty', 'rock', 'empty', 'empty', 'empty'],
+            ['empty', 'berry', 'empty', 'empty', 'empty'],
+            ['empty', 'empty', 'empty', 'empty', 'empty'],
+          ],
+          start: { x: 0, y: 0 },
+          startFacing: 'E',
+          food: { x: 1, y: 1 },
+          trackBudget: 6,
+          verifiedSolution: ['R', 'F', 'L', 'F', 'A'],
+        },
+        {
+          id: 4,
+          title: 'Tiny Corner',
+          grid: [
+            ['empty', 'leaf', 'empty', 'empty', 'empty'],
+            ['empty', 'empty', 'empty', 'empty', 'empty'],
+            ['empty', 'empty', 'empty', 'empty', 'empty'],
+          ],
+          start: { x: 0, y: 2 },
+          startFacing: 'E',
+          food: { x: 1, y: 0 },
+          trackBudget: 6,
+          verifiedSolution: ['F', 'L', 'F', 'F', 'A'],
+        },
+        {
+          id: 5,
+          title: 'S-Curve Path',
+          grid: [
+            ['rock', 'leaf', 'empty', 'empty', 'empty'],
+            ['empty', 'empty', 'empty', 'empty', 'empty'],
+            ['empty', 'rock', 'empty', 'empty', 'empty'],
+          ],
+          start: { x: 0, y: 2 },
+          startFacing: 'E',
+          food: { x: 1, y: 0 },
+          trackBudget: 8,
+          verifiedSolution: ['L', 'F', 'R', 'F', 'L', 'F', 'A'],
+        },
+        {
+          id: 6,
+          title: 'Around the Swamp',
+          grid: [
+            ['empty', 'empty', 'empty', 'empty', 'empty'],
+            ['empty', 'empty', 'empty', 'empty', 'empty'],
+            ['empty', 'empty', 'mud', 'leaf', 'empty'],
+          ],
+          start: { x: 1, y: 2 },
+          startFacing: 'N',
+          food: { x: 3, y: 2 },
+          trackBudget: 8,
+          verifiedSolution: ['F', 'R', 'F', 'F', 'R', 'F', 'F', 'A'],
+        },
+      ];
+
+      const parsed = parseLevels(allLevels);
+      expect(parsed).toHaveLength(6);
+
+      // Verify grid dimensions
+      for (const level of parsed) {
+        expect(level.grid).toHaveLength(3);
+        for (const row of level.grid) {
+          expect(row).toHaveLength(5);
+        }
+      }
+
+      // Verify specific level properties
+      expect(parsed[0].title).toBe('Hungry Steps');
+      expect(parsed[0].start).toEqual({ x: 0, y: 1 });
+      expect(parsed[0].food).toEqual({ x: 3, y: 1 });
+
+      expect(parsed[1].title).toBe('Double Hop');
+      expect(parsed[1].start).toEqual({ x: 0, y: 2 });
+      expect(parsed[1].food).toEqual({ x: 4, y: 2 });
+      expect(parsed[1].trackBudget).toBe(6);
+
+      expect(parsed[2].title).toBe('The Great Rock');
+      expect(parsed[2].grid[0][1]).toBe('rock');
+      expect(parsed[2].grid[1][1]).toBe('berry');
+
+      expect(parsed[3].title).toBe('Tiny Corner');
+      expect(parsed[3].grid[0][1]).toBe('leaf');
+      expect(parsed[3].food).toEqual({ x: 1, y: 0 });
+
+      expect(parsed[4].title).toBe('S-Curve Path');
+      expect(parsed[4].grid[0][0]).toBe('rock');
+      expect(parsed[4].grid[2][1]).toBe('rock');
+      expect(parsed[4].trackBudget).toBe(8);
+
+      expect(parsed[5].title).toBe('Around the Swamp');
+      expect(parsed[5].grid[2][2]).toBe('mud');
+      expect(parsed[5].grid[2][3]).toBe('leaf');
+      expect(parsed[5].startFacing).toBe('N');
+    });
   });
 });

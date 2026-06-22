@@ -12,5 +12,75 @@
     "food": { "x": 3, "y": 1 },
     "trackBudget": 6,
     "verifiedSolution": ["F", "F", "F", "A"]
+  },
+  {
+    "id": 2,
+    "title": "Double Hop",
+    "grid": [
+      ["empty", "empty", "empty", "empty", "empty"],
+      ["empty", "empty", "empty", "empty", "empty"],
+      ["empty", "empty", "empty", "empty", "berry"]
+    ],
+    "start": { "x": 0, "y": 2 },
+    "startFacing": "E",
+    "food": { "x": 4, "y": 2 },
+    "trackBudget": 6,
+    "verifiedSolution": ["F", "F", "F", "F", "A"]
+  },
+  {
+    "id": 3,
+    "title": "The Great Rock",
+    "grid": [
+      ["empty", "rock", "empty", "empty", "empty"],
+      ["empty", "berry", "empty", "empty", "empty"],
+      ["empty", "empty", "empty", "empty", "empty"]
+    ],
+    "start": { "x": 0, "y": 0 },
+    "startFacing": "E",
+    "food": { "x": 1, "y": 1 },
+    "trackBudget": 6,
+    "verifiedSolution": ["R", "F", "L", "F", "A"]
+  },
+  {
+    "id": 4,
+    "title": "Tiny Corner",
+    "grid": [
+      ["empty", "leaf", "empty", "empty", "empty"],
+      ["empty", "empty", "empty", "empty", "empty"],
+      ["empty", "empty", "empty", "empty", "empty"]
+    ],
+    "start": { "x": 0, "y": 2 },
+    "startFacing": "E",
+    "food": { "x": 1, "y": 0 },
+    "trackBudget": 6,
+    "verifiedSolution": ["F", "L", "F", "F", "A"]
+  },
+  {
+    "id": 5,
+    "title": "S-Curve Path",
+    "grid": [
+      ["rock", "leaf", "empty", "empty", "empty"],
+      ["empty", "empty", "empty", "empty", "empty"],
+      ["empty", "rock", "empty", "empty", "empty"]
+    ],
+    "start": { "x": 0, "y": 2 },
+    "startFacing": "E",
+    "food": { "x": 1, "y": 0 },
+    "trackBudget": 8,
+    "verifiedSolution": ["L", "F", "R", "F", "L", "F", "A"]
+  },
+  {
+    "id": 6,
+    "title": "Around the Swamp",
+    "grid": [
+      ["empty", "empty", "empty", "empty", "empty"],
+      ["empty", "empty", "empty", "empty", "empty"],
+      ["empty", "empty", "mud", "leaf", "empty"]
+    ],
+    "start": { "x": 1, "y": 2 },
+    "startFacing": "N",
+    "food": { "x": 3, "y": 2 },
+    "trackBudget": 8,
+    "verifiedSolution": ["F", "R", "F", "F", "R", "F", "F", "A"]
   }
 ]
