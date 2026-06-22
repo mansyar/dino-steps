@@ -4,6 +4,3 @@ This file tracks all major tracks for the project. Each track has its own detail
 
 ---
 
-- [x] **Track: Win Polish & Game Completion**
-*Link: [./tracks/win_polish_completion_20260622/](./tracks/win_polish_completion_20260622/)*
-
