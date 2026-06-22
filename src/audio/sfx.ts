@@ -56,13 +56,6 @@ export function playTurn(): void {
 }
 
 /**
- * Character signature sound — unique per character with two variants: - action variant (clearing
- * interactable): stronger, longer - idle variant (no-op): softer, shorter
- *
- * @param character - The active dinosaur character
- * @param isClearing - True when clearing an interactable, false for no-op
- */
-/**
  * Soft resist sound — low muted thud for forgotten 🦕 on interactable exit. Distinct from
  * hard-failure playBonk().
  */
