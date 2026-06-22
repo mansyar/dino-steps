@@ -1,0 +1,8 @@
+{
+  "track_id": "win_polish_completion_20260622",
+  "type": "feature",
+  "status": "new",
+  "created_at": "2026-06-22T22:53:00Z",
+  "updated_at": "2026-06-22T22:53:00Z",
+  "description": "Make the win experience fully text-free and complete: remove text win overlay, add nom-nom eating sound, implement game completion after L10 with trophy, add reset progress via long-press title, replace carousel Cancel text with icon."
+}
