@@ -53,7 +53,7 @@ Goal: Expand `TileType` to include sub-types, update all classification helpers,
     - [x] Typecheck passes.
 - [~] Task: Conductor - User Manual Verification 'Data Model Refactor' (Protocol in workflow.md)
 
-## Phase 2 — Levels 2-6 (No Interactables)
+## Phase 2 — Levels 2-6 (No Interactables) [checkpoint: a132789]
 
 Goal: Author levels 2-6 (which contain only obstacles, no interactables) and add BFS validation tests.
 
