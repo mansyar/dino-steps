@@ -13,3 +13,8 @@ This file tracks all major tracks for the project. Each track has its own detail
 - **Track folder:** [./tracks/articulated_characters_20260623/](./tracks/articulated_characters_20260623/)
 - **Completed:** 2026-06-23 — all 6 phases done; 231 tests pass; build 47.72 kB; user-confirmed end-to-end playtest.
 
+---
+
+- [ ] **Track: Docker & Docker Compose Deployment (Dockerfile best practice)**
+*Link: [./tracks/docker_deploy_20260623/](./tracks/docker_deploy_20260623/)*
+

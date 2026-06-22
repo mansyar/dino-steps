@@ -1,0 +1,8 @@
+{
+  "track_id": "docker_deploy_20260623",
+  "type": "chore",
+  "status": "new",
+  "created_at": "2026-06-23T09:58:22Z",
+  "updated_at": "2026-06-23T09:58:22Z",
+  "description": "Deploy using Docker and Docker Compose. Use Dockerfile best practice."
+}
