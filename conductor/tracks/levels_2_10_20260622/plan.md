@@ -57,29 +57,29 @@ Goal: Expand `TileType` to include sub-types, update all classification helpers,
 
 Goal: Author levels 2-6 (which contain only obstacles, no interactables) and add BFS validation tests.
 
-- [ ] Task: Read spec.md and workflow.md for this phase.
-- [ ] Task: Author levels 2-6 in `data/levels.json`.
-    - [ ] L2: Double Hop — start (0,2)E, food (4,2) berry, budget 6, solution `F F F F A`.
-    - [ ] L3: The Great Rock — start (0,0)E, food (1,1) berry, rock (1,0), budget 6, solution `R F L F A`.
-    - [ ] L4: Tiny Corner — start (0,2)E, food (1,0) leaf, budget 6, solution `F L F F A`.
-    - [ ] L5: S-Curve Path — start (0,2)E, food (1,0) leaf, rock (0,0), rock (1,2), budget 8, solution `L F R F L F A`.
-    - [ ] L6: Around the Swamp — start (1,2)N, food (3,2) leaf, mud (2,2), budget 8, solution `F R F F R F F A`.
-    - [ ] Verify each grid is 5×3 with correct tile placements.
-- [ ] Task: Write failing tests for level data parsing (levels 2-6).
-    - [ ] Test `parseLevels` with all 6 levels (L1-L6) parses without error.
-    - [ ] Test each level's grid dimensions, start position, food position, track budget, verified solution.
-- [ ] Task: Write failing tests for BFS validation (levels 2-6).
-    - [ ] Test `replaySolution` returns `'win'` for each level's verified solution.
-    - [ ] Test `computeMinimum` returns the expected minimum for each level.
-    - [ ] Run tests and confirm they fail (Red phase — levels not yet in data file or main.ts).
-- [ ] Task: Sync `main.ts` hardcoded levels with `data/levels.json` (add levels 2-6).
-- [ ] Task: Run `pnpm test` and confirm all new tests pass (Green phase).
-- [ ] Task: Run `pnpm test`, `pnpm lint`, `pnpm format`, `pnpm typecheck`.
-    - [ ] All tests pass.
-    - [ ] 0 lint errors, 0 warnings.
-    - [ ] Format clean.
-    - [ ] Typecheck passes.
-- [ ] Task: Conductor - User Manual Verification 'Levels 2-6' (Protocol in workflow.md)
+- [x] Task: Read spec.md and workflow.md for this phase.
+- [x] Task: Author levels 2-6 in `data/levels.json`.
+    - [x] L2: Double Hop — start (0,2)E, food (4,2) berry, budget 6, solution `F F F F A`.
+    - [x] L3: The Great Rock — start (0,0)E, food (1,1) berry, rock (1,0), budget 6, solution `R F L F A`.
+    - [x] L4: Tiny Corner — start (0,2)E, food (1,0) leaf, budget 6, solution `F L F F A`.
+    - [x] L5: S-Curve Path — start (0,2)E, food (1,0) leaf, rock (0,0), rock (1,2), budget 8, solution `L F R F L F A`.
+    - [x] L6: Around the Swamp — start (1,2)N, food (3,2) leaf, mud (2,2), budget 8, solution `F R F F R F F A`.
+    - [x] Verify each grid is 5×3 with correct tile placements.
+- [x] Task: Write failing tests for level data parsing (levels 2-6).
+    - [x] Test `parseLevels` with all 6 levels (L1-L6) parses without error.
+    - [x] Test each level's grid dimensions, start position, food position, track budget, verified solution.
+- [x] Task: Write failing tests for BFS validation (levels 2-6).
+    - [x] Test `replaySolution` returns `'win'` for each level's verified solution.
+    - [x] Test `computeMinimum` returns the expected minimum for each level.
+    - [x] Run tests and confirm they fail (Red phase — levels not yet in data file or main.ts).
+- [x] Task: Sync `main.ts` hardcoded levels with `data/levels.json` (add levels 2-6).
+- [x] Task: Run `pnpm test` and confirm all new tests pass (Green phase).
+- [x] Task: Run `pnpm test`, `pnpm lint`, `pnpm format`, `pnpm typecheck`.
+    - [x] All tests pass (168 tests across 13 files).
+    - [x] 0 lint errors, 0 warnings.
+    - [x] Format clean.
+    - [x] Typecheck passes.
+- [~] Task: Conductor - User Manual Verification 'Levels 2-6' (Protocol in workflow.md) `6eec7a2`
 
 ## Phase 3 — BFS Validator Interactable Handling
 
