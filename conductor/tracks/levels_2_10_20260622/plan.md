@@ -1,7 +1,7 @@
 <protect>
 # Track: Levels 2-10 — Implementation Plan
 
-## Phase 1 — Data Model Refactor: TileType Expansion
+## Phase 1 — Data Model Refactor: TileType Expansion [checkpoint: ce62aee]
 
 Goal: Expand `TileType` to include sub-types, update all classification helpers, parser, executor, validator, and renderer to work with the new types. Update Level 1 to use the new tile sub-types.
 
