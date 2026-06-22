@@ -1,0 +1,8 @@
+{
+  "track_id": "articulated_characters_20260623",
+  "type": "feature",
+  "status": "new",
+  "created_at": "2026-06-23T00:00:00Z",
+  "updated_at": "2026-06-23T00:00:00Z",
+  "description": "Articulated Characters (Pilot: Rexy) — per-part SVG rig with per-body-part animation, visual redraw, eating state, signature jaw articulation; GDD §11.1 amendment to bless external per-part SVG approach"
+}
