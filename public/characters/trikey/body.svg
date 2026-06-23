@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120">
+  <!-- Trikey body part (Triceratops torso) -->
+  <defs>
+    <linearGradient id="bodyGradTrikey" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#64b5f6"/>
+      <stop offset="100%" stop-color="#1976d2"/>
+    </linearGradient>
+  </defs>
+  <!-- Body (stocky, round) -->
+  <ellipse cx="58" cy="68" rx="22" ry="16" fill="url(#bodyGradTrikey)"/>
+  <!-- Belly highlight -->
+  <ellipse cx="60" cy="72" rx="14" ry="9" fill="rgba(255,255,255,0.12)"/>
+  <!-- Body spots -->
+  <circle cx="48" cy="64" r="2.5" fill="rgba(25,118,210,0.15)"/>
+  <circle cx="58" cy="60" r="2" fill="rgba(25,118,210,0.15)"/>
+  <circle cx="66" cy="64" r="1.8" fill="rgba(25,118,210,0.15)"/>
+</svg>

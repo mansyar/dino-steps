@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120">
+  <!-- Trikey jaw part (Triceratops lower jaw that articulates open/close) -->
+  <!-- Lower snout (bottom half) -->
+  <path d="M68,34 A 10,8 0 0 0 88,34 Z" fill="#42a5f5"/>
+  <!-- Mouth (smile) -->
+  <path d="M66,34 Q74,40 82,34" fill="none" stroke="#1565c0" stroke-width="1.2" stroke-linecap="round"/>
+</svg>

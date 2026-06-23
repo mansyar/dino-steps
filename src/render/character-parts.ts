@@ -189,3 +189,22 @@ export const REXY_RIG: CharacterRig = {
     { name: 'jaw', file: '/characters/rexy/jaw.svg', pivotX: 64, pivotY: 34 },
   ],
 };
+
+// ─── TRIKEY_RIG ──────────────────────────────────────────────────────────────
+// Pivots mirror REXY_RIG (same anatomy, same 8 part names) so the shared
+// `computePartTransform()` applies unchanged. Pivots are anchored at each
+// part's anatomical joint for the Triceratops art in
+// public/characters/trikey/*.svg.
+export const TRIKEY_RIG: CharacterRig = {
+  character: 'Trikey',
+  parts: [
+    { name: 'tail', file: '/characters/trikey/tail.svg', pivotX: 74, pivotY: 72 },
+    { name: 'leg-back', file: '/characters/trikey/leg-back.svg', pivotX: 49, pivotY: 78 },
+    { name: 'arm-left', file: '/characters/trikey/arm-left.svg', pivotX: 42, pivotY: 64 },
+    { name: 'body', file: '/characters/trikey/body.svg', pivotX: 58, pivotY: 68 },
+    { name: 'leg-front', file: '/characters/trikey/leg-front.svg', pivotX: 67, pivotY: 78 },
+    { name: 'arm-right', file: '/characters/trikey/arm-right.svg', pivotX: 66, pivotY: 62 },
+    { name: 'head', file: '/characters/trikey/head.svg', pivotX: 56, pivotY: 50 },
+    { name: 'jaw', file: '/characters/trikey/jaw.svg', pivotX: 66, pivotY: 34 },
+  ],
+};

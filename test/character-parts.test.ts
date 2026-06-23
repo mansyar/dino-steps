@@ -6,7 +6,9 @@ import {
   type ArticulationState,
   computePartTransform,
   REXY_RIG,
+  TRIKEY_RIG,
 } from '../src/render/character-parts';
+import { getCharacterRig, preloadCharacterRigs } from '../src/render/characters';
 
 const PI = Math.PI;
 
@@ -353,5 +355,62 @@ describe('computePartTransform — turning falls through to idle', () => {
     const turning: ArticulationState = { ...baseState, phase: 'turning', idleTime: PI / 6 };
     const idle: ArticulationState = { ...baseState, phase: 'idle', idleTime: PI / 6 };
     expect(computePartTransform('tail', turning)).toEqual(computePartTransform('tail', idle));
+  });
+});
+
+describe('TRIKEY_RIG data integrity', () => {
+  it('character identifier is Trikey', () => {
+    expect(TRIKEY_RIG.character).toBe('Trikey');
+  });
+
+  it('contains exactly 8 parts (matching the Rexy pilot scope)', () => {
+    expect(TRIKEY_RIG.parts).toHaveLength(8);
+  });
+
+  it('has the expected part names in back-to-front draw order', () => {
+    const names = TRIKEY_RIG.parts.map((p: { name: string }) => p.name);
+    expect(names).toEqual([
+      'tail',
+      'leg-back',
+      'arm-left',
+      'body',
+      'leg-front',
+      'arm-right',
+      'head',
+      'jaw',
+    ]);
+  });
+
+  it('has unique part names', () => {
+    const names = TRIKEY_RIG.parts.map((p: { name: string }) => p.name);
+    expect(new Set(names).size).toBe(names.length);
+  });
+
+  it('every part has a file path under /characters/trikey/', () => {
+    for (const part of TRIKEY_RIG.parts) {
+      expect(part.file).toMatch(/^\/characters\/trikey\/[a-z-]+\.svg$/);
+    }
+  });
+
+  it('every pivot is within the 0–120 viewBox', () => {
+    for (const part of TRIKEY_RIG.parts) {
+      expect(part.pivotX).toBeGreaterThanOrEqual(0);
+      expect(part.pivotX).toBeLessThanOrEqual(120);
+      expect(part.pivotY).toBeGreaterThanOrEqual(0);
+      expect(part.pivotY).toBeLessThanOrEqual(120);
+    }
+  });
+});
+
+describe('preloadCharacterRigs — Trikey registration', () => {
+  it('getCharacterRig("Trikey") returns non-null rig once preloadCharacterRigs has been called', () => {
+    // The rig cache is populated synchronously by preloadCharacterRigs before
+    // it kicks off the async image loads. In jsdom the Image onload/onerror
+    // events don't fire, so we can't await the returned promise here — the
+    // registration contract is independent of image loading.
+    void preloadCharacterRigs();
+    const rig = getCharacterRig('Trikey');
+    expect(rig).not.toBeNull();
+    expect(rig?.character).toBe('Trikey');
   });
 });

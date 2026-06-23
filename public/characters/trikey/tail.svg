@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120">
+  <!-- Trikey tail part (Triceratops, chibi) -->
+  <!-- Tail (short, blunt) -->
+  <path d="M74,72 Q88,70 94,72 Q98,74 96,78 Q92,80 84,80 Q78,78 74,76 Z" fill="#42a5f5"/>
+  <path d="M84,72 Q92,72 96,74" fill="none" stroke="#1565c0" stroke-width="1.2" stroke-linecap="round"/>
+</svg>

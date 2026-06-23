@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120">
+  <!-- Trikey head part (Triceratops head with frill and horns, excludes lower jaw) -->
+  <defs>
+    <linearGradient id="headGradTrikey" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#90caf9"/>
+      <stop offset="100%" stop-color="#42a5f5"/>
+    </linearGradient>
+  </defs>
+  <!-- Frill behind head (big, fan-shaped) -->
+  <path d="M44,18 Q30,8 22,14 Q18,20 22,30 Q26,38 34,42 Q42,44 48,38 Q52,32 50,24 Z" fill="#1e88e5"/>
+  <!-- Frill decorative edge -->
+  <path d="M26,16 Q24,12 22,14" fill="none" stroke="#1565c0" stroke-width="1.2"/>
+  <path d="M30,12 Q28,8 26,10" fill="none" stroke="#1565c0" stroke-width="1.2"/>
+  <path d="M36,10 Q34,6 32,8" fill="none" stroke="#1565c0" stroke-width="1.2"/>
+  <path d="M42,12 Q40,8 38,10" fill="none" stroke="#1565c0" stroke-width="1.2"/>
+  <!-- Neck -->
+  <path d="M52,52 Q50,44 52,38 L62,36 Q64,42 62,52 Z" fill="#42a5f5"/>
+  <!-- Head (BIG) -->
+  <ellipse cx="56" cy="28" rx="24" ry="20" fill="url(#headGradTrikey)"/>
+  <!-- Upper snout (top half) -->
+  <path d="M68,34 A 10,8 0 0 1 88,34 Z" fill="#42a5f5"/>
+  <!-- Brow horns -->
+  <path d="M46,12 L40,-4 L50,10 Z" fill="#f5f5dc"/>
+  <path d="M58,10 L56,-6 L62,10 Z" fill="#f5f5dc"/>
+  <!-- Nose horn -->
+  <path d="M82,24 L90,16 L84,26 Z" fill="#f5f5dc"/>
+  <!-- Eye socket (white) -->
+  <circle cx="58" cy="22" r="9" fill="white"/>
+  <!-- Pupil -->
+  <circle cx="61" cy="22" r="4.5" fill="#1a1a1a"/>
+  <!-- Eye shine -->
+  <circle cx="63" cy="19" r="1.8" fill="white"/>
+  <!-- Nostril -->
+  <circle cx="86" cy="30" r="1.5" fill="#1565c0"/>
+</svg>

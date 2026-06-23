@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120">
+  <!-- Trikey back leg part -->
+  <!-- Back leg (left/far) -->
+  <path d="M46,78 L44,96 Q44,100 48,100 L54,100 Q58,100 58,96 L56,78" fill="#1e88e5"/>
+  <ellipse cx="51" cy="100" rx="8" ry="3" fill="#1565c0"/>
+</svg>

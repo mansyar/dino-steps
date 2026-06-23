@@ -1,14 +1,18 @@
 // SVG character loader — preloads character SVGs as Image objects for Canvas drawing
-// Supports both single-image fallback (Trikey/Sera) and per-part rigs (Rexy)
+// Supports both single-image fallback and per-part rigs (Rexy, Trikey)
 
 import type { DinoCharacter } from '../engine/types';
-import { type CharacterRig, REXY_RIG } from './character-parts';
+import { type CharacterRig, REXY_RIG, TRIKEY_RIG } from './character-parts';
 
 const CHARACTER_FILES: Record<DinoCharacter, string> = {
   Rexy: '/characters/rexy.svg',
   Trikey: '/characters/trikey.svg',
   Sera: '/characters/sera.svg',
 };
+
+// All rigs are iterated at preload time so adding a new character only requires
+// adding a new rig constant and a single entry here.
+const ALL_RIGS: CharacterRig[] = [REXY_RIG, TRIKEY_RIG];
 
 const singleImageCache = new Map<DinoCharacter, HTMLImageElement>();
 const partImageCache = new Map<string, HTMLImageElement>();
@@ -59,23 +63,26 @@ export function preloadCharacterRigs(): Promise<void> {
   if (partsLoading) return Promise.resolve();
 
   partsLoading = true;
-  rigCache.set('Rexy', REXY_RIG);
+  for (const rig of ALL_RIGS) {
+    rigCache.set(rig.character, rig);
+  }
 
-  const rig = REXY_RIG;
-  const promises = rig.parts.map((part) => {
-    return new Promise<void>((resolve) => {
-      const img = new Image();
-      img.onload = () => {
-        partImageCache.set(part.file, img);
-        resolve();
-      };
-      img.onerror = () => {
-        console.warn(`Failed to load part SVG: ${part.file}`);
-        resolve();
-      };
-      img.src = part.file;
-    });
-  });
+  const promises = ALL_RIGS.flatMap((rig) =>
+    rig.parts.map((part) => {
+      return new Promise<void>((resolve) => {
+        const img = new Image();
+        img.onload = () => {
+          partImageCache.set(part.file, img);
+          resolve();
+        };
+        img.onerror = () => {
+          console.warn(`Failed to load part SVG: ${part.file}`);
+          resolve();
+        };
+        img.src = part.file;
+      });
+    }),
+  );
 
   return Promise.all(promises).then(() => {
     partsLoaded = true;
