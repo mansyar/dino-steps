@@ -1,0 +1,40 @@
+# syntax=docker/dockerfile:1.7
+# Multi-stage build for DinoSteps (Vite SPA)
+# - Stage 1 builds the static bundle with Node + pnpm
+# - Stage 2 serves the bundle with nginx:alpine (no source, no node_modules)
+
+# ---------- Stage 1: builder ----------
+FROM node:22-alpine AS builder
+
+# pnpm ships with corepack in Node 16.10+; enable it
+ENV PNPM_HOME="/pnpm"
+ENV PATH="$PNPM_HOME:$PATH"
+RUN corepack enable
+
+WORKDIR /app
+
+# Copy only the lockfile and manifest first so the install layer is cached
+# and not invalidated by source-code changes
+COPY package.json pnpm-lock.yaml ./
+
+# Frozen lockfile → reproducible builds
+RUN pnpm install --frozen-lockfile
+
+# Now copy the rest of the source (includes index.html, src/, public/, vite.config.ts, etc.)
+COPY . .
+
+# Build: tsc -b (type-check) && vite build (bundle)
+RUN pnpm build
+
+# ---------- Stage 2: runtime ----------
+FROM nginx:alpine AS runtime
+
+# Custom nginx configuration with SPA fallback, gzip, caching, and security headers
+COPY nginx.conf /etc/nginx/conf.d/default.conf
+
+# Static build output → nginx html root
+COPY --from=builder /app/dist /usr/share/nginx/html
+
+EXPOSE 80
+
+# nginx:alpine default CMD starts nginx in the foreground
