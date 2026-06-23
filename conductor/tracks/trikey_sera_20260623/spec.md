@@ -1,3 +1,4 @@
+<protect>
 # Track: Articulated Characters Migration (Trikey & Sera)
 
 ## Overview
@@ -66,3 +67,4 @@ Trikey and Sera currently fall back to the `drawSingleImageDino()` path in `src/
 - Changes to audio synthesis (playSignature already handles per-character sounds).
 - Changes to game mechanics, level data, or the character selection UI logic.
 - Removing the single-image fallback path (retained for graceful degradation).
+</protect>

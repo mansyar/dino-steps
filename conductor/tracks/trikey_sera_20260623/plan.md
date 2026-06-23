@@ -1,7 +1,9 @@
+<protect>
 # Implementation Plan: Articulated Characters Migration (Trikey & Sera)
 
 ## Phase 1: Trikey Articulated Migration
 
+- [ ] Task: Read `spec.md` and `workflow.md` to align with requirements and TDD protocol
 - [ ] Task: Create Trikey per-part SVG assets
     - [ ] Create `public/characters/trikey/tail.svg` (viewBox `0 0 120 120`, Triceratops tail)
     - [ ] Create `public/characters/trikey/leg-back.svg` (back leg)
@@ -34,6 +36,7 @@
 
 ## Phase 2: Sera Articulated Migration
 
+- [ ] Task: Read `spec.md` and `workflow.md` to align with requirements and TDD protocol
 - [ ] Task: Create Sera per-part SVG assets
     - [ ] Create `public/characters/sera/tail.svg` (viewBox `0 0 120 120`, Pterodactyl tail)
     - [ ] Create `public/characters/sera/leg-back.svg` (back leg)
@@ -63,3 +66,4 @@
     - [ ] Verify `pnpm lint` passes
 
 - [ ] Task: Conductor - User Manual Verification 'Sera Articulated Migration' (Protocol in workflow.md)
+</protect>
