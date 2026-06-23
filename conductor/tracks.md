@@ -6,4 +6,7 @@ This file tracks all major tracks for the project. Each track has its own detail
 
 ## Active Tracks
 
-(none)
+---
+
+- [ ] **Track: Articulated Characters Migration (Trikey & Sera)**
+*Link: [./tracks/trikey_sera_20260623/](./tracks/trikey_sera_20260623/)*
