@@ -1,28 +1,37 @@
 # docker-compose.yml for DinoSteps
 # Single-service production deployment.
-# Brings up the nginx-served Vite bundle at http://localhost:8080
+#
+# This file is structured for the Coolify PaaS (build pack: Docker Compose):
+#   - `expose` makes port 80 reachable on the Coolify-internal Docker network
+#     so Traefik (the Coolify reverse proxy) can route external traffic to it.
+#   - No `ports:` directive (Coolify's Traefik already owns host ports 80/443;
+#     explicit port publishing can collide with Traefik and other stacks).
+#   - No `image:` (Coolify names the image itself when it builds).
+#   - No `container_name:` (Coolify auto-generates one based on the resource
+#     UUID; an explicit name collides on re-deploy).
+#
+# Local testing on the host without Coolify, if you need to hit the service
+# from the host browser: run with `docker compose run --service-ports -p 8080:80 web`
+# or build a one-off image and run `docker run -p 8080:80 dinosteps:local`.
 #
 # Usage:
-#   docker compose build      # build the image
-#   docker compose up -d      # run detached
-#   docker compose down       # stop and remove
-#   docker compose logs -f    # tail logs
+#   docker compose config      # validate
+#   docker compose build       # build the image
+#   docker compose up -d       # start (in a Coolify-like env)
 
 services:
   web:
     build:
       context: .
       dockerfile: Dockerfile
-    image: dinosteps:local
-    container_name: dinosteps-web
     restart: unless-stopped
-    ports:
-      - "8080:80"
+    expose:
+      - "80"
     healthcheck:
-      # Spec calls for `curl -fsS http://localhost/ || exit 1` but the
-      # stock nginx:alpine image does NOT ship `curl` (only busybox `wget`).
-      # This wget variant is functionally equivalent: fetch the root
-      # document, suppress output, return non-zero on any non-2xx/3xx.
+      # Spec called for `curl -fsS http://localhost/ || exit 1` but the
+      # fholzer/nginx-brotli base does NOT ship `curl` (only busybox `wget`).
+      # Functionally equivalent: fetch the root, suppress output, return
+      # non-zero on any non-2xx/3xx.
       test: ["CMD-SHELL", "wget -qO- http://localhost/ >/dev/null || exit 1"]
       interval: 30s
       timeout: 5s
