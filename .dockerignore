@@ -1,0 +1,59 @@
+# Build output (rebuilt in the image)
+dist/
+dist-ssr/
+*.tsbuildinfo
+.vite/
+coverage/
+
+# Dependencies (reinstalled via pnpm install in the image)
+node_modules/
+.pnpm-store/
+
+# Tests (not needed for production build)
+test/
+**/*.test.ts
+**/*.spec.ts
+
+# Documentation & metadata
+conductor/
+docs/
+*.md
+!README.md
+
+# Editor / IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+.DS_Store
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+
+# Git
+.git/
+.gitignore
+.gitattributes
+
+# Environment
+.env
+.env.local
+.env.*.local
+
+# Tooling caches & local config
+.codegraph/
+.opencode/
+.oxfmtrc.json
+.lefthook-local.yml
+lefthook.yml
+.cache/
+.tmp/
+tmp/
+
+# Logs
+*.log
+npm-debug.log*
+pnpm-debug.log*
+yarn-debug.log*
+yarn-error.log*
