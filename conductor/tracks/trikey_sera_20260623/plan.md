@@ -35,7 +35,7 @@
 
 - [x] Task: Conductor - User Manual Verification 'Trikey Articulated Migration' (Protocol in workflow.md)
 
-## Phase 2: Sera Articulated Migration
+## Phase 2: Sera Articulated Migration [checkpoint: ec9638d]
 
 - [x] Task: Read `spec.md` and `workflow.md` to align with requirements and TDD protocol
 - [x] Task: Create Sera per-part SVG assets
