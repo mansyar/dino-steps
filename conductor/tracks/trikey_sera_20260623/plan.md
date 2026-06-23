@@ -1,7 +1,7 @@
 <protect>
 # Implementation Plan: Articulated Characters Migration (Trikey & Sera)
 
-## Phase 1: Trikey Articulated Migration
+## Phase 1: Trikey Articulated Migration [checkpoint: 4d401d9]
 
 - [x] Task: Read `spec.md` and `workflow.md` to align with requirements and TDD protocol
 - [x] Task: Create Trikey per-part SVG assets
