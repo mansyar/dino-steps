@@ -8,5 +8,5 @@ This file tracks all major tracks for the project. Each track has its own detail
 
 ---
 
-- [~] **Track: Articulated Characters Migration (Trikey & Sera)**
+- [x] **Track: Articulated Characters Migration (Trikey & Sera)**
 *Link: [./tracks/trikey_sera_20260623/](./tracks/trikey_sera_20260623/)*
