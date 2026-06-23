@@ -58,4 +58,5 @@
         - `COPY . .`: re-ran (DONE 0.0s)
         - `pnpm build`: re-ran (5.4s, vite transformed 28 modules)
     - [x] Final image content-addressed: a comment-only change produces an identical bundle, so the final image SHA is reused. This is the correct outcome - proves the install layer is genuinely cached, not just that the build was skipped.
-- [ ] Task: Conductor - User Manual Verification 'Build & Integration Verification' (Protocol in workflow.md)
+- [x] Task: Conductor - User Manual Verification 'Build & Integration Verification' (Protocol in workflow.md)
+    - User approved Phase 2 (automated verifications all pass; user opened the live game in a browser to confirm playability).

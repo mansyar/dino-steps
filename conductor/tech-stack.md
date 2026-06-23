@@ -102,3 +102,51 @@ pre-push:
 - Zero runtime deps → minimal bundle size → supports <500KB target (GDD §11.3).
 - Rust-based dev tools (oxlint/oxfmt) → fast local dev & CI feedback.
 - Incremental type-checking → fast pre-push gate.
+
+---
+
+## Deployment
+
+Local production deployment via Docker. The runtime image is a static-file nginx server; the source bundle comes from a Node + pnpm build stage. See `conductor/tracks/docker_deploy_20260623/` for the full track record.
+
+### Container
+- **Runtime:** [`fholzer/nginx-brotli:v1.31.1`](https://hub.docker.com/r/fholzer/nginx-brotli) — a drop-in replacement for `nginx:alpine` with the Google brotli module statically linked. Compressed image size is ~15.5 MB, essentially the same as stock `nginx:alpine`. **Not** the official `nginx:alpine` because that image does not include the brotli module; switching to it would have required either a custom module build or accepting text-only gzip compression.
+- **Builder:** `node:22-alpine` (matches the project's `engines` constraint). pnpm is provided by corepack (built into Node 16.10+).
+- **Final image size:** ~40 MB (well under the 50 MB target). Contains only `nginx` + `dist/` + `nginx.conf`; no source, no `node_modules`.
+
+### Build
+- **Multi-stage Dockerfile** (`Dockerfile`):
+  - **Stage 1 (`builder`)** — copies `package.json`, `pnpm-lock.yaml`, and `pnpm-workspace.yaml` first, then runs `pnpm install --frozen-lockfile`. Only after that copies the rest of the source, then runs `pnpm build`. The manifest + install layer is independent of source code, so source-only changes do not invalidate the dependency cache.
+  - **Stage 2 (`runtime`)** — copies the custom `nginx.conf` and the built `dist/` from the builder stage. Exposes port 80.
+- **pnpm 11 build-script approval** is configured in `pnpm-workspace.yaml` (`allowBuilds: { lefthook: true }`), not `.npmrc`. pnpm 11 deprecated the `pnpm.onlyBuiltDependencies` field in `package.json` and does not read the equivalent `.npmrc` key; `pnpm-workspace.yaml` is the canonical location. The builder stage must copy this file before the install step — see `Dockerfile` for the correct `COPY` order.
+- **vite is a direct devDependency** — required for the build script (`tsc -b && vite build`) to resolve. (Was previously only a transitive dep of `vitest`; promoted to direct when the Docker build surfaced the issue.)
+
+### Serve
+- **nginx** (`nginx.conf`) is the single static-file server in the runtime image.
+  - **SPA history fallback** — `try_files $uri $uri/ /index.html;` so deep client-side paths (e.g. `/level/3`) return `index.html` rather than 404. The `/assets/` location uses an internal-only `try_files` (no fallback to `/index.html`) so missing asset files return 404 instead of masking errors.
+  - **Brotli compression** — `brotli on; brotli_comp_level 6;` for `text/css`, `application/javascript`, `application/json`, `image/svg+xml`. Reduces the JS bundle from ~37 KB to ~11 KB (70% reduction).
+  - **Gzip fallback** — gzip is enabled for the same content types as a fallback for clients that do not send `Accept-Encoding: br`. `text/html` is compressed by default in nginx and must NOT be re-listed in `gzip_types` / `brotli_types`.
+  - **Caching** — `/assets/*` responses carry `Cache-Control: public, max-age=31536000, immutable` (one year; safe because Vite content-hashes asset filenames). `index.html` carries `Cache-Control: no-cache` so updates are picked up on next load.
+  - **Security headers** on every response: `X-Content-Type-Options: nosniff`, `X-Frame-Options: DENY`, `Referrer-Policy: strict-origin-when-cross-origin`.
+  - **`Vary: Accept-Encoding`** on compressed responses so CDNs and proxies serve the correct encoding to each client.
+
+### Orchestration
+- **`docker-compose.yml`** — single `web` service, port mapping `8080:80` (host port env-overridable), `restart: unless-stopped`, healthcheck every 30 s.
+  - **Healthcheck** uses `wget -qO- http://localhost/ >/dev/null || exit 1` rather than `curl`. The stock alpine images (official and fholzer's) ship busybox `wget`, not `curl`. Functionally equivalent for a 200-OK check on the root path.
+
+### Local commands
+```bash
+# Build the image (uses cache on second run; --no-cache for a clean rebuild)
+docker compose build
+
+# Run the container in the background
+docker compose up -d
+
+# Tail logs
+docker compose logs -f web
+
+# Stop and remove
+docker compose down
+```
+
+Game is served on `http://localhost:8080/` once the container is up.
