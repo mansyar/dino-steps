@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120">
+  <!-- Sera head part (Stegosaurus head with neck, excludes snout/jaw) -->
+  <defs>
+    <linearGradient id="headGradSera" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#ef9a9a"/>
+      <stop offset="100%" stop-color="#e53935"/>
+    </linearGradient>
+  </defs>
+  <!-- Neck -->
+  <path d="M70,52 Q72,44 74,38 L82,38 Q80,44 78,52 Z" fill="#ef5350"/>
+  <!-- Head (BIG, round) -->
+  <ellipse cx="82" cy="28" rx="18" ry="16" fill="url(#headGradSera)"/>
+  <!-- Top of head (small bump) -->
+  <ellipse cx="78" cy="14" rx="10" ry="5" fill="#d32f2f"/>
+  <!-- Eye socket -->
+  <circle cx="84" cy="22" r="8" fill="white"/>
+  <!-- Pupil -->
+  <circle cx="87" cy="22" r="4" fill="#1a1a1a"/>
+  <!-- Eye shine -->
+  <circle cx="89" cy="19" r="1.5" fill="white"/>
+</svg>

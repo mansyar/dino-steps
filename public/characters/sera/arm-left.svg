@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120">
+  <!-- Sera left wing (Pterodactyl wing extending up-left from shoulder) -->
+  <!-- Wing membrane -->
+  <path d="M42,58 Q28,40 14,44 Q18,56 26,62 Q36,64 42,60 Z" fill="#ef5350"/>
+  <!-- Membrane highlight -->
+  <path d="M40,58 Q30,46 18,48" fill="none" stroke="#e57373" stroke-width="0.6" stroke-linecap="round"/>
+  <!-- Wing finger bones -->
+  <line x1="42" y1="58" x2="15" y2="44" stroke="#c62828" stroke-width="1" stroke-linecap="round"/>
+  <line x1="42" y1="58" x2="20" y2="52" stroke="#c62828" stroke-width="0.8" stroke-linecap="round"/>
+  <line x1="42" y1="58" x2="26" y2="60" stroke="#c62828" stroke-width="0.6" stroke-linecap="round"/>
+</svg>

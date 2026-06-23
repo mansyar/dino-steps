@@ -7,6 +7,7 @@ import {
   computePartTransform,
   REXY_RIG,
   TRIKEY_RIG,
+  SERA_RIG,
 } from '../src/render/character-parts';
 import { getCharacterRig, preloadCharacterRigs } from '../src/render/characters';
 
@@ -412,5 +413,61 @@ describe('preloadCharacterRigs — Trikey registration', () => {
     const rig = getCharacterRig('Trikey');
     expect(rig).not.toBeNull();
     expect(rig?.character).toBe('Trikey');
+  });
+});
+
+describe('SERA_RIG data integrity', () => {
+  it('character identifier is Sera', () => {
+    expect(SERA_RIG.character).toBe('Sera');
+  });
+
+  it('contains exactly 8 parts (matching the Rexy pilot scope)', () => {
+    expect(SERA_RIG.parts).toHaveLength(8);
+  });
+
+  it('has the expected part names in back-to-front draw order', () => {
+    const names = SERA_RIG.parts.map((p: { name: string }) => p.name);
+    expect(names).toEqual([
+      'tail',
+      'leg-back',
+      'arm-left',
+      'body',
+      'leg-front',
+      'arm-right',
+      'head',
+      'jaw',
+    ]);
+  });
+
+  it('has unique part names', () => {
+    const names = SERA_RIG.parts.map((p: { name: string }) => p.name);
+    expect(new Set(names).size).toBe(names.length);
+  });
+
+  it('every part has a file path under /characters/sera/', () => {
+    for (const part of SERA_RIG.parts) {
+      expect(part.file).toMatch(/^\/characters\/sera\/[a-z-]+\.svg$/);
+    }
+  });
+
+  it('every pivot is within the 0–120 viewBox', () => {
+    for (const part of SERA_RIG.parts) {
+      expect(part.pivotX).toBeGreaterThanOrEqual(0);
+      expect(part.pivotX).toBeLessThanOrEqual(120);
+      expect(part.pivotY).toBeGreaterThanOrEqual(0);
+      expect(part.pivotY).toBeLessThanOrEqual(120);
+    }
+  });
+});
+
+describe('preloadCharacterRigs — Sera registration', () => {
+  it('getCharacterRig("Sera") returns non-null rig once preloadCharacterRigs has been called', () => {
+    // Same fire-and-forget pattern as the Trikey test: rig cache is populated
+    // synchronously by preloadCharacterRigs, and jsdom does not fire Image
+    // onload/onerror so the returned promise never resolves in this environment.
+    void preloadCharacterRigs();
+    const rig = getCharacterRig('Sera');
+    expect(rig).not.toBeNull();
+    expect(rig?.character).toBe('Sera');
   });
 });

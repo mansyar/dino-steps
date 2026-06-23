@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120">
+  <!-- Sera body part (Stegosaurus torso with back plates) -->
+  <defs>
+    <linearGradient id="bodyGradSera" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#ef9a9a"/>
+      <stop offset="100%" stop-color="#c62828"/>
+    </linearGradient>
+  </defs>
+  <!-- Body (large, arched back) -->
+  <ellipse cx="56" cy="66" rx="24" ry="18" fill="url(#bodyGradSera)"/>
+  <!-- Belly highlight -->
+  <ellipse cx="58" cy="72" rx="16" ry="10" fill="rgba(255,255,255,0.12)"/>
+  <!-- Back plates (Stegosaurus-style, along the top) -->
+  <path d="M34,50 L38,28 L42,50" fill="#d32f2f"/>
+  <path d="M42,46 L46,22 L50,46" fill="#d32f2f"/>
+  <path d="M50,44 L54,18 L58,44" fill="#d32f2f"/>
+  <path d="M58,46 L62,24 L66,46" fill="#d32f2f"/>
+  <path d="M64,50 L68,32 L70,50" fill="#d32f2f"/>
+  <!-- Body spots -->
+  <circle cx="44" cy="62" r="2.5" fill="rgba(198,40,40,0.15)"/>
+  <circle cx="56" cy="58" r="2" fill="rgba(198,40,40,0.15)"/>
+  <circle cx="66" cy="62" r="1.8" fill="rgba(198,40,40,0.15)"/>
+</svg>

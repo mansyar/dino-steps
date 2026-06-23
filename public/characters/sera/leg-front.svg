@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120">
+  <!-- Sera front leg (on the front of the dino, viewer's middle) -->
+  <path d="M64,76 L62,94 Q62,98 66,98 L72,98 Q76,98 76,94 L74,76" fill="#e53935"/>
+  <ellipse cx="69" cy="98" rx="8" ry="3" fill="#c62828"/>
+</svg>

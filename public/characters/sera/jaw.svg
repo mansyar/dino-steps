@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120">
+  <!-- Sera jaw part (snout and smile, lower face) -->
+  <!-- Snout -->
+  <ellipse cx="98" cy="32" rx="8" ry="6" fill="#ef5350"/>
+  <!-- Nostril -->
+  <circle cx="104" cy="30" r="1.2" fill="#c62828"/>
+  <!-- Smile -->
+  <path d="M90,34 Q96,38 102,34" fill="none" stroke="#c62828" stroke-width="1" stroke-linecap="round"/>
+</svg>

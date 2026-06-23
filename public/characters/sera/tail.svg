@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120">
+  <!-- Sera tail part (Pterodactyl-style tail fluke with thagomizer spikes) -->
+  <!-- Tail fluke -->
+  <path d="M72,72 Q88,68 98,60 Q104,54 102,48 Q100,44 94,46 Q88,50 80,58 Q76,64 72,68 Z" fill="#ef5350"/>
+  <!-- Tail spikes (thagomizer) -->
+  <path d="M96,50 L104,42 L98,52" fill="#f5f5dc"/>
+  <path d="M90,56 L96,48 L92,58" fill="#f5f5dc"/>
+  <path d="M84,62 L90,54 L86,64" fill="#f5f5dc"/>
+</svg>

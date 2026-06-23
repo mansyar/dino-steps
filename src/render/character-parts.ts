@@ -208,3 +208,22 @@ export const TRIKEY_RIG: CharacterRig = {
     { name: 'jaw', file: '/characters/trikey/jaw.svg', pivotX: 66, pivotY: 34 },
   ],
 };
+
+// ─── SERA_RIG ────────────────────────────────────────────────────────────────
+// Same 8 part names, same draw order, but pivots differ from REXY/TRIKEY
+// because Sera's original art has the head on the right of the viewBox
+// (Stegosaurus-style chibi with a Pterodactyl tail). Pivots are anchored at
+// each part's anatomical joint for the art in public/characters/sera/*.svg.
+export const SERA_RIG: CharacterRig = {
+  character: 'Sera',
+  parts: [
+    { name: 'tail', file: '/characters/sera/tail.svg', pivotX: 72, pivotY: 60 },
+    { name: 'leg-back', file: '/characters/sera/leg-back.svg', pivotX: 51, pivotY: 89 },
+    { name: 'arm-left', file: '/characters/sera/arm-left.svg', pivotX: 42, pivotY: 56 },
+    { name: 'body', file: '/characters/sera/body.svg', pivotX: 56, pivotY: 66 },
+    { name: 'leg-front', file: '/characters/sera/leg-front.svg', pivotX: 69, pivotY: 87 },
+    { name: 'arm-right', file: '/characters/sera/arm-right.svg', pivotX: 66, pivotY: 56 },
+    { name: 'head', file: '/characters/sera/head.svg', pivotX: 82, pivotY: 28 },
+    { name: 'jaw', file: '/characters/sera/jaw.svg', pivotX: 98, pivotY: 32 },
+  ],
+};
