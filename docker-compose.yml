@@ -1,0 +1,30 @@
+# docker-compose.yml for DinoSteps
+# Single-service production deployment.
+# Brings up the nginx-served Vite bundle at http://localhost:8080
+#
+# Usage:
+#   docker compose build      # build the image
+#   docker compose up -d      # run detached
+#   docker compose down       # stop and remove
+#   docker compose logs -f    # tail logs
+
+services:
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: dinosteps:local
+    container_name: dinosteps-web
+    restart: unless-stopped
+    ports:
+      - "8080:80"
+    healthcheck:
+      # Spec calls for `curl -fsS http://localhost/ || exit 1` but the
+      # stock nginx:alpine image does NOT ship `curl` (only busybox `wget`).
+      # This wget variant is functionally equivalent: fetch the root
+      # document, suppress output, return non-zero on any non-2xx/3xx.
+      test: ["CMD-SHELL", "wget -qO- http://localhost/ >/dev/null || exit 1"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 5s
