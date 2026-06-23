@@ -13,9 +13,11 @@ RUN corepack enable
 
 WORKDIR /app
 
-# Copy only the lockfile and manifest first so the install layer is cached
-# and not invalidated by source-code changes
-COPY package.json pnpm-lock.yaml ./
+# Copy only the lockfile, manifest, and workspace config first so the install layer
+# is cached and not invalidated by source-code changes. pnpm-workspace.yaml is
+# required for pnpm 11's strict build-script policy — its `allowBuilds: lefthook: true`
+# entry approves lefthook's postinstall (which downloads the native git-hooks binary).
+COPY package.json pnpm-lock.yaml pnpm-workspace.yaml ./
 
 # Frozen lockfile → reproducible builds
 RUN pnpm install --frozen-lockfile
