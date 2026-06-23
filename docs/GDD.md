@@ -6,7 +6,7 @@
 > - `[DISCUSSING]` — actively under discussion
 > - `[PENDING]` — not yet explored, awaiting deep-dive
 >
-> **Last updated:** Docker & Docker Compose Deployment track complete. Production-ready containerized deployment with brotli compression, SPA fallback, and security headers; image size 39.7 MB. **See §14.7 for implementation status.**
+> **Last updated:** Articulated Characters Migration (Trikey & Sera) track complete. Trikey and Sera now use the same 8-part articulated rig as Rexy, sharing animation logic via `computePartTransform`. **See §14.8 for implementation status.**
 
 ---
 
@@ -807,10 +807,36 @@ For a preschool game, playtesting with actual children is the single most import
 | Docker image size | 39.7 MB | <50 MB |
 | Vite bundle size | 47.7 KB (unchanged from §14.6) | <500 KB |
 
-### 14.8 Deferred Items (Future Tracks)
+### 14.8 Track: `trikey_sera_20260623` — Articulated Characters Migration (Trikey & Sera) `[COMPLETE]`
+
+**Status:** Complete, all quality gates pass, user-verified, and archived to `conductor/archive/trikey_sera_20260623/`.
+
+**Systems implemented:**
+- **TRIKEY_RIG** (`src/render/character-parts.ts`): Articulated rig for Trikey mirroring the Rexy 8-part anatomy (tail, leg-back, leg-front, arm-left, body, arm-right, head, jaw) at `pivotX`/`pivotY` anchored to each part's anatomical joint. Pivots in the 0–120 viewBox range. Loads from `public/characters/trikey/`.
+- **SERA_RIG** (`src/render/character-parts.ts`): Articulated rig for Sera with the same 8-part naming convention. Pivots differ from Rexy/Trikey because Sera's original art has the head on the right of the viewBox (Stegosaurus-style chibi with a Pterodactyl tail and Pterodactyl-style wings). Loads from `public/characters/sera/`.
+- **Trikey SVG assets** (`public/characters/trikey/`): 8 hand-authored SVG files — tail (thick, club-tipped), leg-back/leg-front (stocky chibi legs), arm-left/arm-right (small forelimbs), body (stocky ellipse with 3-toe forefeet and 2-toe hindfeet), head (round with frill, brow + nose horn, eye), jaw (snout with smile). All in 120×120 viewBox. Blue palette `#1976d2`/`#42a5f5`/`#64b5f6`; horns `#f5f5dc`.
+- **Sera SVG assets** (`public/characters/sera/`): 8 hand-authored SVG files — tail (Pterodactyl fluke with 3 thagomizer spikes), leg-back/leg-front, arm-left/arm-right (Pterodactyl-style wings with membrane + finger bones), body (Stegosaurus torso with 5 back plates and 3 spots), head (round with eye, socket, and shine), jaw (snout with nostril and smile). All in 120×120 viewBox. Red palette `#c62828`/`#e53935`/`#ef5350`; thagomizer spikes `#f5f5dc`.
+- **Generic preload** (`src/render/characters.ts`): Refactored `preloadCharacterRigs()` to iterate over a new `ALL_RIGS = [REXY_RIG, TRIKEY_RIG, SERA_RIG]` array, populating the `rigCache` for every character and kicking off image loads in parallel. Adding a future character now reduces to defining a new rig constant and appending it to `ALL_RIGS`.
+- **Tests** (`test/character-parts.test.ts`): 14 new tests (7 per character) — `character` id, exactly 8 parts, draw-order names, unique names, file path under `/characters/<character>/`, pivots in 0–120 viewBox, and `getCharacterRig` registration after `preloadCharacterRigs`. The registration tests use a fire-and-forget pattern (`void preloadCharacterRigs()`) because jsdom does not fire `Image.onload`/`onerror`, so the returned promise never resolves in the test environment; the rig cache is populated synchronously inside the function, which is the actual contract.
+
+**Quality metrics:**
+| Metric | Result | Threshold |
+|--------|--------|-----------|
+| Tests | 245 passed (15 files) | — |
+| Coverage | 90.12% statements / 88.7% branches / 90.25% lines | 80% lines |
+| Typecheck | 0 errors | 0 |
+| Lint | 0 warnings / 0 errors | 0 |
+| Build size | ~49.4 KB total (~15.0 KB gzip) | <500 KB |
+
+**Commits:**
+- `f22594a` — `feat(render): Add Trikey articulated character rig` (8 SVGs + `TRIKEY_RIG` + 7 tests)
+- `3b69954` — `feat(render) Migrate Sera to articulated rig` (8 SVGs + `SERA_RIG` + 7 tests)
+- `4d401d9` / `ec9638d` — phase checkpoints with audit git notes
+- `c90a0c1` — `conductor(cleanup): Archive trikey_sera_20260623 track`
+
+### 14.9 Deferred Items (Future Tracks)
 
 | Priority | Item | Rationale |
 |----------|------|-----------|
-| Medium | Trikey & Sera articulated character migration | Follow the Rexy pilot pattern: split into per-part SVGs with `CharacterPart` rigs, migrate from `drawSingleImageDino` to `drawCompositeDino` |
 | Low | Thread `dizzyProgress` into `ArticulationState` | Intentionally deferred in pilot — `dizzyTransform` exists but `dizzyProgress` is hardcoded to `-1`. Existing `drawDizzyRings` overlay covers failure VFX for now |
 | Low | Playtesting | Per §11.4: paper prototype → vertical slice → full progression with children ages 3–5 |
