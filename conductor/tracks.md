@@ -6,15 +6,16 @@ This file tracks all major tracks for the project. Each track has its own detail
 
 ## Active Tracks
 
-### articulated_characters_20260623 — Articulated Characters (Pilot: Rexy)
-- **Type:** feature
-- **Status:** completed
-- **Summary:** Replace single-flat-SVG character rendering with an articulated per-part SVG rig (per-body-part animation), redraw Rexy, add eating state + signature jaw articulation, amend GDD §11.1 to bless external per-part SVGs. Rexy pilot; Trikey/Sera migrate later via the same pattern.
-- **Track folder:** [./tracks/articulated_characters_20260623/](./tracks/articulated_characters_20260623/)
-- **Completed:** 2026-06-23 — all 6 phases done; 231 tests pass; build 47.72 kB; user-confirmed end-to-end playtest.
+- [~] **Track: Docker & Docker Compose Deployment (Dockerfile best practice)**
+*Link: [./tracks/docker_deploy_20260623/](./tracks/docker_deploy_20260623/)*
 
 ---
 
-- [ ] **Track: Docker & Docker Compose Deployment (Dockerfile best practice)**
-*Link: [./tracks/docker_deploy_20260623/](./tracks/docker_deploy_20260623/)*
+## Archived Tracks
+
+### articulated_characters_20260623 — Articulated Characters (Pilot: Rexy)
+- **Type:** feature
+- **Status:** archived (completed 2026-06-23)
+- **Summary:** Per-part SVG rig with per-body-part animation, Rexy redraw, eating state + signature jaw articulation. Review fixes applied (phase dispatch gap, pivot offset bug). 231 tests pass, 90.63% coverage, build 47.72 kB.
+- **Archive folder:** [../archive/articulated_characters_20260623/](../archive/articulated_characters_20260623/)
 
