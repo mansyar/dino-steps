@@ -6,7 +6,7 @@
 > - `[DISCUSSING]` — actively under discussion
 > - `[PENDING]` — not yet explored, awaiting deep-dive
 >
-> **Last updated:** Articulated Characters (Pilot: Rexy) track complete with review fixes. GDD §11.1 amended to bless per-part external SVG approach. **See §14.6 for implementation status.**
+> **Last updated:** Docker & Docker Compose Deployment track complete. Production-ready containerized deployment with brotli compression, SPA fallback, and security headers; image size 39.7 MB. **See §14.7 for implementation status.**
 
 ---
 
@@ -765,7 +765,49 @@ For a preschool game, playtesting with actual children is the single most import
 - High: Pivot offset in `drawCompositeDino` — subtracted `s/2` from the pivot translate to account for centered `drawImage`. Parts were rotating around a point offset by half a tile from their anatomical joints
 - Low: Preserved idle bob during signature phase in both render paths (regression prevention for non-rigged character rendering)
 
-### 14.7 Deferred Items (Future Tracks)
+### 14.7 Track: `docker_deploy_20260623` — Docker & Docker Compose Deployment `[COMPLETE]`
+
+**Status:** Complete, all verifications pass, and archived to `conductor/archive/docker_deploy_20260623/`. Infrastructure chore — no game-code changes.
+
+**Systems implemented (all at repo root, no app source touched):**
+- **`.dockerignore`** (59 lines) — trims the build context by excluding `node_modules/`, `dist/`, `test/`, `conductor/`, `*.md`, IDE/git/tooling caches, and logs. Keeps the Docker build context small and the dependency cache layer valid.
+- **Multi-stage `Dockerfile`** (44 lines) — `node:22-alpine` builder (pnpm via corepack) runs `pnpm install --frozen-lockfile` and `pnpm build`; `fholzer/nginx-brotli:v1.31.1` runtime stage copies only `dist/` + `nginx.conf`. Exposes port 80.
+- **`nginx.conf`** (66 lines) — SPA history fallback (`try_files $uri $uri/ /index.html;` with `/assets/*` having no fallback to avoid masking missing-asset errors as 200s), brotli + gzip compression (`brotli_comp_level 6` for `text/css`, `application/javascript`, `application/json`, `image/svg+xml`; gzip as fallback for clients without `Accept-Encoding: br`), immutable cache for `/assets/*` (`public, max-age=31536000, immutable`), `no-cache` for `index.html`, security headers (`X-Content-Type-Options: nosniff`, `X-Frame-Options: DENY`, `Referrer-Policy: strict-origin-when-cross-origin`), and `Vary: Accept-Encoding` on compressed responses.
+- **`docker-compose.yml`** (30 lines) — single `web` service, port `8080:80` mapping (env-overridable), `restart: unless-stopped`, `wget` healthcheck every 30 s (3 retries, 5 s timeout, 5 s start period).
+- **`pnpm-workspace.yaml`** (2 lines) — the existing `allowBuilds: { lefthook: true }` entry. Already present pre-track; the Docker track surfaced that pnpm 11 reads build-script approvals from this file (not `.npmrc` or `package.json`) and that the Dockerfile must copy it before the install step.
+- **`package.json` / `pnpm-lock.yaml`** — promoted `vite` from transitive (via `vitest`) to a direct devDep so the build script's `vite build` resolves in a clean `pnpm install --frozen-lockfile`. Pre-existing project bug surfaced by the Docker build.
+
+**Decisions / deviations from the spec (all documented in commit messages):**
+1. **Brotli via `fholzer/nginx-brotli` base image** instead of stock `nginx:alpine` + module installation. The stock image doesn't include the brotli module; fholzer is a drop-in replacement with the module statically linked (compressed image size ~15.5 MB, essentially the same as stock).
+2. **`wget` in healthcheck** instead of `curl`. The alpine base ships busybox `wget`, not `curl`. Functionally equivalent for a 200-OK check on the root path.
+3. **Lefthook build script approval via `pnpm-workspace.yaml`** (canonical pnpm 11 location), not `.npmrc` or `package.json`. An early attempted `.npmrc` fix in this track was ineffective (pnpm 11 does not read `onlyBuiltDependencies` from `.npmrc`) and was deleted in a follow-up.
+
+**Verifications (all passed via curl + docker build):**
+| Check | Result |
+|-------|--------|
+| Image builds (`docker compose build --no-cache`) | success |
+| Image size | 39.7 MB (target: well under 50 MB) |
+| Container runs and is healthy | `dinosteps-web` on `0.0.0.0:8080->80/tcp` |
+| `GET /` returns 200 with `<title>DinoSteps</title>` | yes |
+| `/assets/*` `Cache-Control` | `public, max-age=31536000, immutable` |
+| `index.html` `Cache-Control` | `no-cache` |
+| Brotli `Content-Encoding: br` on JS/CSS | yes (JS: 37,213 → 11,009 bytes = 70% reduction) |
+| Gzip fallback when client requests gzip only | yes |
+| Security headers on every response | all three present |
+| SPA fallback for deep client paths | 200 + `index.html` body |
+| Dependency layer cached on source-only changes | manifest + install CACHED, `COPY . .` + `pnpm build` re-ran (5.4 s) |
+
+**Quality metrics (no app-source changes; existing baseline preserved):**
+| Metric | Result | Threshold |
+|--------|--------|-----------|
+| Tests | 231 passed (15 files) | — |
+| Coverage | 90.25% lines / 90.12% statements | 80% lines |
+| Typecheck | 0 errors | 0 |
+| Lint | 0 warnings / 0 errors | 0 |
+| Docker image size | 39.7 MB | <50 MB |
+| Vite bundle size | 47.7 KB (unchanged from §14.6) | <500 KB |
+
+### 14.8 Deferred Items (Future Tracks)
 
 | Priority | Item | Rationale |
 |----------|------|-----------|
