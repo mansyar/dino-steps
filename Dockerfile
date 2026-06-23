@@ -27,7 +27,11 @@ COPY . .
 RUN pnpm build
 
 # ---------- Stage 2: runtime ----------
-FROM nginx:alpine AS runtime
+# Use fholzer/nginx-brotli — the official nginx:alpine does NOT include
+# the brotli module. fholzer/nginx-brotli is a drop-in replacement with
+# the Google brotli module statically linked (compressed size is ~15.5 MB,
+# essentially the same as stock nginx:alpine).
+FROM fholzer/nginx-brotli:v1.31.1 AS runtime
 
 # Custom nginx configuration with SPA fallback, gzip, caching, and security headers
 COPY nginx.conf /etc/nginx/conf.d/default.conf
