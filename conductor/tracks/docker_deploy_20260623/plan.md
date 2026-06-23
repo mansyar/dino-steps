@@ -34,19 +34,28 @@
 
 ## Phase 2: Build & Integration Verification
 
-- [~] Task: Build the Docker image and verify success
-    - [ ] Run `docker compose build`; confirm it completes without errors
-    - [ ] Confirm the final image size is small (target: well under 50MB)
-- [ ] Task: Run the container and verify the game is served
-    - [ ] Run `docker compose up -d`; open the mapped host port in a browser
-    - [ ] Confirm DinoSteps loads and is playable
-- [ ] Task: Verify response headers (caching, compression, security)
-    - [ ] Verify `/assets/*` responses include `Cache-Control: public, max-age=31536000, immutable`
-    - [ ] Verify `index.html` includes `no-cache`
-    - [ ] Verify brotli `Content-Encoding: br` and gzip `Content-Encoding: gzip` on compressed asset types
-    - [ ] Verify security headers present (`X-Content-Type-Options`, `X-Frame-Options`, `Referrer-Policy`)
-- [ ] Task: Verify SPA history fallback
-    - [ ] Request a deep client-side path; confirm it returns `index.html` (200) rather than a 404
-- [ ] Task: Verify dependency layer caching on rebuild
-    - [ ] Modify a source file, rebuild; confirm the `pnpm install` layer is cached (only the build step re-runs)
+- [x] Task: Build the Docker image and verify success `e44ded8` `ad99ac5`
+    - [x] Run `docker compose build --no-cache`; completes without errors
+    - [x] Image size: 39.7 MB (well under 50 MB target); `dinosteps:local`
+- [x] Task: Run the container and verify the game is served
+    - [x] `docker compose up -d`; container `dinosteps-web` healthy, `0.0.0.0:8080->80/tcp`
+    - [x] `curl -s http://localhost:8080/` returns 200 with body containing `<title>DinoSteps</title>`
+    - (Note: live browser-playability check requires manual user verification — see UMV below)
+- [x] Task: Verify response headers (caching, compression, security)
+    - [x] `/assets/*.js` and `/assets/*.css` include `Cache-Control: public, max-age=31536000, immutable`
+    - [x] `index.html` includes `Cache-Control: no-cache`
+    - [x] `Content-Encoding: br` (brotli) returned when client sends `Accept-Encoding: br` (JS: 37,213 -> 11,009 bytes = 70% reduction)
+    - [x] `Content-Encoding: gzip` returned when client sends `Accept-Encoding: gzip` only (fallback path)
+    - [x] `index.html` (text/html) is compressed by default - `Content-Encoding: br` present with brotli request
+    - [x] Security headers on every response: `X-Content-Type-Options: nosniff`, `X-Frame-Options: DENY`, `Referrer-Policy: strict-origin-when-cross-origin`
+    - [x] `Vary: Accept-Encoding` on compressed responses (CDN/proxy correctness)
+- [x] Task: Verify SPA history fallback
+    - [x] `GET /some/deep/client/path` returns 200 with `Content-Type: text/html`, `Content-Length: 928` (matches index.html), body contains `<title>DinoSteps</title>`
+- [x] Task: Verify dependency layer caching on rebuild
+    - [x] Touched `src/main.ts` (added comment), rebuilt via `docker build`:
+        - Manifest copy step: CACHED
+        - `pnpm install --frozen-lockfile`: CACHED
+        - `COPY . .`: re-ran (DONE 0.0s)
+        - `pnpm build`: re-ran (5.4s, vite transformed 28 modules)
+    - [x] Final image content-addressed: a comment-only change produces an identical bundle, so the final image SHA is reused. This is the correct outcome - proves the install layer is genuinely cached, not just that the build was skipped.
 - [ ] Task: Conductor - User Manual Verification 'Build & Integration Verification' (Protocol in workflow.md)
