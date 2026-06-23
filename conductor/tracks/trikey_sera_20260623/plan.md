@@ -3,34 +3,35 @@
 
 ## Phase 1: Trikey Articulated Migration
 
-- [ ] Task: Read `spec.md` and `workflow.md` to align with requirements and TDD protocol
-- [ ] Task: Create Trikey per-part SVG assets
-    - [ ] Create `public/characters/trikey/tail.svg` (viewBox `0 0 120 120`, Triceratops tail)
-    - [ ] Create `public/characters/trikey/leg-back.svg` (back leg)
-    - [ ] Create `public/characters/trikey/arm-left.svg` (left forelimb)
-    - [ ] Create `public/characters/trikey/body.svg` (main torso)
-    - [ ] Create `public/characters/trikey/leg-front.svg` (front leg)
-    - [ ] Create `public/characters/trikey/arm-right.svg` (right forelimb)
-    - [ ] Create `public/characters/trikey/head.svg` (head with frill and horns)
-    - [ ] Create `public/characters/trikey/jaw.svg` (beak/jaw)
-    - [ ] Verify all 8 SVGs composite correctly at viewBox `0 0 120 120` in back-to-front draw order
+- [x] Task: Read `spec.md` and `workflow.md` to align with requirements and TDD protocol
+- [x] Task: Create Trikey per-part SVG assets
+    - [x] Create `public/characters/trikey/tail.svg` (viewBox `0 0 120 120`, Triceratops tail)
+    - [x] Create `public/characters/trikey/leg-back.svg` (back leg)
+    - [x] Create `public/characters/trikey/arm-left.svg` (left forelimb)
+    - [x] Create `public/characters/trikey/body.svg` (main torso)
+    - [x] Create `public/characters/trikey/leg-front.svg` (front leg)
+    - [x] Create `public/characters/trikey/arm-right.svg` (right forelimb)
+    - [x] Create `public/characters/trikey/head.svg` (head with frill and horns)
+    - [x] Create `public/characters/trikey/jaw.svg` (beak/jaw)
+    - [x] Verify all 8 SVGs composite correctly at viewBox `0 0 120 120` in back-to-front draw order
 
-- [ ] Task: Write failing tests for TRIKEY_RIG definition and registration (TDD Red)
-    - [ ] Create test file `src/render/character-parts.test.ts`
-    - [ ] Test: `TRIKEY_RIG.character` equals `'Trikey'`
-    - [ ] Test: `TRIKEY_RIG.parts` has exactly 8 parts with correct names (`tail`, `leg-back`, `arm-left`, `body`, `leg-front`, `arm-right`, `head`, `jaw`)
-    - [ ] Test: Each `TRIKEY_RIG` part file path starts with `/characters/trikey/`
-    - [ ] Test: Each `TRIKEY_RIG` part has `pivotX`/`pivotY` within 0–120 range
-    - [ ] Test: `getCharacterRig('Trikey')` returns non-null rig after `preloadCharacterRigs()`
-    - [ ] Run tests and confirm they fail (Red phase)
+- [x] Task: Write failing tests for TRIKEY_RIG definition and registration (TDD Red)
+    - [x] Create test file `src/render/character-parts.test.ts` (extended existing test file)
+    - [x] Test: `TRIKEY_RIG.character` equals `'Trikey'`
+    - [x] Test: `TRIKEY_RIG.parts` has exactly 8 parts with correct names (`tail`, `leg-back`, `arm-left`, `body`, `leg-front`, `arm-right`, `head`, `jaw`)
+    - [x] Test: Each `TRIKEY_RIG` part file path starts with `/characters/trikey/`
+    - [x] Test: Each `TRIKEY_RIG` part has `pivotX`/`pivotY` within 0–120 range
+    - [x] Test: `getCharacterRig('Trikey')` returns non-null rig after `preloadCharacterRigs()`
+    - [x] Run tests and confirm they fail (Red phase)
 
-- [ ] Task: Implement TRIKEY_RIG and register in characters.ts (TDD Green)
-    - [ ] Define `TRIKEY_RIG` constant in `src/render/character-parts.ts` with correct anatomical pivots
-    - [ ] Refactor `preloadCharacterRigs()` in `src/render/characters.ts` to iterate over a rig array (Rexy + Trikey)
-    - [ ] Add `TRIKEY_RIG` to `rigCache` in `preloadCharacterRigs()`
-    - [ ] Run tests and confirm they pass (Green phase)
-    - [ ] Verify `pnpm typecheck` passes
-    - [ ] Verify `pnpm lint` passes
+- [x] Task: Implement TRIKEY_RIG and register in characters.ts (TDD Green)
+    - [x] Define `TRIKEY_RIG` constant in `src/render/character-parts.ts` with correct anatomical pivots
+    - [x] Refactor `preloadCharacterRigs()` in `src/render/characters.ts` to iterate over a rig array (Rexy + Trikey)
+    - [x] Add `TRIKEY_RIG` to `rigCache` in `preloadCharacterRigs()`
+    - [x] Run tests and confirm they pass (Green phase)
+    - [x] Verify `pnpm typecheck` passes
+    - [x] Verify `pnpm lint` passes
+    - _commit: f22594a_
 
 - [ ] Task: Conductor - User Manual Verification 'Trikey Articulated Migration' (Protocol in workflow.md)
 
